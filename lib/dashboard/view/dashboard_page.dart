@@ -51,10 +51,19 @@ class _DashboardView extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         child: Stack(
           alignment: Alignment.center,
-          children: (state as DashboardInited)
-              .orbits
-              .map<Widget>((orbit) => orbit.widget)
-              .toList(),
+          children: [
+            // orbits
+            ...(state as DashboardInited)
+                .orbits
+                .map<Widget>((orbit) => orbit.widget)
+                .toList(),
+
+            // planets
+            ...(state)
+                .orbits
+                .map<Widget>((orbit) => orbit.planet.widget)
+                .toList(),
+          ],
         ),
       ),
     );

@@ -18,14 +18,12 @@ class OrbitWidget extends StatelessWidget {
         width: orbit.r1,
         height: orbit.r2,
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.white, width: orbit.width),
+          border: Border.all(color: Colors.white, width: orbit.orbitWidth),
           borderRadius: BorderRadius.all(
             Radius.elliptical(orbit.r1, orbit.r2),
           ),
-        ),
-        child: orbit.planet.widget,
+        )
       ),
-      
     );
   }
 }

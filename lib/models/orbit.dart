@@ -9,14 +9,14 @@ class Orbit extends Equatable {
   final Coordinate origin;
   final double r1;
   final double r2;
-  final double width;
+  final double orbitWidth;
 
   const Orbit({
     required this.planet,
     required this.origin,
     required this.r1,
     required this.r2,
-    required this.width,
+    required this.orbitWidth,
   });
 
   Widget get widget => OrbitWidget(orbit: this);

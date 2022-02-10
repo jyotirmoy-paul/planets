@@ -14,6 +14,14 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<DashboardInitialized>(_onDashboardInit);
   }
 
+  String _getPlanetNameAt(int index) {
+    return (index + 1).toString();
+  }
+
+  double _getPlanetSizeAt(int index) {
+    return 100.0;
+  }
+
   void _onDashboardInit(
     DashboardInitialized event,
     Emitter<DashboardState> emit,
@@ -28,18 +36,24 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     final orbits = List.generate(
       totalPlanets,
       (i) {
-        final width = firstRadius + (steps * i * 1.9);
-        final height = (firstRadius + (steps * i * 1.9)) + (i * i * 1.01);
+        final r1 = firstRadius + (steps * i * 1.9);
+        final r2 = (firstRadius + (steps * i * 1.9)) + (i * i * 1.01);
+
+        final planetSize = _getPlanetSizeAt(i);
 
         return Orbit(
-          planet: Planet(name: i.toString()),
-          origin: Coordinate(
-            x: -width / 2,
-            y: size.height / 2 - (height / 2),
+          planet: Planet(
+            parentSize: size,
+            name: _getPlanetNameAt(i),
+            planetSize: planetSize,
+            origin: Coordinate(x: 0, y: size.height / 2),
+            r1: r1 / 2,
+            r2: r2 / 2,
           ),
-          r1: width,
-          r2: height,
-          width: (i > totalPlanets ~/ 2) ? 0.50 : 1.0,
+          origin: Coordinate(x: -r1 / 2, y: size.height / 2 - (r2 / 2)),
+          r1: r1,
+          r2: r2,
+          orbitWidth: (i > totalPlanets ~/ 2) ? 0.50 : 1.0,
         );
       },
     );
