@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:planets/dashboard/cubit/planet_orbital_animation_cubit.dart';
 import 'package:planets/models/coordinate.dart';
 import 'package:planets/models/orbit.dart';
 import 'package:planets/models/planet.dart';
@@ -10,8 +11,11 @@ part 'dashboard_event.dart';
 part 'dashboard_state.dart';
 
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
-  DashboardBloc() : super(DashboardLoading()) {
+  final PlanetOrbitalAnimationCubit _planetAnimationCubit;
+
+  DashboardBloc(this._planetAnimationCubit) : super(DashboardLoading()) {
     on<DashboardInitialized>(_onDashboardInit);
+    on<DashboardResized>(_onDashboardResized);
   }
 
   String _getPlanetNameAt(int index) {
@@ -22,18 +26,13 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     return 100.0;
   }
 
-  void _onDashboardInit(
-    DashboardInitialized event,
-    Emitter<DashboardState> emit,
-  ) {
+  List<Orbit> _generateOrbits(Size size) {
     const int totalPlanets = 9;
-    final size = event.size;
-    final firstRadius = size.height * 0.90;
+    final firstRadius = size.width * 0.50;
     final steps = (size.width - firstRadius / 2) / (totalPlanets - 1);
 
-    // TODO: ASSUMING IT'S LARGE SIZE SCREEN
-
-    final orbits = List.generate(
+    // generate the orbits and planets
+    return List.generate(
       totalPlanets,
       (i) {
         final r1 = firstRadius + (steps * i * 1.9);
@@ -43,8 +42,9 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
 
         return Orbit(
           planet: Planet(
-            parentSize: size,
+            key: i,
             name: _getPlanetNameAt(i),
+            parentSize: size,
             planetSize: planetSize,
             origin: Coordinate(x: 0, y: size.height / 2),
             r1: r1 / 2,
@@ -53,11 +53,32 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
           origin: Coordinate(x: -r1 / 2, y: size.height / 2 - (r2 / 2)),
           r1: r1,
           r2: r2,
-          orbitWidth: (i > totalPlanets ~/ 2) ? 0.50 : 1.0,
+          orbitWidth: (i > totalPlanets ~/ 2) ? 4.0 : 5.0,
         );
       },
     );
+  }
 
-    emit(DashboardInited(orbits));
+  void _onDashboardResized(
+    DashboardResized event,
+    Emitter<DashboardState> emit,
+  ) {
+    // generate new orbits
+    final orbits = _generateOrbits(event.size);
+
+    emit(DashboardReady(orbits));
+  }
+
+  void _onDashboardInit(
+    DashboardInitialized event,
+    Emitter<DashboardState> emit,
+  ) {
+    // generate orbits
+    final orbits = _generateOrbits(event.size);
+
+    // init the animations for planets
+    _planetAnimationCubit.initAnimators(orbits);
+
+    emit(DashboardReady(orbits));
   }
 }

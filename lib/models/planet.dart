@@ -5,6 +5,7 @@ import 'package:planets/models/coordinate.dart';
 
 class Planet extends Equatable {
   final String name;
+  final int key;
   final Coordinate origin;
   final double r1;
   final double r2;
@@ -12,6 +13,7 @@ class Planet extends Equatable {
   final Size parentSize;
 
   const Planet({
+    required this.key,
     required this.name,
     required this.origin,
     required this.r1,

@@ -9,10 +9,10 @@ abstract class DashboardState extends Equatable {
 
 class DashboardLoading extends DashboardState {}
 
-class DashboardInited extends DashboardState {
+class DashboardReady extends DashboardState {
   final List<Orbit> orbits;
 
-  const DashboardInited(this.orbits);
+  const DashboardReady(this.orbits);
 
   @override
   List<Object> get props => [orbits];

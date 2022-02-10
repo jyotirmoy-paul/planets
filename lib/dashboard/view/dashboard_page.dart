@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/dashboard/cubit/planet_orbital_animation_cubit.dart';
 import 'package:planets/dashboard/dashboard.dart';
+import 'package:planets/layout/utils/responsive_layout_builder.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -9,8 +11,9 @@ class DashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_) => PlanetOrbitalAnimationCubit()),
         BlocProvider(
-          create: (_) => DashboardBloc()
+          create: (c) => DashboardBloc(c.read<PlanetOrbitalAnimationCubit>())
             ..add(DashboardInitialized(MediaQuery.of(context).size)),
         ),
       ],
@@ -19,51 +22,68 @@ class DashboardPage extends StatelessWidget {
   }
 }
 
-// Positioned(
-//               left: -size * 0.50,
-//               child: Container(
-//                 width: size * 0.70,
-//                 height: size * 0.70,
-//                 decoration: BoxDecoration(
-//                   color: Colors.yellowAccent,
-//                   shape: BoxShape.circle,
-//                 ),
-//               ),
-//             ),
-
-class _DashboardView extends StatelessWidget {
+class _DashboardView extends StatefulWidget {
   const _DashboardView({Key? key}) : super(key: key);
+
+  @override
+  State<_DashboardView> createState() => _DashboardViewState();
+}
+
+class _DashboardViewState extends State<_DashboardView>
+    with WidgetsBindingObserver, TickerProviderStateMixin {
+  Size get size => MediaQuery.of(context).size;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addObserver(this);
+    context.read<PlanetOrbitalAnimationCubit>().setTickerProvider(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    super.didChangeMetrics();
+    context.read<DashboardBloc>().add(DashboardResized(size));
+  }
 
   @override
   Widget build(BuildContext context) {
     final state = context.select((DashboardBloc bloc) => bloc.state);
 
     if (state is DashboardLoading) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
+      return const Center(child: CircularProgressIndicator());
     }
 
     return Scaffold(
       body: Container(
-        color: Colors.grey[800],
+        color: Colors.grey[900],
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            // orbits
-            ...(state as DashboardInited)
-                .orbits
-                .map<Widget>((orbit) => orbit.widget)
-                .toList(),
+        child: ResponsiveLayoutBuilder(
+          small: (_, __) => Container(color: Colors.red),
+          medium: (_, __) => Container(color: Colors.green),
+          large: (_, __) => Stack(
+            alignment: Alignment.center,
+            children: [
+              // orbits
+              ...(state as DashboardReady)
+                  .orbits
+                  .map<Widget>((orbit) => orbit.widget)
+                  .toList(),
 
-            // planets
-            ...(state)
-                .orbits
-                .map<Widget>((orbit) => orbit.planet.widget)
-                .toList(),
-          ],
+              // planets
+              ...(state)
+                  .orbits
+                  .map<Widget>((orbit) => orbit.planet.widget)
+                  .toList(),
+            ],
+          ),
         ),
       ),
     );

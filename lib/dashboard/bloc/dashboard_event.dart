@@ -15,3 +15,12 @@ class DashboardInitialized extends DashboardEvent {
   @override
   List<Object> get props => [size];
 }
+
+class DashboardResized extends DashboardEvent {
+  final Size size;
+
+  const DashboardResized(this.size);
+
+  @override
+  List<Object> get props => [size];
+}
