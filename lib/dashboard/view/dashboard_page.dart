@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/dashboard/cubit/planet_orbital_animation_cubit.dart';
-import 'package:planets/dashboard/dashboard.dart';
-import 'package:planets/layout/utils/responsive_layout_builder.dart';
+import '../dashboard.dart';
+import '../../layout/utils/responsive_layout_builder.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({Key? key}) : super(key: key);

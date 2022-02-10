@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:planets/models/orbit.dart';
+import '../../models/orbit.dart';
 
 class OrbitWidget extends StatelessWidget {
   final Orbit orbit;

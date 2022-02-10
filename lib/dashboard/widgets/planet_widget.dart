@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/dashboard/cubit/planet_orbital_animation_cubit.dart';
-import 'package:planets/models/planet.dart';
+import '../../models/planet.dart';
 import 'dart:math' as math;
 
-import 'package:planets/utils/app_logger.dart';
+import '../../utils/app_logger.dart';
+import '../dashboard.dart';
 
 class PlanetWidget extends StatelessWidget {
   final Planet planet;

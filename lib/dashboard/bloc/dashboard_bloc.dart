@@ -2,10 +2,10 @@ import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:planets/dashboard/cubit/planet_orbital_animation_cubit.dart';
-import 'package:planets/models/coordinate.dart';
-import 'package:planets/models/orbit.dart';
-import 'package:planets/models/planet.dart';
+import '../../models/coordinate.dart';
+import '../../models/orbit.dart';
+import '../../models/planet.dart';
+import '../dashboard.dart';
 
 part 'dashboard_event.dart';
 part 'dashboard_state.dart';

@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:planets/dashboard/dashboard.dart';
-import 'package:planets/models/coordinate.dart';
-import 'package:planets/models/planet.dart';
+import '../dashboard/dashboard.dart';
+import 'coordinate.dart';
+import 'planet.dart';
 
 class Orbit extends Equatable {
   final Planet planet;

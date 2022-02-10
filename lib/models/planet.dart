@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:planets/dashboard/dashboard.dart';
-import 'package:planets/models/coordinate.dart';
+import '../dashboard/dashboard.dart';
+import 'coordinate.dart';
 
 class Planet extends Equatable {
   final String name;
