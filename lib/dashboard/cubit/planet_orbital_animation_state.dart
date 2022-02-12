@@ -12,11 +12,11 @@ class PlanetOrbitalAnimationLoading extends PlanetOrbitalAnimationState {
 }
 
 class PlanetOrbitalAnimationReady extends PlanetOrbitalAnimationState {
-  final Map<int, Animation<double>> _planetOrbitAnimation;
+  final Map<PlanetType, Animation<double>> _planetOrbitAnimation;
 
   const PlanetOrbitalAnimationReady(this._planetOrbitAnimation);
 
-  Animation<double> getAnimation(int key) => _planetOrbitAnimation[key]!;
+  Animation<double> getAnimation(PlanetType type) => _planetOrbitAnimation[type]!;
 
   @override
   List<Object> get props => [_planetOrbitAnimation];

@@ -12,17 +12,16 @@ part 'dashboard_state.dart';
 
 // planet sizes
 // 0.383	0.949	1	0.532	11.21	9.45	4.01	3.88	0.187
-// const double _baseSize = 80.0;
-const Map<int, double> planetSizeFactor = {
-  0: 0.383, // mercury
-  1: 0.949, // venus
-  2: 1, // earth
-  3: 0.532, // mars
-  4: 3.0, // 11.21, // jupiter
-  5: 2.3, // 9.45, // saturn
-  6: 1.15, //4.01, // uranus
-  7: 1.02, // 3.88, // neptune
-  8: 0.25, // 0.187, // pluto
+const Map<PlanetType, double> _planetSizeFactor = {
+  PlanetType.mercury: 0.383,
+  PlanetType.venus: 0.949, // venus
+  PlanetType.earth: 1, // earth
+  PlanetType.mars: 0.532, // mars
+  PlanetType.jupiter: 3.0, // 11.21,
+  PlanetType.saturn: 2.3, // 9.45,
+  PlanetType.uranus: 1.15, //4.01,
+  PlanetType.neptune: 1.02, // 3.88,
+  PlanetType.pluto: 0.25, // 0.187,
 };
 
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
@@ -33,12 +32,12 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<DashboardResized>(_onDashboardResized);
   }
 
-  String _getPlanetNameAt(int index) {
-    return (index + 1).toString();
+  PlanetType _getPlanetTypeAt(int index) {
+    return PlanetType.values[index];
   }
 
   double _getPlanetSizeAt(int index, Size size) {
-    return size.width * 0.055 * planetSizeFactor[index]!;
+    return size.width * 0.055 * _planetSizeFactor[_getPlanetTypeAt(index)]!;
   }
 
   List<Orbit> _generateOrbits(Size size) {
@@ -58,7 +57,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         return Orbit(
           planet: Planet(
             key: i,
-            name: _getPlanetNameAt(i),
+            type: _getPlanetTypeAt(i),
             parentSize: size,
             planetSize: planetSize,
             origin: Coordinate(x: 0, y: size.height / 2),

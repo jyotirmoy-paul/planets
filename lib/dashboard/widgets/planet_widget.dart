@@ -35,7 +35,7 @@ class PlanetWidget extends StatelessWidget {
         }
       },
       onTap: () {
-        AppLogger.log('_planet tapped: ${planet.name}');
+        AppLogger.log('_planet tapped: $planet');
       },
       child: Container(
         decoration: const BoxDecoration(
@@ -44,7 +44,7 @@ class PlanetWidget extends StatelessWidget {
         ),
         alignment: Alignment.center,
         child: Text(
-          planet.name,
+          planet.type.toString(),
           style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -75,7 +75,7 @@ class PlanetWidget extends StatelessWidget {
 
     final state = animationState as PlanetOrbitalAnimationReady;
 
-    final animation = state.getAnimation(planet.key);
+    final animation = state.getAnimation(planet.type);
 
     AppLogger.log('planet_widget state updated');
 

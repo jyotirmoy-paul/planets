@@ -3,8 +3,20 @@ import 'package:flutter/material.dart';
 import '../dashboard/dashboard.dart';
 import 'coordinate.dart';
 
+enum PlanetType {
+  mercury,
+  venus,
+  earth,
+  mars,
+  jupiter,
+  saturn,
+  uranus,
+  neptune,
+  pluto,
+}
+
 class Planet extends Equatable {
-  final String name;
+  final PlanetType type;
   final int key;
   final Coordinate origin;
   final double r1;
@@ -14,7 +26,7 @@ class Planet extends Equatable {
 
   const Planet({
     required this.key,
-    required this.name,
+    required this.type,
     required this.origin,
     required this.r1,
     required this.r2,
@@ -25,5 +37,10 @@ class Planet extends Equatable {
   Widget get widget => PlanetWidget(planet: this);
 
   @override
-  List<Object?> get props => [name, origin, r1, r2];
+  List<Object?> get props => [type, key, origin, r1, r2, planetSize];
+
+  @override
+  String toString() {
+    return type.toString().toUpperCase();
+  }
 }

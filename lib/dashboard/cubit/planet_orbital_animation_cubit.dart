@@ -20,28 +20,28 @@ part 'planet_orbital_animation_state.dart';
 // Pluto	247.7 years     247
 
 const int _baseRevolutionSeconds = 10;
-const Map<int, double> _planetRevolutionFactor = {
-  0: 0.50, // 0.24, // mercury
-  1: 0.80, // 0.62, // venus
-  2: 1, // earth
-  3: 1.88, // mars
-  4: 3.0, // 11, // jupiter
-  5: 6.1, // 29, // saturn
-  6: 9.3, // 84, // uranus
-  7: 12.0, // 164, // neptune
-  8: 16.0, // 247, // pluto
+const Map<PlanetType, double> _planetRevolutionFactor = {
+  PlanetType.mercury: 0.50, // 0.24,
+  PlanetType.venus: 0.80, // 0.62,
+  PlanetType.earth: 1,
+  PlanetType.mars: 1.88,
+  PlanetType.jupiter: 3.0, // 11,
+  PlanetType.saturn: 6.1, // 29,
+  PlanetType.uranus: 9.3, // 84,
+  PlanetType.neptune: 12.0, // 164,
+  PlanetType.pluto: 16.0, // 247,
 };
 
-const Map<int, double> _thresholdFactor = {
-  0: 1.0, // mercury
-  1: 1.0, // venus
-  2: 1.2, // earth
-  3: 0.90, // mars
-  4: 1.5, // jupiter
-  5: 1.2, // saturn
-  6: 0.80, // uranus
-  7: 0.85, // neptune
-  8: 0.50, // pluto
+const Map<PlanetType, double> _thresholdFactor = {
+  PlanetType.mercury: 1.0,
+  PlanetType.venus: 1.0,
+  PlanetType.earth: 1.2,
+  PlanetType.mars: 0.90,
+  PlanetType.jupiter: 1.5,
+  PlanetType.saturn: 1.2,
+  PlanetType.uranus: 0.80,
+  PlanetType.neptune: 0.85,
+  PlanetType.pluto: 0.50,
 };
 
 class PlanetOrbitalAnimationCubit extends Cubit<PlanetOrbitalAnimationState> {
@@ -54,8 +54,8 @@ class PlanetOrbitalAnimationCubit extends Cubit<PlanetOrbitalAnimationState> {
   final _random = math.Random();
 
   // <planet-key, animation>
-  final Map<int, AnimationController> _animationController = {};
-  final Map<int, Animation<double>> _animations = {};
+  final Map<PlanetType, AnimationController> _animationController = {};
+  final Map<PlanetType, Animation<double>> _animations = {};
 
   void setTickerProvider(TickerProvider tickerProvider) {
     _tickerProvider = tickerProvider;
@@ -64,14 +64,14 @@ class PlanetOrbitalAnimationCubit extends Cubit<PlanetOrbitalAnimationState> {
   static const _thresholdDegree = 18;
   static const _thresholdRadian = (math.pi * _thresholdDegree) / 180;
 
-  double _getThresholdFactor(int key) {
-    return _thresholdFactor[key]!;
+  double _getThresholdFactor(PlanetType type) {
+    return _thresholdFactor[type]!;
   }
 
   double _getMinAngle(Orbit orbit) {
-    final threshold = _thresholdRadian * _getThresholdFactor(orbit.planet.key);
-
     final planet = orbit.planet;
+
+    final threshold = _thresholdRadian * _getThresholdFactor(planet.type);
 
     if (planet.key <= 1) return -math.pi / 2 - threshold;
     return math.asin((planet.planetSize / 2 - planet.origin.y) / planet.r2) -
@@ -79,11 +79,11 @@ class PlanetOrbitalAnimationCubit extends Cubit<PlanetOrbitalAnimationState> {
   }
 
   double _getMaxAngle(Orbit orbit) {
-    final threshold = _thresholdRadian * _getThresholdFactor(orbit.planet.key);
-
     final planet = orbit.planet;
 
-    if (orbit.planet.key <= 1) return math.pi / 2 + threshold;
+    final threshold = _thresholdRadian * _getThresholdFactor(planet.type);
+
+    if (planet.key <= 1) return math.pi / 2 + threshold;
     return math.asin(
           (_parentSize.height + planet.planetSize / 2 - planet.origin.y) /
               planet.r2,
@@ -91,51 +91,51 @@ class PlanetOrbitalAnimationCubit extends Cubit<PlanetOrbitalAnimationState> {
         threshold;
   }
 
-  Duration _getDuration(int key) {
+  Duration _getDuration(PlanetType type) {
     return Duration(
       milliseconds:
-          ((_planetRevolutionFactor[key]! * _baseRevolutionSeconds) * 1000)
+          ((_planetRevolutionFactor[type]! * _baseRevolutionSeconds) * 1000)
               .toInt(),
     );
   }
 
-  Duration _getPausedDuration(int key) {
-    return Duration(seconds: _getDuration(key).inSeconds * 5);
+  Duration _getPausedDuration(PlanetType type) {
+    return Duration(seconds: _getDuration(type).inSeconds * 5);
   }
 
   void playAnimation(Planet planet) {
-    final controller = _animationController[planet.key];
+    final controller = _animationController[planet.type];
     if (controller == null) return;
 
     controller.stop();
-    controller.repeat(period: _getDuration(planet.key));
+    controller.repeat(period: _getDuration(planet.type));
   }
 
   void pauseAnimation(Planet planet) {
-    final controller = _animationController[planet.key];
+    final controller = _animationController[planet.type];
     if (controller == null) return;
 
     controller.stop();
-    controller.repeat(period: _getPausedDuration(planet.key));
+    controller.repeat(period: _getPausedDuration(planet.type));
   }
 
   void initAnimators(List<Orbit> orbits) {
     for (final orbit in orbits) {
-      final key = orbit.planet.key;
+      final planet = orbit.planet;
 
       final controller = AnimationController(
         value: math.max(math.min(_random.nextDouble(), 0.60), 0.30),
         vsync: _tickerProvider,
-      )..repeat(period: _getDuration(key));
+      )..repeat(period: _getDuration(planet.type));
 
-      _animationController[key] = controller;
+      _animationController[planet.type] = controller;
 
       final tween = Tween(
         begin: _getMinAngle(orbit),
         end: _getMaxAngle(orbit),
       );
 
-      _animations[key] = tween.animate(controller);
+      _animations[planet.type] = tween.animate(controller);
     }
 
     emit(PlanetOrbitalAnimationReady(_animations));
