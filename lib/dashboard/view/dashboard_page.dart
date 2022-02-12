@@ -29,7 +29,10 @@ class DashboardPage extends StatelessWidget {
         ),
         BlocProvider(create: (_) => LevelSelectionCubit()),
         BlocProvider(
-            create: (c) => PlanetSelectionCubit(c.read<LevelSelectionCubit>())),
+            create: (c) => PlanetSelectionCubit(
+                  c.read<LevelSelectionCubit>(),
+                  context,
+                )),
       ],
       child: const _DashboardView(),
     );
