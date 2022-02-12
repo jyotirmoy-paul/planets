@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/dashboard/widgets/sun_widget.dart';
 import '../dashboard.dart';
 import '../../layout/utils/responsive_layout_builder.dart';
 
@@ -75,6 +76,9 @@ class _DashboardViewState extends State<_DashboardView>
           large: (_, __) => Stack(
             alignment: Alignment.center,
             children: [
+              // sun
+              const SunWidget(),
+
               // orbits
               ...(state as DashboardReady)
                   .orbits

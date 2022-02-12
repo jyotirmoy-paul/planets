@@ -25,11 +25,11 @@ const Map<int, double> _planetRevolutionFactor = {
   1: 0.80, // 0.62, // venus
   2: 1, // earth
   3: 1.88, // mars
-  4: 4.1, // 11, // jupiter
-  5: 5.5, // 29, // saturn
-  6: 9, // 84, // uranus
-  7: 12, // 164, // neptune
-  8: 15, // 247, // pluto
+  4: 3.0, // 11, // jupiter
+  5: 6.1, // 29, // saturn
+  6: 9.3, // 84, // uranus
+  7: 12.0, // 164, // neptune
+  8: 16.0, // 247, // pluto
 };
 
 const Map<int, double> _thresholdFactor = {
@@ -37,11 +37,11 @@ const Map<int, double> _thresholdFactor = {
   1: 1.0, // venus
   2: 1.2, // earth
   3: 0.90, // mars
-  4: 1.4, // jupiter
+  4: 1.5, // jupiter
   5: 1.2, // saturn
-  6: 0.90, // uranus
-  7: 1.0, // neptune
-  8: 1.0, // pluto
+  6: 0.80, // uranus
+  7: 0.85, // neptune
+  8: 0.50, // pluto
 };
 
 class PlanetOrbitalAnimationCubit extends Cubit<PlanetOrbitalAnimationState> {
@@ -124,7 +124,7 @@ class PlanetOrbitalAnimationCubit extends Cubit<PlanetOrbitalAnimationState> {
       final key = orbit.planet.key;
 
       final controller = AnimationController(
-        value: math.max(math.min(_random.nextDouble(), 0.80), 0.20),
+        value: math.max(math.min(_random.nextDouble(), 0.60), 0.30),
         vsync: _tickerProvider,
       )..repeat(period: _getDuration(key));
 
