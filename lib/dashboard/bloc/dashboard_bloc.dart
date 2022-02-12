@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import '../../layout/layout.dart';
 import '../../models/coordinate.dart';
 import '../../models/orbit.dart';
 import '../../models/planet.dart';
@@ -67,7 +68,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
           origin: Coordinate(x: -r1 / 2, y: size.height / 2 - (r2 / 2)),
           r1: r1,
           r2: r2,
-          orbitWidth: (i > totalPlanets ~/ 2) ? 4.0 : 5.0,
+          orbitWidth: (i > totalPlanets ~/ 2) ? 2.0 : 2.5,
         );
       },
     );
@@ -87,8 +88,14 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     DashboardInitialized event,
     Emitter<DashboardState> emit,
   ) {
+    Size size = event.size;
+
+    if (event.size.width < AppBreakpoints.medium) {
+      size = Size(AppBreakpoints.medium, event.size.height);
+    }
+
     // generate orbits
-    final orbits = _generateOrbits(event.size);
+    final orbits = _generateOrbits(size);
 
     // init the animations for planets
     _planetAnimationCubit.initAnimators(orbits);

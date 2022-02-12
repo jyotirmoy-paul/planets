@@ -1,25 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/dashboard/widgets/sun_widget.dart';
-import 'package:planets/layout/utils/app_breakpoints.dart';
+import '../cubit/level_selection_cubit.dart';
+import '../cubit/planet_selection_cubit.dart';
+import '../widgets/header_widget.dart';
+import '../widgets/scroll_buttons.dart';
+import '../widgets/sun_widget.dart';
+import '../../layout/utils/app_breakpoints.dart';
+import '../../utils/app_logger.dart';
 import '../dashboard.dart';
 import '../../layout/utils/responsive_layout_builder.dart';
+import 'dart:math' as math;
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) =>
-              PlanetOrbitalAnimationCubit(MediaQuery.of(context).size),
+          create: (_) => PlanetOrbitalAnimationCubit(size),
         ),
         BlocProvider(
           create: (c) => DashboardBloc(c.read<PlanetOrbitalAnimationCubit>())
-            ..add(DashboardInitialized(MediaQuery.of(context).size)),
+            ..add(DashboardInitialized(size)),
         ),
+        BlocProvider(create: (_) => LevelSelectionCubit()),
+        BlocProvider(
+            create: (c) => PlanetSelectionCubit(c.read<LevelSelectionCubit>())),
       ],
       child: const _DashboardView(),
     );
@@ -72,12 +82,19 @@ class _DashboardViewState extends State<_DashboardView>
         color: Colors.grey[900],
         width: size.width,
         height: size.height,
-        child: ResponsiveLayoutBuilder(
-          small: (_, __) => _DashboardPageSmall(state: state as DashboardReady),
-          medium: (_, __) =>
-              _DashboardPageMedium(state: state as DashboardReady),
-          large: (_, Widget? child) => child!,
-          child: (_) => _DashboardPageLarge(state: state as DashboardReady),
+        child: Stack(
+          children: [
+            // solar system
+            ResponsiveLayoutBuilder(
+              small: (_, Widget? child) => _DashboardPageSmall(child: child!),
+              medium: (_, Widget? child) => _DashboardPageMedium(child: child!),
+              large: (_, Widget? child) => child!,
+              child: (_) => _DashboardPageLarge(state: state as DashboardReady),
+            ),
+
+            // header
+            const HeaderWidget(),
+          ],
         ),
       ),
     );
@@ -85,154 +102,110 @@ class _DashboardViewState extends State<_DashboardView>
 }
 
 class _DashboardPageSmall extends StatelessWidget {
-  final DashboardReady state;
+  final Widget child;
 
   const _DashboardPageSmall({
     Key? key,
-    required this.state,
+    required this.child,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return _ScrollableSolarSystem(solarSystem: child);
   }
 }
 
 class _DashboardPageMedium extends StatelessWidget {
-  final DashboardReady state;
+  final Widget child;
 
   const _DashboardPageMedium({
     Key? key,
-    required this.state,
+    required this.child,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return _ScrollableSolarSystem(solarSystem: child);
   }
 }
 
-// class _DashboardPageMedium extends StatefulWidget {
-//   final DashboardReady state;
+class _ScrollableSolarSystem extends StatefulWidget {
+  final Widget solarSystem;
 
-//   const _DashboardPageMedium({
-//     Key? key,
-//     required this.state,
-//   }) : super(key: key);
+  const _ScrollableSolarSystem({
+    Key? key,
+    required this.solarSystem,
+  }) : super(key: key);
 
-//   @override
-//   State<_DashboardPageMedium> createState() => _DashboardPageMediumState();
-// }
+  @override
+  State<_ScrollableSolarSystem> createState() => _ScrollableSolarSystemState();
+}
 
-// class _DashboardPageMediumState extends State<_DashboardPageMedium> {
-//   final _pageViewController = PageController();
+class _ScrollableSolarSystemState extends State<_ScrollableSolarSystem> {
+  final _controller = ScrollController();
 
-//   @override
-//   void dispose() {
-//     _pageViewController.dispose();
-//     super.dispose();
-//   }
+  double get width => MediaQuery.of(context).size.width;
 
-//   DashboardReady get state => widget.state;
+  double _scrollOffset = 0.0;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Stack(
-//       alignment: Alignment.center,
-//       children: [
-//         // main body
-//         PageView(
-//           physics: const ClampingScrollPhysics(),
-//           controller: _pageViewController,
-//           children: [
-//             Stack(
-//               alignment: Alignment.center,
-//               children: [
-//                 const SunWidget(),
+  void _scrollListener() {
+    _scrollOffset = _controller.offset;
+  }
 
-//                 // orbits
-//                 ...state.orbits
-//                     .sublist(0, 3)
-//                     .map<Widget>((e) => e.widget)
-//                     .toList(),
+  void _moveToOffset() {
+    _controller.animateTo(
+      _scrollOffset,
+      duration: const Duration(milliseconds: 350),
+      curve: Curves.easeInOut,
+    );
+  }
 
-//                 // planets
-//                 ...state.orbits
-//                     .sublist(0, 3)
-//                     .map<Widget>((e) => e.planet.widget)
-//                     .toList(),
-//               ],
-//             ),
-//             Stack(
-//               alignment: Alignment.center,
-//               children: [
-//                 const SunWidget(scale: 0.70),
+  void _onMoveNext() {
+    _scrollOffset =
+        math.min(AppBreakpoints.medium - width, _scrollOffset + width);
+    _moveToOffset();
+  }
 
-//                 // orbits
-//                 ...state.orbits
-//                     .sublist(3, 6)
-//                     .map<Widget>((e) => e.widget)
-//                     .toList(),
+  void _onMovePrev() {
+    _scrollOffset = math.max(0.0, _scrollOffset - width);
+    _moveToOffset();
+  }
 
-//                 // planets
-//                 ...state.orbits
-//                     .sublist(3, 6)
-//                     .map<Widget>((e) => e.planet.widget)
-//                     .toList(),
-//               ],
-//             ),
-//             Stack(
-//               alignment: Alignment.center,
-//               children: [
-//                 const SunWidget(scale: 0.40),
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(_scrollListener);
+  }
 
-//                 // orbits
-//                 ...state.orbits
-//                     .sublist(6, 9)
-//                     .map<Widget>((e) => e.widget)
-//                     .toList(),
+  @override
+  void dispose() {
+    _controller.removeListener(_scrollListener);
+    _controller.dispose();
+    super.dispose();
+  }
 
-//                 // planets
-//                 ...state.orbits
-//                     .sublist(6, 9)
-//                     .map<Widget>((e) => e.planet.widget)
-//                     .toList(),
-//               ],
-//             ),
-//           ],
-//         ),
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        // solar system
+        SingleChildScrollView(
+          controller: _controller,
+          physics: const ClampingScrollPhysics(),
+          scrollDirection: Axis.horizontal,
+          child:
+              SizedBox(width: AppBreakpoints.medium, child: widget.solarSystem),
+        ),
 
-//         // bottom controller
-//         Align(
-//           alignment: Alignment.bottomCenter,
-//           child: Row(
-//             mainAxisSize: MainAxisSize.min,
-//             children: [
-//               IconButton(
-//                 onPressed: () {
-//                   _pageViewController.previousPage(
-//                     duration: const Duration(milliseconds: 250),
-//                     curve: Curves.easeInOut,
-//                   );
-//                 },
-//                 icon: Icon(Icons.chevron_left_rounded),
-//               ),
-//               IconButton(
-//                 onPressed: () {
-//                   _pageViewController.nextPage(
-//                     duration: const Duration(milliseconds: 250),
-//                     curve: Curves.easeInOut,
-//                   );
-//                 },
-//                 icon: Icon(Icons.chevron_right_rounded),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
+        // control buttons
+        Align(
+          alignment: const FractionalOffset(0.50, 0.95),
+          child: ScrollButtons(onPrevious: _onMovePrev, onNext: _onMoveNext),
+        ),
+      ],
+    );
+  }
+}
 
 class _DashboardPageLarge extends StatelessWidget {
   final DashboardReady state;

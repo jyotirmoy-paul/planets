@@ -6,6 +6,12 @@ import 'package:equatable/equatable.dart';
 
 import 'tile.dart';
 
+enum PuzzleLevel {
+  easy,
+  medium,
+  hard,
+}
+
 // A 3x3 puzzle board visualization:
 //
 //   ┌─────1───────2───────3────► x

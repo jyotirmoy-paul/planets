@@ -18,7 +18,7 @@ class OrbitWidget extends StatelessWidget {
         width: orbit.r1,
         height: orbit.r2,
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.white12, width: orbit.orbitWidth),
+          border: Border.all(color: Colors.white10, width: orbit.orbitWidth),
           borderRadius: BorderRadius.all(
             Radius.elliptical(orbit.r1, orbit.r2),
           ),

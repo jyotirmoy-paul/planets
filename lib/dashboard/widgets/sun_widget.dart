@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:planets/layout/utils/app_breakpoints.dart';
+import 'dart:math' as math;
 
 class SunWidget extends StatelessWidget {
   final double scale;
@@ -9,22 +9,15 @@ class SunWidget extends StatelessWidget {
     this.scale = 1.0,
   }) : super(key: key);
 
-  double _getFactor(double width) {
-    if (width < AppBreakpoints.medium) return 1.0;
-    if (width < AppBreakpoints.small) return 1.2;
-
-    return 0.90;
-  }
-
   @override
   Widget build(BuildContext context) {
     final parentSize = MediaQuery.of(context).size;
-    final sunSize = parentSize.width * 0.33;
+    final double sunSize = math.max(parentSize.width * 0.33, 350.0);
 
     return Positioned(
       key: const Key('Sun'),
       top: parentSize.height / 2 - sunSize / 2,
-      left: (-sunSize / 2) * _getFactor(parentSize.width),
+      left: (-sunSize / 2),
       child: Transform.scale(
         scale: scale,
         child: Container(

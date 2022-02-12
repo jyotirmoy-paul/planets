@@ -153,3 +153,7 @@ class PlanetOrbitalAnimationCubit extends Cubit<PlanetOrbitalAnimationState> {
     return super.close();
   }
 }
+
+// IDEAS
+// 1. Pause animation
+// 2. Slow animation - 1x, 0.5x, 0.25x
