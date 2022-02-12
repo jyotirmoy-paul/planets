@@ -10,6 +10,21 @@ import '../dashboard.dart';
 part 'dashboard_event.dart';
 part 'dashboard_state.dart';
 
+// planet sizes
+// 0.383	0.949	1	0.532	11.21	9.45	4.01	3.88	0.187
+const double _baseSize = 80.0;
+const Map<int, double> _planetSizeFactor = {
+  0: 0.383, // mercury
+  1: 0.949, // venus
+  2: 1, // earth
+  3: 0.532, // mars
+  4: 3.0, // 11.21, // jupiter
+  5: 2.3, // 9.45, // saturn
+  6: 1.15, //4.01, // uranus
+  7: 1.02, // 3.88, // neptune
+  8: 0.25, // 0.187, // pluto
+};
+
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   final PlanetOrbitalAnimationCubit _planetAnimationCubit;
 
@@ -23,7 +38,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   }
 
   double _getPlanetSizeAt(int index) {
-    return 100.0;
+    return _baseSize * _planetSizeFactor[index]!;
   }
 
   List<Orbit> _generateOrbits(Size size) {

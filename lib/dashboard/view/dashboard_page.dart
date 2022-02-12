@@ -10,7 +10,10 @@ class DashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => PlanetOrbitalAnimationCubit()),
+        BlocProvider(
+          create: (_) =>
+              PlanetOrbitalAnimationCubit(MediaQuery.of(context).size),
+        ),
         BlocProvider(
           create: (c) => DashboardBloc(c.read<PlanetOrbitalAnimationCubit>())
             ..add(DashboardInitialized(MediaQuery.of(context).size)),

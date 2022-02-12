@@ -15,31 +15,37 @@ class PlanetWidget extends StatelessWidget {
     return planet.origin.x +
         planet.r1 * math.cos(theta) -
         planet.planetSize / 2;
-
-    // return math.max(x, -planet.planetSize);
   }
 
   double _getY(double theta) {
     return planet.origin.y +
         planet.r2 * math.sin(theta) -
         planet.planetSize / 2;
-    // return math.min(math.max(-planet.planetSize, y), planet.parentSize.height);
   }
 
-  Widget _buildCorePlanet() {
+  Widget _buildCorePlanet(BuildContext context) {
+    final orbitalAnimationCubit = context.read<PlanetOrbitalAnimationCubit>();
+
     return InkWell(
+      onHover: (isHovering) {
+        if (isHovering) {
+          orbitalAnimationCubit.pauseAnimation(planet);
+        } else {
+          orbitalAnimationCubit.playAnimation(planet);
+        }
+      },
       onTap: () {
         AppLogger.log('_planet tapped: ${planet.name}');
       },
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.red,
           shape: BoxShape.circle,
         ),
         alignment: Alignment.center,
         child: Text(
           planet.name,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
@@ -64,7 +70,7 @@ class PlanetWidget extends StatelessWidget {
         context.select((PlanetOrbitalAnimationCubit cubit) => cubit.state);
 
     if (animationState is PlanetOrbitalAnimationLoading) {
-      return _buildPositionedPlanet(child: _buildCorePlanet());
+      return _buildPositionedPlanet(child: _buildCorePlanet(context));
     }
 
     final state = animationState as PlanetOrbitalAnimationReady;
@@ -73,7 +79,7 @@ class PlanetWidget extends StatelessWidget {
 
     return AnimatedBuilder(
       animation: animation,
-      child: _buildCorePlanet(),
+      child: _buildCorePlanet(context),
       builder: (_, Widget? child) => _buildPositionedPlanet(
         child: child!,
         theta: animation.value,
