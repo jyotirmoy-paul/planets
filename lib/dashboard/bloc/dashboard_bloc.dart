@@ -13,7 +13,7 @@ part 'dashboard_state.dart';
 // planet sizes
 // 0.383	0.949	1	0.532	11.21	9.45	4.01	3.88	0.187
 const double _baseSize = 80.0;
-const Map<int, double> _planetSizeFactor = {
+const Map<int, double> planetSizeFactor = {
   0: 0.383, // mercury
   1: 0.949, // venus
   2: 1, // earth
@@ -38,7 +38,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   }
 
   double _getPlanetSizeAt(int index) {
-    return _baseSize * _planetSizeFactor[index]!;
+    return _baseSize * planetSizeFactor[index]!;
   }
 
   List<Orbit> _generateOrbits(Size size) {

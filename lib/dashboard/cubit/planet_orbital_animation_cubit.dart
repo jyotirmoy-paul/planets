@@ -25,11 +25,23 @@ const Map<int, double> _planetRevolutionFactor = {
   1: 0.80, // 0.62, // venus
   2: 1, // earth
   3: 1.88, // mars
-  4: 6, // 11, // jupiter
-  5: 7, // 29, // saturn
-  6: 10, // 84, // uranus
-  7: 15, // 164, // neptune
-  8: 18, // 247, // pluto
+  4: 4.1, // 11, // jupiter
+  5: 5.5, // 29, // saturn
+  6: 9, // 84, // uranus
+  7: 12, // 164, // neptune
+  8: 15, // 247, // pluto
+};
+
+const Map<int, double> _thresholdFactor = {
+  0: 1.0, // mercury
+  1: 1.0, // venus
+  2: 1.2, // earth
+  3: 0.90, // mars
+  4: 1.4, // jupiter
+  5: 1.2, // saturn
+  6: 0.90, // uranus
+  7: 1.0, // neptune
+  8: 1.0, // pluto
 };
 
 class PlanetOrbitalAnimationCubit extends Cubit<PlanetOrbitalAnimationState> {
@@ -49,28 +61,34 @@ class PlanetOrbitalAnimationCubit extends Cubit<PlanetOrbitalAnimationState> {
     _tickerProvider = tickerProvider;
   }
 
-  static const _thresholdDegree = 0;
-  static const _thresholdRadian = math.pi / (180 / _thresholdDegree);
+  static const _thresholdDegree = 18;
+  static const _thresholdRadian = (math.pi * _thresholdDegree) / 180;
+
+  double _getThresholdFactor(int key) {
+    return _thresholdFactor[key]!;
+  }
 
   double _getMinAngle(Orbit orbit) {
-    if (orbit.planet.key <= 1) return -math.pi / 2 - _thresholdRadian;
+    final threshold = _thresholdRadian * _getThresholdFactor(orbit.planet.key);
 
     final planet = orbit.planet;
 
+    if (planet.key <= 1) return -math.pi / 2 - threshold;
     return math.asin((planet.planetSize / 2 - planet.origin.y) / planet.r2) -
-        _thresholdRadian;
+        threshold;
   }
 
   double _getMaxAngle(Orbit orbit) {
-    if (orbit.planet.key <= 1) return math.pi / 2 + _thresholdRadian;
+    final threshold = _thresholdRadian * _getThresholdFactor(orbit.planet.key);
 
     final planet = orbit.planet;
 
+    if (orbit.planet.key <= 1) return math.pi / 2 + threshold;
     return math.asin(
           (_parentSize.height + planet.planetSize / 2 - planet.origin.y) /
               planet.r2,
         ) +
-        _thresholdRadian;
+        threshold;
   }
 
   Duration _getDuration(int key) {
@@ -106,7 +124,7 @@ class PlanetOrbitalAnimationCubit extends Cubit<PlanetOrbitalAnimationState> {
       final key = orbit.planet.key;
 
       final controller = AnimationController(
-        value: _random.nextDouble(),
+        value: math.max(math.min(_random.nextDouble(), 0.80), 0.20),
         vsync: _tickerProvider,
       )..repeat(period: _getDuration(key));
 

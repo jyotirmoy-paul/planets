@@ -77,6 +77,8 @@ class PlanetWidget extends StatelessWidget {
 
     final animation = state.getAnimation(planet.key);
 
+    AppLogger.log('planet_widget state updated');
+
     return AnimatedBuilder(
       animation: animation,
       child: _buildCorePlanet(context),

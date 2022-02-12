@@ -51,7 +51,9 @@ class _DashboardViewState extends State<_DashboardView>
   @override
   void didChangeMetrics() {
     super.didChangeMetrics();
-    context.read<DashboardBloc>().add(DashboardResized(size));
+    final s = size;
+    context.read<DashboardBloc>().add(DashboardResized(s));
+    // context.read<PlanetOrbitalAnimationCubit>().onWindowResize(s);
   }
 
   @override
@@ -65,8 +67,8 @@ class _DashboardViewState extends State<_DashboardView>
     return Scaffold(
       body: Container(
         color: Colors.grey[900],
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+        width: size.width,
+        height: size.height,
         child: ResponsiveLayoutBuilder(
           small: (_, __) => Container(color: Colors.red),
           medium: (_, __) => Container(color: Colors.green),
