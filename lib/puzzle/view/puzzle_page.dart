@@ -26,7 +26,11 @@ class PuzzlePage extends StatelessWidget {
             planet: context.read<PlanetSelectionCubit>().planet,
           ),
         ),
-        BlocProvider(create: (_) => TimerBloc(ticker: const Ticker())),
+        BlocProvider(
+          create: (_) => TimerBloc(
+            ticker: const Ticker(),
+          ),
+        ),
       ],
       child: const _PuzzleView(),
     );

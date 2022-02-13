@@ -7,11 +7,13 @@ class Tile extends Equatable {
   final Position correctPosition;
   final Position currentPosition;
   final bool isWhitespace;
+  final int puzzleSize;
 
   const Tile({
     required this.value,
     required this.correctPosition,
     required this.currentPosition,
+    required this.puzzleSize,
     this.isWhitespace = false,
   });
 
@@ -20,6 +22,7 @@ class Tile extends Equatable {
       value: value,
       correctPosition: correctPosition,
       currentPosition: currentPosition,
+      puzzleSize: puzzleSize,
       isWhitespace: isWhitespace,
     );
   }
@@ -29,6 +32,7 @@ class Tile extends Equatable {
         value,
         correctPosition,
         currentPosition,
+        puzzleSize,
         isWhitespace,
       ];
 }

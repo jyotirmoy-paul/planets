@@ -16,6 +16,7 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.0.1
   gap: ^2.0.0
+  rive: ^0.8.1
 
 dev_dependencies:
   flutter_lints: ^1.0.0
