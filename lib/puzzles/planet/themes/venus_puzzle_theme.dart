@@ -19,4 +19,7 @@ class VenusPuzzleTheme extends PlanetPuzzleTheme {
 
   @override
   Color get onSurface => Colors.amber;
+
+  @override
+  String get assetForTile => 'animations/planet_x.riv';
 }

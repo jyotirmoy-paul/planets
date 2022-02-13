@@ -4,7 +4,7 @@ import 'planet_puzzle_theme.dart';
 
 class UranusPuzzleTheme extends PlanetPuzzleTheme {
   const UranusPuzzleTheme();
-  
+
   @override
   String get backgroundAsset => '';
 
@@ -19,4 +19,7 @@ class UranusPuzzleTheme extends PlanetPuzzleTheme {
 
   @override
   Color get onSurface => Colors.amber;
+
+  @override
+  String get assetForTile => 'animations/planet_x.riv';
 }

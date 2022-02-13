@@ -9,6 +9,12 @@ import 'package:planets/puzzles/planet/widgets/planet_puzzle_stats.dart';
 import 'package:planets/puzzles/planet/widgets/planet_puzzle_tile.dart';
 import 'package:planets/theme/themes/puzzle_theme.dart';
 
+abstract class BoardSize {
+  static double small = 312;
+  static double medium = 424;
+  static double large = 472;
+}
+
 class PlanetPuzzleLayoutDelegate extends PuzzleLayoutDelegate {
   @override
   Widget backgroundBuilder(PuzzleTheme theme) {
@@ -20,7 +26,31 @@ class PlanetPuzzleLayoutDelegate extends PuzzleLayoutDelegate {
 
   @override
   Widget boardBuilder(int size, List<Widget> tiles) {
-    return PlanetPuzzleBoard(size: size, tiles: tiles);
+    return Column(
+      children: [
+        const ResponsiveGap(
+          small: 32,
+          medium: 48,
+          large: 96,
+        ),
+        ResponsiveLayoutBuilder(
+          small: (_, Widget? child) => SizedBox.square(
+            dimension: BoardSize.small,
+            child: child,
+          ),
+          medium: (_, Widget? child) => SizedBox.square(
+            dimension: BoardSize.medium,
+            child: child,
+          ),
+          large: (_, Widget? child) => SizedBox.square(
+            dimension: BoardSize.large,
+            child: child,
+          ),
+          child: (_) => PlanetPuzzleBoard(size: size, tiles: tiles),
+        ),
+        const ResponsiveGap(large: 96),
+      ],
+    );
   }
 
   @override
@@ -40,7 +70,11 @@ class PlanetPuzzleLayoutDelegate extends PuzzleLayoutDelegate {
 
   @override
   Widget tileBuilder(Tile tile, PuzzleState state) {
-    return PlanetPuzzleTile(tile: tile, state: state);
+    return PlanetPuzzleTile(
+      tile: tile,
+      state: state,
+      key: Key(tile.value.toString()),
+    );
   }
 
   @override

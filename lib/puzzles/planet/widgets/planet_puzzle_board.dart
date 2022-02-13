@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:planets/utils/constants.dart';
 
 class PlanetPuzzleBoard extends StatelessWidget {
   final int size;
@@ -10,13 +9,6 @@ class PlanetPuzzleBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox.square(
-        dimension: Constants.puzzleAbsoluteSize,
-        child: Stack(
-          children: tiles,
-        ),
-      ),
-    );
+    return Stack(children: tiles);
   }
 }

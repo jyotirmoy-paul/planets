@@ -15,7 +15,7 @@ class PuzzleBoard extends StatelessWidget {
     final puzzle = context.select((PuzzleBloc bloc) => bloc.state.puzzle);
 
     final size = puzzle.getDimension();
-    if (size == 0) return const CircularProgressIndicator();
+    if (size == 0) return const Center(child: CircularProgressIndicator());
 
     return BlocListener<PuzzleBloc, PuzzleState>(
       listener: (context, state) {
@@ -25,7 +25,12 @@ class PuzzleBoard extends StatelessWidget {
       },
       child: theme.puzzleLayoutDelegate.boardBuilder(
         size,
-        puzzle.tiles.map((tile) => _PuzzleTile(tile: tile)).toList(),
+        puzzle.tiles
+            .map((tile) => _PuzzleTile(
+                  key: Key('puzzle_tile_${tile.value.toString()}'),
+                  tile: tile,
+                ))
+            .toList(),
       ),
     );
   }

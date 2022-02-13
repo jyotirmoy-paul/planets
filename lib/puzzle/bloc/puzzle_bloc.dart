@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:planets/theme/themes/puzzle_theme.dart';
 
 import '../../models/position.dart';
 import '../../models/puzzle.dart';
@@ -29,7 +28,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     final puzzle = _generatePuzzle(_size, shuffle: event.shufflePuzzle);
     emit(
       PuzzleState(
-        puzzle: puzzle.sort(),
+        puzzle: puzzle,
         numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
       ),
     );
@@ -38,7 +37,44 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   void _onTileTapped(
     TileTapped event,
     Emitter<PuzzleState> emit,
-  ) {}
+  ) {
+    final tappedTile = event.tile;
+    final isPuzzleIncomplete = state.puzzleStatus == PuzzleStatus.incomplete;
+    final isTileMovable = state.puzzle.isTileMovable(tappedTile);
+
+    if (isPuzzleIncomplete && isTileMovable) {
+      final mutablePuzzle = Puzzle(tiles: [...state.puzzle.tiles]);
+      final puzzle = mutablePuzzle.moveTiles(tappedTile, []);
+      if (puzzle.isComplete()) {
+        emit(
+          state.copyWith(
+            puzzle: puzzle.sort(),
+            puzzleStatus: PuzzleStatus.complete,
+            tileMovementStatus: TileMovementStatus.moved,
+            numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
+            numberOfMoves: state.numberOfMoves + 1,
+            lastTappedTile: tappedTile,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            puzzle: puzzle.sort(),
+            tileMovementStatus: TileMovementStatus.moved,
+            numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
+            numberOfMoves: state.numberOfMoves + 1,
+            lastTappedTile: tappedTile,
+          ),
+        );
+      }
+    } else {
+      emit(
+        state.copyWith(
+          tileMovementStatus: TileMovementStatus.cannotBeMoved,
+        ),
+      );
+    }
+  }
 
   void _onPuzzleAutoSolve(
     PuzzleAutoSolve event,
@@ -55,8 +91,8 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     final currentPositions = <Position>[];
     final whitespacePosition = Position(x: size, y: size);
 
-    for (var y = 1; y <= size; y++) {
-      for (var x = 1; x <= size; x++) {
+    for (var y = 0; y < size; y++) {
+      for (var x = 0; x < size; x++) {
         if (x == size && y == size) {
           correctPositions.add(whitespacePosition);
           currentPositions.add(whitespacePosition);
@@ -100,21 +136,22 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     required List<Position> correctPositions,
   }) {
     final whitespacePosition = Position(x: size, y: size);
+    final n = size * size;
     return [
-      for (int i = 1; i <= size * size; i++)
-        if (i == size * size)
+      for (int i = 0; i < n; i++)
+        if (i == n - 1)
           Tile(
             value: i,
             correctPosition: whitespacePosition,
-            currentPosition: currentPositions[i - 1],
+            currentPosition: currentPositions[i],
             isWhitespace: true,
             puzzleSize: size,
           )
         else
           Tile(
             value: i,
-            correctPosition: correctPositions[i - 1],
-            currentPosition: currentPositions[i - 1],
+            correctPosition: correctPositions[i],
+            currentPosition: currentPositions[i],
             puzzleSize: size,
           )
     ];

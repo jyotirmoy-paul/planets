@@ -19,7 +19,7 @@ class PuzzlePage extends StatelessWidget {
         BlocProvider(
           create: (context) => PuzzleBloc(
             context.read<LevelSelectionCubit>().puzzleSize,
-          ),
+          )..add(const PuzzleInitialized(shufflePuzzle: false)),
         ),
         BlocProvider(
           create: (_) => ThemeBloc(
@@ -46,27 +46,29 @@ class _PuzzleView extends StatelessWidget {
     // final state = context.select((PuzzleBloc bloc) => bloc.state);
 
     return Scaffold(
-      body: LayoutBuilder(builder: ((context, constraints) {
-        return Stack(
-          children: [
-            // background
-            theme.puzzleLayoutDelegate.backgroundBuilder(theme),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // background
+              theme.puzzleLayoutDelegate.backgroundBuilder(theme),
 
-            // main body
-            SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                child: Column(
-                  children: const [
-                    PuzzleHeader(),
-                    PuzzleSections(),
-                  ],
+              // main body
+              SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: Column(
+                    children: const [
+                      PuzzleHeader(),
+                      PuzzleSections(),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
-        );
-      })),
+            ],
+          );
+        },
+      ),
     );
   }
 }

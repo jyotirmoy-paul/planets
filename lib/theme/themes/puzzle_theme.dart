@@ -16,4 +16,6 @@ abstract class PuzzleTheme {
   String get backgroundAsset;
 
   PuzzleLayoutDelegate get puzzleLayoutDelegate;
+
+  String get assetForTile;
 }

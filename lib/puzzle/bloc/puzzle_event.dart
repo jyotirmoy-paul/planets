@@ -17,7 +17,7 @@ class PuzzleInitialized extends PuzzleEvent {
 }
 
 class TileTapped extends PuzzleEvent {
-  const TileTapped({required this.tile});
+  const TileTapped(this.tile);
 
   final Tile tile;
 

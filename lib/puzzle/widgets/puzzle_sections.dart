@@ -15,15 +15,23 @@ class PuzzleSections extends StatelessWidget {
     final state = context.select((PuzzleBloc bloc) => bloc.state);
 
     return ResponsiveLayoutBuilder(
-      small: (_, __) => Column(
+      small: (_, Widget? child) => Column(
         children: [
           theme.puzzleLayoutDelegate.infoBuilder(state),
           theme.puzzleLayoutDelegate.statsBuilder(state),
-          const PuzzleBoard(),
+          child!,
           theme.puzzleLayoutDelegate.controlBuilder(state),
         ],
       ),
-      medium: (_, __) => Row(
+      medium: (_, Widget? child) => Column(
+        children: [
+          theme.puzzleLayoutDelegate.infoBuilder(state),
+          theme.puzzleLayoutDelegate.statsBuilder(state),
+          child!,
+          theme.puzzleLayoutDelegate.controlBuilder(state),
+        ],
+      ),
+      large: (_, Widget? child) => Row(
         children: [
           // title, stats, control buttons
           Expanded(
@@ -37,30 +45,10 @@ class PuzzleSections extends StatelessWidget {
           ),
 
           // puzzle board
-          const Expanded(
-            child: PuzzleBoard(),
-          ),
+          Expanded(child: child!),
         ],
       ),
-      large: (_, __) => Row(
-        children: [
-          // title, stats, control buttons
-          Expanded(
-            child: Column(
-              children: [
-                theme.puzzleLayoutDelegate.infoBuilder(state),
-                theme.puzzleLayoutDelegate.statsBuilder(state),
-                theme.puzzleLayoutDelegate.controlBuilder(state),
-              ],
-            ),
-          ),
-
-          // puzzle board
-          const Expanded(
-            child: PuzzleBoard(),
-          ),
-        ],
-      ),
+      child: (_) => const PuzzleBoard(key: Key('puzzle_board')),
     );
   }
 }

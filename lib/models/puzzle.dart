@@ -175,7 +175,7 @@ class Puzzle extends Equatable {
     final deltaX = whitespaceTile.currentPosition.x - tile.currentPosition.x;
     final deltaY = whitespaceTile.currentPosition.y - tile.currentPosition.y;
 
-    if ((deltaX.abs() + deltaY.abs()) > 1) {
+    if ((deltaX.abs() + deltaY.abs()) > 0) {
       final shiftPointX = tile.currentPosition.x + deltaX.sign;
       final shiftPointY = tile.currentPosition.y + deltaY.sign;
       final tileToSwapWith = tiles.singleWhere(
