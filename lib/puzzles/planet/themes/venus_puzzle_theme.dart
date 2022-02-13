@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'planet_puzzle_theme.dart';
 
 class VenusPuzzleTheme extends PlanetPuzzleTheme {
+  const VenusPuzzleTheme();
+
   @override
   String get backgroundAsset => '';
 

@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:planets/puzzles/community/themes/community_puzzle_theme.dart';
 
 import '../../models/planet.dart';
 import '../../puzzles/planet/planet.dart';
@@ -8,42 +9,30 @@ import '../themes/puzzle_theme.dart';
 part 'theme_event.dart';
 part 'theme_state.dart';
 
+const Map<PlanetType, PuzzleTheme> _planetThemeMap = {
+  PlanetType.mercury: MercuryPuzzleTheme(),
+  PlanetType.venus: VenusPuzzleTheme(),
+  PlanetType.earth: EarthPuzzleTheme(),
+  PlanetType.mars: MarsPuzzleTheme(),
+  PlanetType.jupiter: JupiterPuzzleTheme(),
+  PlanetType.saturn: SaturnPuzzleTheme(),
+  PlanetType.uranus: UranusPuzzleTheme(),
+  PlanetType.neptune: NeptunePuzzleTheme(),
+  PlanetType.pluto: PlutoPuzzleTheme(),
+};
+
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
-  ThemeBloc() : super(NoThemeState()) {
-    on<ThemeChangedEvent>(_onThemeChanged);
-    on<ThemeFromPlanet>(_onThemeFromPlanet);
+  static PuzzleTheme _getTheme(Planet? planet) {
+    return planet == null
+        ? const CommunityPuzzleTheme()
+        : _planetThemeMap[planet.type]!;
   }
 
-  void _onThemeFromPlanet(ThemeFromPlanet event, Emitter<ThemeState> emit) {
-    switch (event.planet.type) {
-      case PlanetType.mercury:
-        return add(ThemeChangedEvent(MercuryPuzzleTheme()));
-      case PlanetType.venus:
-        return add(ThemeChangedEvent(VenusPuzzleTheme()));
-      case PlanetType.earth:
-        return add(ThemeChangedEvent(EarthPuzzleTheme()));
-      case PlanetType.mars:
-        return add(ThemeChangedEvent(MarsPuzzleTheme()));
-      case PlanetType.jupiter:
-        return add(ThemeChangedEvent(JupiterPuzzleTheme()));
-      case PlanetType.saturn:
-        return add(ThemeChangedEvent(SaturnPuzzleTheme()));
-      case PlanetType.uranus:
-        return add(ThemeChangedEvent(UranusPuzzleTheme()));
-      case PlanetType.neptune:
-        return add(ThemeChangedEvent(NeptunePuzzleTheme()));
-      case PlanetType.pluto:
-        return add(ThemeChangedEvent(PlutoPuzzleTheme()));
-    }
+  ThemeBloc({Planet? planet}) : super(ThemeState(theme: _getTheme(planet))) {
+    on<ThemeChangedEvent>(_onThemeChanged);
   }
 
   void _onThemeChanged(ThemeChangedEvent event, Emitter<ThemeState> emit) {
-    if (state is ThemeSelectedState) {
-      emit((state as ThemeSelectedState).copyWith(
-        theme: event.puzzleTheme,
-      ));
-    }
-
-    emit(ThemeSelectedState(theme: event.puzzleTheme));
+    emit(state.copyWith(theme: _getTheme(event.planet)));
   }
 }

@@ -19,16 +19,16 @@ class PlanetSelectionCubit extends Cubit<PlanetSelectionState> {
 
   Planet? _planet;
 
-  Planet get planet => _planet!;
+  Planet? get planet => _planet;
 
-  void onPlanetSelected(Planet planet) {
+  void onPlanetSelected(Planet planet) async {
     _planet = planet;
 
     AppLogger.log(
       'PlanetSelectionCubit tapped: $planet: level: ${_levelSelectionCubit.state.level}',
     );
 
-    Navigator.push(
+    await Navigator.push(
       _context,
       MaterialPageRoute(
         builder: (_) => MultiBlocProvider(
@@ -40,5 +40,7 @@ class PlanetSelectionCubit extends Cubit<PlanetSelectionState> {
         ),
       ),
     );
+
+    _planet = null;
   }
 }

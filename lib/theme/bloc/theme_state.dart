@@ -1,23 +1,14 @@
 part of 'theme_bloc.dart';
 
-abstract class ThemeState extends Equatable {
-  const ThemeState();
-
-  @override
-  List<Object> get props => [];
-}
-
-class NoThemeState extends ThemeState {}
-
-class ThemeSelectedState extends ThemeState {
+class ThemeState extends Equatable {
   final PuzzleTheme theme;
 
-  const ThemeSelectedState({required this.theme});
+  const ThemeState({required this.theme});
 
-  ThemeSelectedState copyWith({
+  ThemeState copyWith({
     PuzzleTheme? theme,
   }) {
-    return ThemeSelectedState(
+    return ThemeState(
       theme: theme ?? this.theme,
     );
   }

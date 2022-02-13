@@ -1,45 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:planets/global/puzzle_control.dart';
 import 'package:planets/layout/layout.dart';
 import 'package:planets/puzzle/bloc/puzzle_bloc.dart';
 import 'package:planets/models/tile.dart';
+import 'package:planets/puzzles/planet/widgets/planet_puzzle_board.dart';
+import 'package:planets/puzzles/planet/widgets/planet_puzzle_info.dart';
+import 'package:planets/puzzles/planet/widgets/planet_puzzle_stats.dart';
+import 'package:planets/puzzles/planet/widgets/planet_puzzle_tile.dart';
+import 'package:planets/theme/themes/puzzle_theme.dart';
 
 class PlanetPuzzleLayoutDelegate extends PuzzleLayoutDelegate {
   @override
-  Widget backgroundBuilder(PuzzleState _) {
-    throw UnimplementedError();
+  Widget backgroundBuilder(PuzzleTheme theme) {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(height: 50, color: Colors.green),
+    );
   }
 
   @override
   Widget boardBuilder(int size, List<Widget> tiles) {
-    // TODO: implement boardBuilder
-    throw UnimplementedError();
+    return PlanetPuzzleBoard(size: size, tiles: tiles);
   }
 
   @override
-  Widget endSectionBuilder(PuzzleState state) {
-    // TODO: implement endSectionBuilder
-    throw UnimplementedError();
+  Widget controlBuilder(PuzzleState state) {
+    return const PuzzleControl();
   }
 
   @override
-  Widget startSectionBuilder(PuzzleState state) {
-    // TODO: implement startSectionBuilder
-    throw UnimplementedError();
+  Widget infoBuilder(PuzzleState state) {
+    return const PlanetPuzzleInfo();
+  }
+
+  @override
+  Widget statsBuilder(PuzzleState state) {
+    return const PlanetPuzzleStats();
   }
 
   @override
   Widget tileBuilder(Tile tile, PuzzleState state) {
-    // TODO: implement tileBuilder
-    throw UnimplementedError();
+    return PlanetPuzzleTile(tile: tile, state: state);
   }
 
   @override
   Widget whitespaceTileBuilder() {
-    // TODO: implement whitespaceTileBuilder
-    throw UnimplementedError();
+    return const SizedBox.shrink();
   }
 
   @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
