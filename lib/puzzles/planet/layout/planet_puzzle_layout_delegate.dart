@@ -30,7 +30,7 @@ class PlanetPuzzleLayoutDelegate extends PuzzleLayoutDelegate {
       children: [
         const ResponsiveGap(
           small: 32,
-          medium: 48,
+          medium: 32,
           large: 96,
         ),
         ResponsiveLayoutBuilder(
@@ -48,7 +48,11 @@ class PlanetPuzzleLayoutDelegate extends PuzzleLayoutDelegate {
           ),
           child: (_) => PlanetPuzzleBoard(size: size, tiles: tiles),
         ),
-        const ResponsiveGap(large: 96),
+        const ResponsiveGap(
+          small: 32,
+          medium: 32,
+          large: 96,
+        ),
       ],
     );
   }

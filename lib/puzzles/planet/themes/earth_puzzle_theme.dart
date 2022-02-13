@@ -21,5 +21,5 @@ class EarthPuzzleTheme extends PlanetPuzzleTheme {
   Color get onSurface => Colors.amber;
 
   @override
-  String get assetForTile => 'animations/planet_x.riv';
+  String get assetForTile => 'assets/animations/planet_x.riv';
 }

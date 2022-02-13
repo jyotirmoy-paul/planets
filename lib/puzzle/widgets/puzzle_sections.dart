@@ -16,27 +16,31 @@ class PuzzleSections extends StatelessWidget {
     final state = context.select((PuzzleBloc bloc) => bloc.state);
 
     return ResponsiveLayoutBuilder(
-      small: (_, Widget? child) => Column(
-        children: [
-          theme.puzzleLayoutDelegate.infoBuilder(state),
-          const Gap(8.0),
-          theme.puzzleLayoutDelegate.statsBuilder(state),
-          const Gap(8.0),
-          child!,
-          const Gap(8.0),
-          theme.puzzleLayoutDelegate.controlBuilder(state),
-        ],
+      small: (_, Widget? child) => Center(
+        child: Column(
+          children: [
+            const Gap(16.0),
+            theme.puzzleLayoutDelegate.infoBuilder(state),
+            const Gap(32.0),
+            theme.puzzleLayoutDelegate.statsBuilder(state),
+            child!,
+            theme.puzzleLayoutDelegate.controlBuilder(state),
+            const Gap(48.0),
+          ],
+        ),
       ),
-      medium: (_, Widget? child) => Column(
-        children: [
-          theme.puzzleLayoutDelegate.infoBuilder(state),
-          const Gap(32.0),
-          theme.puzzleLayoutDelegate.statsBuilder(state),
-          const Gap(32.0),
-          child!,
-          const Gap(32.0),
-          theme.puzzleLayoutDelegate.controlBuilder(state),
-        ],
+      medium: (_, Widget? child) => Center(
+        child: Column(
+          children: [
+            const Gap(32.0),
+            theme.puzzleLayoutDelegate.infoBuilder(state),
+            const Gap(32.0),
+            theme.puzzleLayoutDelegate.statsBuilder(state),
+            child!,
+            theme.puzzleLayoutDelegate.controlBuilder(state),
+            const Gap(48.0),
+          ],
+        ),
       ),
       large: (_, Widget? child) => Row(
         children: [
@@ -45,9 +49,9 @@ class PuzzleSections extends StatelessWidget {
             child: Column(
               children: [
                 theme.puzzleLayoutDelegate.infoBuilder(state),
-                const Gap(32.0),
+                const Gap(48.0),
                 theme.puzzleLayoutDelegate.statsBuilder(state),
-                const Gap(32.0),
+                const Gap(48.0),
                 theme.puzzleLayoutDelegate.controlBuilder(state),
               ],
             ),

@@ -31,5 +31,5 @@ class CommunityPuzzleTheme extends PuzzleTheme {
 
   // todo: make a constructor for community puzzle theme and take this asset as an argument
   @override
-  String get assetForTile => 'animations/planet_x.riv';
+  String get assetForTile => 'assets/animations/planet_x.riv';
 }

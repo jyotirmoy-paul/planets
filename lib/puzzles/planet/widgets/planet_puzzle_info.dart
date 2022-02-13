@@ -22,9 +22,10 @@ class PlanetPuzzleInfo extends StatelessWidget {
       large: (_, Widget? child) => child!,
       child: (layoutSize) {
         final bool isLarge = layoutSize == ResponsiveLayoutSize.large;
+        final bool isSmall = layoutSize == ResponsiveLayoutSize.small;
 
         return SizedBox(
-          width: isLarge ? 500.0 : null,
+          width: isSmall ? null : 500.0,
           child: Column(
             crossAxisAlignment:
                 isLarge ? CrossAxisAlignment.start : CrossAxisAlignment.center,
@@ -40,7 +41,7 @@ class PlanetPuzzleInfo extends StatelessWidget {
               ),
 
               // gap
-              isLarge ? const Gap(24.0) : const Gap(6.0),
+              isSmall ? const Gap(6.0) : const Gap(24.0),
 
               // description
               Text(
@@ -48,7 +49,7 @@ class PlanetPuzzleInfo extends StatelessWidget {
                 textAlign: isLarge ? TextAlign.start : TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: isLarge ? 24.0 : 16.0,
+                  fontSize: isSmall ? 16.0 : isLarge ? 24.0 : 20.0,
                   letterSpacing: 1.2,
                 ),
               ),
