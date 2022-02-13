@@ -15,6 +15,10 @@ enum PlanetType {
   pluto,
 }
 
+extension PlanetTypeParsing on PlanetType {
+  String get value => name.split('.').last.toUpperCase();
+}
+
 class Planet extends Equatable {
   final PlanetType type;
   final int key;

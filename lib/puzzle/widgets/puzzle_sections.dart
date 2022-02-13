@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:planets/layout/utils/responsive_layout_builder.dart';
 import 'package:planets/puzzle/widgets/puzzle_board.dart';
 
@@ -18,16 +19,22 @@ class PuzzleSections extends StatelessWidget {
       small: (_, Widget? child) => Column(
         children: [
           theme.puzzleLayoutDelegate.infoBuilder(state),
+          const Gap(8.0),
           theme.puzzleLayoutDelegate.statsBuilder(state),
+          const Gap(8.0),
           child!,
+          const Gap(8.0),
           theme.puzzleLayoutDelegate.controlBuilder(state),
         ],
       ),
       medium: (_, Widget? child) => Column(
         children: [
           theme.puzzleLayoutDelegate.infoBuilder(state),
+          const Gap(32.0),
           theme.puzzleLayoutDelegate.statsBuilder(state),
+          const Gap(32.0),
           child!,
+          const Gap(32.0),
           theme.puzzleLayoutDelegate.controlBuilder(state),
         ],
       ),
@@ -38,7 +45,9 @@ class PuzzleSections extends StatelessWidget {
             child: Column(
               children: [
                 theme.puzzleLayoutDelegate.infoBuilder(state),
+                const Gap(32.0),
                 theme.puzzleLayoutDelegate.statsBuilder(state),
+                const Gap(32.0),
                 theme.puzzleLayoutDelegate.controlBuilder(state),
               ],
             ),

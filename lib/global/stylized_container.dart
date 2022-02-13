@@ -4,18 +4,21 @@ import '../utils/utils.dart';
 class StylizedContainer extends StatelessWidget {
   final Widget? child;
   final EdgeInsets? padding;
+  final EdgeInsets? margin;
   final Color color;
 
   const StylizedContainer({
     Key? key,
     this.child,
     this.padding,
+    this.margin,
     this.color = Colors.white,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: margin,
       decoration: BoxDecoration(
         color: Utils.darkenColor(color),
         borderRadius: BorderRadius.circular(12.0),

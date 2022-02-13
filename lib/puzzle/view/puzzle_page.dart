@@ -46,6 +46,7 @@ class _PuzzleView extends StatelessWidget {
     // final state = context.select((PuzzleBloc bloc) => bloc.state);
 
     return Scaffold(
+      backgroundColor: Colors.grey[900],
       body: LayoutBuilder(
         builder: (context, constraints) {
           return Stack(
@@ -58,6 +59,7 @@ class _PuzzleView extends StatelessWidget {
                 child: ConstrainedBox(
                   constraints: BoxConstraints(minHeight: constraints.maxHeight),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       PuzzleHeader(),
                       PuzzleSections(),

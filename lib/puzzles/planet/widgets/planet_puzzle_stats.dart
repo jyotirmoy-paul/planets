@@ -5,6 +5,13 @@ class PlanetPuzzleStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Text(
+      '00:00:00 | 27 Moves',
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 24.0,
+        letterSpacing: 1.5,
+      ),
+    );
   }
 }
