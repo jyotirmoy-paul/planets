@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planets/models/tile.dart';
+import 'package:planets/puzzle/cubit/puzzle_init_cubit.dart';
 import 'package:planets/puzzle/puzzle.dart';
 import 'package:planets/puzzles/planet/layout/planet_puzzle_layout_delegate.dart';
 import 'package:planets/theme/bloc/theme_bloc.dart';
-import 'package:planets/utils/app_logger.dart';
+import 'package:planets/utils/utils.dart';
 import 'package:rive/rive.dart';
 
 import '../../../layout/layout.dart';
@@ -50,15 +51,14 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
 
   _buildChild() {
     final theme = context.read<ThemeBloc>().state.theme;
+    final puzzleInit = context.read<PuzzleInitCubit>();
 
     child = RiveAnimation.asset(
       theme.assetForTile,
-      // controllers: [_controller],
-      onInit: (_) {
-        AppLogger.log('${widget.tile.value} is rebuild and reinited');
-      },
+      controllers: [puzzleInit.getRiveControllerFor(widget.tile.value)],
+      onInit: puzzleInit.onInit,
       fit: BoxFit.cover,
-      placeHolder: Container(color: theme.primary),
+      placeHolder: Container(color: theme.surface),
     );
   }
 
@@ -134,50 +134,6 @@ class _PuzzlePieceClipper extends CustomClipper<Path> {
   }
 }
 
-const _paddingOffset = 5.0;
-const _roundOffset = 15.0;
-const _radius = Radius.circular(_roundOffset);
-
 Path _getPiecePath(Size size, Tile tile) {
-  double width = (size.width / tile.puzzleSize);
-  double height = (size.height / tile.puzzleSize);
-
-  double offsetX = tile.correctPosition.x * width;
-  double offsetY = tile.correctPosition.y * height;
-
-  width -= _paddingOffset;
-  height -= _paddingOffset;
-
-  final path = Path();
-
-  path.moveTo(offsetX + _roundOffset, offsetY);
-  path.lineTo(offsetX + width - _roundOffset, offsetY);
-
-  path.arcToPoint(
-    Offset(offsetX + width, offsetY + _roundOffset),
-    radius: _radius,
-  );
-
-  path.lineTo(offsetX + width, offsetY + height - _roundOffset);
-
-  path.arcToPoint(
-    Offset(offsetX + width - _roundOffset, offsetY + height),
-    radius: _radius,
-  );
-
-  path.lineTo(offsetX + _roundOffset, offsetY + height);
-
-  path.arcToPoint(
-    Offset(offsetX, offsetY + height - _roundOffset),
-    radius: _radius,
-  );
-
-  path.lineTo(offsetX, offsetY + _roundOffset);
-
-  path.arcToPoint(
-    Offset(offsetX + _roundOffset, offsetY),
-    radius: _radius,
-  );
-
-  return path;
+  return Utils.getPuzzlePath(size, tile.puzzleSize, tile.correctPosition);
 }

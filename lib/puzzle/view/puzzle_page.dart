@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planets/dashboard/cubit/level_selection_cubit.dart';
 import 'package:planets/dashboard/cubit/planet_selection_cubit.dart';
 import 'package:planets/models/ticker.dart';
+import 'package:planets/puzzle/cubit/puzzle_init_cubit.dart';
 import 'package:planets/puzzle/puzzle.dart';
 import 'package:planets/puzzle/widgets/puzzle_header.dart';
 import 'package:planets/puzzle/widgets/puzzle_sections.dart';
@@ -13,7 +14,7 @@ class PuzzlePage extends StatelessWidget {
   const PuzzlePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext _) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -21,8 +22,13 @@ class PuzzlePage extends StatelessWidget {
             context.read<LevelSelectionCubit>().puzzleSize,
           )..add(const PuzzleInitialized(shufflePuzzle: false)),
         ),
+         BlocProvider(
+          create: (context) => PuzzleInitCubit(
+            context.read<LevelSelectionCubit>().puzzleSize
+          ),
+        ),
         BlocProvider(
-          create: (_) => ThemeBloc(
+          create: (context) => ThemeBloc(
             planet: context.read<PlanetSelectionCubit>().planet,
           ),
         ),

@@ -33,21 +33,7 @@ class PlanetPuzzleLayoutDelegate extends PuzzleLayoutDelegate {
           medium: 32,
           large: 96,
         ),
-        ResponsiveLayoutBuilder(
-          small: (_, Widget? child) => SizedBox.square(
-            dimension: BoardSize.small,
-            child: child,
-          ),
-          medium: (_, Widget? child) => SizedBox.square(
-            dimension: BoardSize.medium,
-            child: child,
-          ),
-          large: (_, Widget? child) => SizedBox.square(
-            dimension: BoardSize.large,
-            child: child,
-          ),
-          child: (_) => PlanetPuzzleBoard(size: size, tiles: tiles),
-        ),
+        PlanetPuzzleBoard(tiles: tiles),
         const ResponsiveGap(
           small: 32,
           medium: 32,
