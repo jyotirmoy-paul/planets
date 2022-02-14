@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+
 import '../dashboard/dashboard.dart';
 import 'coordinate.dart';
 

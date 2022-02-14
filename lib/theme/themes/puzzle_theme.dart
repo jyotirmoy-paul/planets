@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:planets/layout/layout.dart';
+import '../../layout/layout.dart';
 
 abstract class PuzzleTheme {
   const PuzzleTheme();

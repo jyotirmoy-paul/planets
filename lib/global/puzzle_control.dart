@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:planets/global/app_icon_button.dart';
-import 'package:planets/global/stylized_container.dart';
+import 'app_icon_button.dart';
+import 'stylized_container.dart';
 
 class PuzzleControl extends StatelessWidget {
   const PuzzleControl({Key? key}) : super(key: key);

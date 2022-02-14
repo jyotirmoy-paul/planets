@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:planets/layout/utils/responsive_layout_builder.dart';
+import '../../../layout/utils/responsive_layout_builder.dart';
 
 class PlanetPuzzleStats extends StatelessWidget {
   const PlanetPuzzleStats({Key? key}) : super(key: key);

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:planets/global/puzzle_control.dart';
-import 'package:planets/layout/layout.dart';
-import 'package:planets/puzzle/bloc/puzzle_bloc.dart';
-import 'package:planets/models/tile.dart';
-import 'package:planets/puzzles/planet/widgets/planet_puzzle_board.dart';
-import 'package:planets/puzzles/planet/widgets/planet_puzzle_info.dart';
-import 'package:planets/puzzles/planet/widgets/planet_puzzle_stats.dart';
-import 'package:planets/puzzles/planet/widgets/planet_puzzle_tile.dart';
-import 'package:planets/theme/themes/puzzle_theme.dart';
+import '../../../global/puzzle_control.dart';
+import '../../../layout/layout.dart';
+import '../../../puzzle/bloc/puzzle_bloc.dart';
+import '../../../models/tile.dart';
+import '../widgets/planet_puzzle_board.dart';
+import '../widgets/planet_puzzle_info.dart';
+import '../widgets/planet_puzzle_stats.dart';
+import '../widgets/planet_puzzle_tile.dart';
+import '../../../theme/themes/puzzle_theme.dart';
 
 abstract class BoardSize {
   static double small = 312;

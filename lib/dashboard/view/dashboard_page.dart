@@ -1,15 +1,16 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../layout/utils/app_breakpoints.dart';
+import '../../layout/utils/responsive_layout_builder.dart';
 import '../cubit/level_selection_cubit.dart';
 import '../cubit/planet_selection_cubit.dart';
+import '../dashboard.dart';
 import '../widgets/header_widget.dart';
 import '../widgets/scroll_buttons.dart';
 import '../widgets/sun_widget.dart';
-import '../../layout/utils/app_breakpoints.dart';
-import '../../utils/app_logger.dart';
-import '../dashboard.dart';
-import '../../layout/utils/responsive_layout_builder.dart';
-import 'dart:math' as math;
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({Key? key}) : super(key: key);

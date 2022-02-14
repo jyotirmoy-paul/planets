@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:planets/puzzles/community/themes/community_puzzle_theme.dart';
+import '../../puzzles/community/themes/community_puzzle_theme.dart';
 
 import '../../models/planet.dart';
 import '../../puzzles/planet/planet.dart';

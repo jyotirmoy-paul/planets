@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/models/tile.dart';
-import 'package:planets/puzzle/cubit/puzzle_init_cubit.dart';
-import 'package:planets/puzzle/puzzle.dart';
-import 'package:planets/puzzles/planet/layout/planet_puzzle_layout_delegate.dart';
-import 'package:planets/theme/bloc/theme_bloc.dart';
-import 'package:planets/utils/utils.dart';
+import '../../../models/tile.dart';
+import '../../../puzzle/cubit/puzzle_init_cubit.dart';
+import '../../../puzzle/puzzle.dart';
+import '../layout/planet_puzzle_layout_delegate.dart';
+import '../../../theme/bloc/theme_bloc.dart';
+import '../../../utils/utils.dart';
 import 'package:rive/rive.dart';
 
 import '../../../layout/layout.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:planets/layout/layout.dart';
-import 'package:planets/puzzle/bloc/puzzle_bloc.dart';
-import 'package:planets/models/tile.dart';
-import 'package:planets/theme/themes/puzzle_theme.dart';
+import '../../../layout/layout.dart';
+import '../../../puzzle/bloc/puzzle_bloc.dart';
+import '../../../models/tile.dart';
+import '../../../theme/themes/puzzle_theme.dart';
 
 class CommunityPuzzleLayoutDelegate extends PuzzleLayoutDelegate {
   @override

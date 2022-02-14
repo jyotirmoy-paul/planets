@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/puzzle/cubit/puzzle_init_cubit.dart';
+import '../../../puzzle/cubit/puzzle_init_cubit.dart';
 
 import '../../../layout/layout.dart';
 import '../planet.dart';

@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/puzzle/view/puzzle_page.dart';
+import '../../puzzle/view/puzzle_page.dart';
 import 'level_selection_cubit.dart';
 import '../../models/planet.dart';
 

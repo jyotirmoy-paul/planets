@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:planets/dashboard/cubit/planet_selection_cubit.dart';
-import 'package:planets/layout/utils/responsive_layout_builder.dart';
-import 'package:planets/models/planet.dart';
-import 'package:planets/resource/app_string.dart';
+import '../../../dashboard/cubit/planet_selection_cubit.dart';
+import '../../../layout/utils/responsive_layout_builder.dart';
+import '../../../models/planet.dart';
+import '../../../resource/app_string.dart';
 
 class PlanetPuzzleInfo extends StatelessWidget {
   const PlanetPuzzleInfo({Key? key}) : super(key: key);

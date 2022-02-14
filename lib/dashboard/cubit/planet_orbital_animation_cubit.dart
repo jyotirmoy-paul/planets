@@ -1,7 +1,9 @@
+import 'dart:math' as math;
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
+
 import '../../models/orbit.dart';
 import '../../models/planet.dart';
 

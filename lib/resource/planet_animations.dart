@@ -1,4 +1,4 @@
-import 'package:planets/models/planet.dart';
+import '../models/planet.dart';
 
 abstract class PlanetAnimations {
   static const Map<PlanetType, String> _animations = {

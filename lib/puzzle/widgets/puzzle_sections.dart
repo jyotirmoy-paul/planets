@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:planets/layout/utils/responsive_layout_builder.dart';
-import 'package:planets/puzzle/widgets/puzzle_board.dart';
+import '../../layout/utils/responsive_layout_builder.dart';
+import 'puzzle_board.dart';
 
 import '../../theme/bloc/theme_bloc.dart';
 import '../puzzle.dart';

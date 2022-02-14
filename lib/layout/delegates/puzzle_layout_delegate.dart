@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:planets/theme/themes/puzzle_theme.dart';
+import '../../theme/themes/puzzle_theme.dart';
 
 import '../../models/tile.dart';
 import '../../puzzle/bloc/puzzle_bloc.dart';
