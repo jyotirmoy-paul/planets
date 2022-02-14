@@ -2,6 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:planets/global/stylized_button.dart';
+import 'package:planets/global/stylized_text.dart';
+import 'package:planets/layout/layout.dart';
+import 'package:planets/layout/utils/responsive_layout_builder.dart';
+import '../../global/bordered_text.dart';
 import '../cubit/level_selection_cubit.dart';
 import '../../global/stylized_container.dart';
 import '../../models/puzzle.dart';
@@ -18,29 +23,39 @@ class HeaderWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           // header title
-          const StylizedContainer(
-            padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 12.0),
-            child: Text(
-              AppString.dashboardHeading,
-              style: TextStyle(
-                fontSize: 32.0,
-              ),
-            ),
+          ResponsiveLayoutBuilder(
+            small: (_, Widget? child) => child!,
+            medium: (_, Widget? child) => child!,
+            large: (_, Widget? child) => child!,
+            child: (layoutSize) {
+              final bool isSmall = layoutSize == ResponsiveLayoutSize.small;
+
+              return StylizedContainer(
+                key: isSmall
+                    ? const Key('header_widget_small')
+                    : const Key('header_widget_normal'),
+                color: const Color(0xffffcc33),
+                child: StylizedText(
+                  text: AppString.dashboardHeading,
+                  fontSize: isSmall ? 24.0 : 32.0,
+                  strokeWidth: isSmall ? 5.0 : 6.0,
+                ),
+              );
+            },
           ),
 
           // gap
-          const Gap(18.0),
+          const Gap(20.0),
 
           // level selection
           BlocBuilder<LevelSelectionCubit, LevelSelectionState>(
             builder: (context, state) {
-              return CupertinoSegmentedControl<PuzzleLevel>(
-                pressedColor: Colors.white.withOpacity(0.80),
+              return _SegmentedControl(
                 groupValue: state.level,
                 children: const {
-                  PuzzleLevel.easy: _LevelSelectionWidget('Easy'),
-                  PuzzleLevel.medium: _LevelSelectionWidget('Medium'),
-                  PuzzleLevel.hard: _LevelSelectionWidget('Hard'),
+                  PuzzleLevel.easy: 'Easy',
+                  PuzzleLevel.medium: 'Medium',
+                  PuzzleLevel.hard: 'Hard',
                 },
                 onValueChanged:
                     context.read<LevelSelectionCubit>().onNewLevelSelected,
@@ -53,21 +68,64 @@ class HeaderWidget extends StatelessWidget {
   }
 }
 
-class _LevelSelectionWidget extends StatelessWidget {
-  final String text;
-  const _LevelSelectionWidget(
-    this.text, {
+class _SegmentedControl extends StatelessWidget {
+  final PuzzleLevel groupValue;
+  final Map<PuzzleLevel, String> children;
+  final ValueChanged<PuzzleLevel> onValueChanged;
+
+  const _SegmentedControl({
     Key? key,
+    required this.groupValue,
+    required this.children,
+    required this.onValueChanged,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 18.0),
+    return ResponsiveLayoutBuilder(
+      small: (_, Widget? child) => SizedBox(
+        width: 350.0,
+        child: child!,
       ),
+      medium: (_, Widget? child) => SizedBox(
+        width: 400.0,
+        child: child!,
+      ),
+      large: (_, Widget? child) => SizedBox(
+        width: 400.0,
+        child: child!,
+      ),
+      child: (layoutSize) {
+        final isSmall = layoutSize == ResponsiveLayoutSize.small;
+
+        return Row(
+          key: isSmall
+              ? const Key('segmented_control_small')
+              : const Key('segmented_control_normal'),
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisSize: MainAxisSize.min,
+          children: children.entries.map<Widget>(
+            (value) {
+              final isSelected = groupValue == value.key;
+
+              return StylizedButton(
+                onPressed: () {
+                  onValueChanged(value.key);
+                },
+                child: StylizedContainer(
+                  color: isSelected ? Colors.blueAccent : Colors.grey,
+                  child: StylizedText(
+                    strokeWidth: 4.0,
+                    offset: 1.0,
+                    text: value.value,
+                    fontSize: isSmall ? 15.0 : 18.0,
+                  ),
+                ),
+              );
+            },
+          ).toList(),
+        );
+      },
     );
   }
 }
