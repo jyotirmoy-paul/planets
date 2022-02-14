@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/utils/app_logger.dart';
 import '../../../models/tile.dart';
 import '../../../puzzle/cubit/puzzle_init_cubit.dart';
 import '../../../puzzle/puzzle.dart';
+import '../bloc/planet_puzzle_bloc.dart';
 import '../layout/planet_puzzle_layout_delegate.dart';
 import '../../../theme/bloc/theme_bloc.dart';
 import '../../../utils/utils.dart';
@@ -74,6 +76,17 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
         context.select((PuzzleBloc bloc) => bloc.state.puzzleStatus) ==
             PuzzleStatus.incomplete;
 
+    final status = context.select((PlanetPuzzleBloc bloc) => bloc.state.status);
+    final hasStarted = status == PlanetPuzzleStatus.started;
+
+    AppLogger.log('PlanetPuzzleTile: hasStarted: $hasStarted');
+
+    final movementDuration = status == PlanetPuzzleStatus.loading
+        ? const Duration(milliseconds: 800)
+        : const Duration(milliseconds: 350);
+
+    final canPress = hasStarted && puzzleIncomplete;
+
     final offset = size / widget.tile.puzzleSize;
     final x = widget.tile.currentPosition.x;
     final y = widget.tile.currentPosition.y;
@@ -82,7 +95,7 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
     final correctY = widget.tile.correctPosition.y;
 
     return AnimatedPositioned(
-      duration: const Duration(milliseconds: 350),
+      duration: movementDuration,
       curve: Curves.easeInOut,
       top: offset * (y - correctY),
       left: offset * (x - correctX),
@@ -102,11 +115,15 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
             focusColor: Colors.transparent,
             splashColor: Colors.transparent,
             onTap: () {
-              if (puzzleIncomplete) {
+              if (canPress) {
                 context.read<PuzzleBloc>().add(TileTapped(widget.tile));
               }
             },
-            onHover: _onHovering,
+            onHover: (bool isHovering) {
+              if (canPress) {
+                _onHovering(isHovering);
+              }
+            },
             child: SizedBox.square(
               dimension: size,
               child: child,

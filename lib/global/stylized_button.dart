@@ -23,24 +23,27 @@ class StylizedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (_) => _animate(),
-      onTapUp: (_) async {
-        await _reverseAnimate();
-        onPressed?.call();
-      },
-      onTapCancel: _reverseAnimate,
-      child: ValueListenableBuilder(
-        valueListenable: _buttonPressedVn,
-        child: child,
-        builder: (_, bool isPressed, Widget? child) {
-          return AnimatedScale(
-            scale: isPressed ? 0.90 : 1.0,
-            curve: Curves.elasticOut,
-            duration: const Duration(milliseconds: 280),
-            child: child,
-          );
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTapDown: (_) => _animate(),
+        onTapUp: (_) async {
+          await _reverseAnimate();
+          onPressed?.call();
         },
+        onTapCancel: _reverseAnimate,
+        child: ValueListenableBuilder(
+          valueListenable: _buttonPressedVn,
+          child: child,
+          builder: (_, bool isPressed, Widget? child) {
+            return AnimatedScale(
+              scale: isPressed ? 0.90 : 1.0,
+              curve: Curves.elasticOut,
+              duration: const Duration(milliseconds: 280),
+              child: child,
+            );
+          },
+        ),
       ),
     );
   }

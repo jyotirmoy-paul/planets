@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/puzzles/planet/bloc/planet_puzzle_bloc.dart';
 import '../../dashboard/cubit/level_selection_cubit.dart';
 import '../../dashboard/cubit/planet_selection_cubit.dart';
 import '../../models/ticker.dart';
@@ -18,14 +19,20 @@ class PuzzlePage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
+          create: (context) => PuzzleInitCubit(
+            context.read<LevelSelectionCubit>().puzzleSize,
+          ),
+        ),
+        BlocProvider(
+          create: (context) => PlanetPuzzleBloc(
+            secondsToBegin: context.read<LevelSelectionCubit>().puzzleSize,
+            ticker: const Ticker(),
+          ),
+        ),
+        BlocProvider(
           create: (context) => PuzzleBloc(
             context.read<LevelSelectionCubit>().puzzleSize,
           )..add(const PuzzleInitialized(shufflePuzzle: false)),
-        ),
-         BlocProvider(
-          create: (context) => PuzzleInitCubit(
-            context.read<LevelSelectionCubit>().puzzleSize
-          ),
         ),
         BlocProvider(
           create: (context) => ThemeBloc(

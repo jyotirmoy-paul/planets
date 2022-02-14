@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:planets/global/stylized_button.dart';
+import 'package:planets/global/stylized_text.dart';
+import 'package:planets/utils/app_logger.dart';
 import '../../dashboard/cubit/planet_selection_cubit.dart';
 import '../../global/stylized_container.dart';
 import '../../layout/utils/responsive_layout_builder.dart';
@@ -22,33 +25,19 @@ class PuzzleHeader extends StatelessWidget {
       child: (layoutSize) {
         final bool isSmall = layoutSize == ResponsiveLayoutSize.small;
 
-        return InkWell(
-          onTap: () => Navigator.pop(context),
-          child: StylizedContainer(
-            margin: const EdgeInsets.all(20.0),
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // back button
-                Icon(
-                  Icons.chevron_left,
-                  size: isSmall ? 16.0 : 32.0,
-                ),
-
-                // gap
-                isSmall ? const Gap(4.0) : const Gap(8.0),
-
-                // text
-                Text(
-                  titleText,
-                  style: TextStyle(fontSize: isSmall ? 16.0 : 18.0),
-                ),
-
-                // gap
-                isSmall ? const Gap(4.0) : const Gap(8.0),
-              ],
+        return Container(
+          margin: const EdgeInsets.all(25.0),
+          child: StylizedButton(
+            key: ValueKey(isSmall),
+            onPressed: () => Navigator.pop(context),
+            child: StylizedContainer(
+              color: Colors.redAccent,
+              child: StylizedText(
+                text: 'Back to Solar System',
+                strokeWidth: isSmall ? 5.0 : 6.0,
+                offset: isSmall ? 1.0 : 2.0,
+                fontSize: isSmall ? 18.0 : 24.0,
+              ),
             ),
           ),
         );
