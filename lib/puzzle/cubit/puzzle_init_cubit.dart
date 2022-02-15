@@ -1,50 +1,60 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import '../../utils/app_logger.dart';
+import 'package:planets/puzzles/planet/planet.dart';
+import 'package:planets/utils/app_logger.dart';
 import 'package:rive/rive.dart';
 
 part 'puzzle_init_state.dart';
 
 class PuzzleInitCubit extends Cubit<PuzzleInitState> {
+  PlanetPuzzleBloc _planetPuzzleBloc;
   final int _puzzleSize;
 
-  // -1 because we do not show the last tile
-  int get _noTiles => _puzzleSize * _puzzleSize - 1;
+  int get _lastTileKey => _puzzleSize * _puzzleSize - 1;
 
-  PuzzleInitCubit(this._puzzleSize) : super(const PuzzleInitLoading());
+  PuzzleInitCubit(this._puzzleSize, this._planetPuzzleBloc)
+      : super(const PuzzleInitLoading());
 
-  final Map<int, RiveAnimationController> _riveController = {};
-  int _instanceInited = 0;
+  final Map<int, SimpleAnimation> _riveController = {};
 
   RiveAnimationController getRiveControllerFor(int tileKey) {
     if (tileKey == 0) {
       // we call this function when we need to load the rive widgets
       emit(const PuzzleInitLoading());
     }
-    final controller = SimpleAnimation('Animation 1', autoplay: false);
+
+    if (_riveController.containsKey(tileKey)) return _riveController[tileKey]!;
+
+    final controller = SimpleAnimation('Animation 1', autoplay: true);
     _riveController[tileKey] = controller;
+
     return controller;
   }
 
   void _startAnimating() async {
     // for performance reasons
-    await Future.delayed(const Duration(milliseconds: 100));
+    await Future.delayed(const Duration(milliseconds: 50));
 
     _riveController.forEach((_, controller) {
-      controller.isActive = true;
+      controller.reset();
     });
 
     emit(const PuzzleInitReady());
   }
 
-  void onInit(_) {
-    _instanceInited += 1;
-    AppLogger.log('_instanceInited: $_instanceInited / out of $_noTiles');
-    if (_instanceInited == _noTiles) {
+  void onInit(int tileKey) {
+    final hasStarted =
+        _planetPuzzleBloc.state.status == PlanetPuzzleStatus.started;
+
+    AppLogger.log('puzzle_init_cubit: onInit: hasStarted: $hasStarted');
+
+    if (tileKey == _lastTileKey) {
       _startAnimating();
-    } else if (_instanceInited == _noTiles + 1) {
-      AppLogger.log('PuzzleInitCubit : puzzle re-initializing');
-      _instanceInited = 1;
+    }
+
+    if (hasStarted && tileKey == _lastTileKey - 1) {
+      // during the game, if screen is resized
+      _startAnimating();
     }
   }
 }

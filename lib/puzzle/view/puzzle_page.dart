@@ -19,14 +19,15 @@ class PuzzlePage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => PuzzleInitCubit(
-            context.read<LevelSelectionCubit>().puzzleSize,
-          ),
-        ),
-        BlocProvider(
           create: (context) => PlanetPuzzleBloc(
             secondsToBegin: context.read<LevelSelectionCubit>().puzzleSize,
             ticker: const Ticker(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => PuzzleInitCubit(
+            context.read<LevelSelectionCubit>().puzzleSize,
+            context.read<PlanetPuzzleBloc>(),
           ),
         ),
         BlocProvider(

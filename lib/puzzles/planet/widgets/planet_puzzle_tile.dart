@@ -58,7 +58,7 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
     child = RiveAnimation.asset(
       theme.assetForTile,
       controllers: [puzzleInit.getRiveControllerFor(widget.tile.value)],
-      onInit: puzzleInit.onInit,
+      onInit: (_) => puzzleInit.onInit(widget.tile.value),
       fit: BoxFit.cover,
       placeHolder: Container(color: theme.surface),
     );
@@ -78,8 +78,6 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
 
     final status = context.select((PlanetPuzzleBloc bloc) => bloc.state.status);
     final hasStarted = status == PlanetPuzzleStatus.started;
-
-    AppLogger.log('PlanetPuzzleTile: hasStarted: $hasStarted');
 
     final movementDuration = status == PlanetPuzzleStatus.loading
         ? const Duration(milliseconds: 800)
