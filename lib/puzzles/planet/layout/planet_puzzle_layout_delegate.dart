@@ -45,7 +45,7 @@ class PlanetPuzzleLayoutDelegate extends PuzzleLayoutDelegate {
 
   @override
   Widget controlBuilder(PuzzleState state) {
-    return const PuzzleControl();
+    return PuzzleControl(puzzleState: state);
   }
 
   @override
@@ -55,7 +55,7 @@ class PlanetPuzzleLayoutDelegate extends PuzzleLayoutDelegate {
 
   @override
   Widget statsBuilder(PuzzleState state) {
-    return const PlanetPuzzleStats();
+    return PlanetPuzzleStats(state: state);
   }
 
   @override

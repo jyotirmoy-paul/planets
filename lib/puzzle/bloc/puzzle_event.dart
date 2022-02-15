@@ -1,5 +1,10 @@
 part of 'puzzle_bloc.dart';
 
+enum PuzzleAutoSolveState {
+  start,
+  stop,
+}
+
 abstract class PuzzleEvent extends Equatable {
   const PuzzleEvent();
 
@@ -26,7 +31,12 @@ class TileTapped extends PuzzleEvent {
 }
 
 class PuzzleAutoSolve extends PuzzleEvent {
-  const PuzzleAutoSolve();
+  final PuzzleAutoSolveState _state;
+
+  const PuzzleAutoSolve(this._state);
+
+  @override
+  List<Object> get props => [_state];
 }
 
 class PuzzleReset extends PuzzleEvent {

@@ -79,12 +79,22 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   void _onPuzzleAutoSolve(
     PuzzleAutoSolve event,
     Emitter<PuzzleState> emit,
-  ) {}
+  ) {
+    // todo: implement auto solve
+  }
 
   void _onPuzzleReset(
     PuzzleReset event,
     Emitter<PuzzleState> emit,
-  ) {}
+  ) {
+    final puzzle = _generatePuzzle(_size);
+    emit(
+      PuzzleState(
+        puzzle: puzzle.sort(),
+        numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
+      ),
+    );
+  }
 
   Puzzle _generatePuzzle(int size, {bool shuffle = true}) {
     final correctPositions = <Position>[];

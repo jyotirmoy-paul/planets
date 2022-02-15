@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:planets/global/stylized_button.dart';
 import 'package:planets/global/stylized_text.dart';
-import 'package:planets/layout/utils/responsive_gap.dart';
 import 'package:planets/layout/utils/responsive_layout_builder.dart';
 import 'package:planets/puzzle/cubit/puzzle_init_cubit.dart';
 import 'package:planets/resource/app_string.dart';
@@ -13,7 +12,9 @@ import '../timer/timer.dart';
 import 'stylized_container.dart';
 
 class PuzzleControl extends StatelessWidget {
-  const PuzzleControl({Key? key}) : super(key: key);
+  final PuzzleState puzzleState;
+
+  const PuzzleControl({Key? key, required this.puzzleState}) : super(key: key);
 
   void _onStart(BuildContext context, bool hasStarted) {
     context.read<TimerBloc>().add(const TimerReset());
@@ -23,17 +24,19 @@ class PuzzleControl extends StatelessWidget {
             secondsToBegin: hasStarted ? 5 : 3,
           ),
         );
-
-    if (hasStarted) {
-      context.read<PuzzleBloc>().add(
-            const PuzzleInitialized(shufflePuzzle: false),
-          );
-    }
   }
 
-  void _onAutoSolve() {}
+  void _onAutoSolve(BuildContext context, PuzzleAutoSolveState autoSolveState) {
+    context.read<PuzzleBloc>().add(PuzzleAutoSolve(autoSolveState));
+  }
 
-  void _onRestart() {}
+  void _onRestart(BuildContext context) {
+    _onStart(context, true);
+
+    context.read<PuzzleBloc>().add(
+          const PuzzleInitialized(shufflePuzzle: false),
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +47,7 @@ class PuzzleControl extends StatelessWidget {
     final status = context.select((PlanetPuzzleBloc bloc) => bloc.state.status);
     final hasStarted = status == PlanetPuzzleStatus.started;
     final isLoading = status == PlanetPuzzleStatus.loading;
+    final isAutoSolving = puzzleState.isAutoSolving;
 
     final text = !isReady
         ? AppString.pleaseWait
@@ -64,14 +68,19 @@ class PuzzleControl extends StatelessWidget {
           key: Key(isLarge.toString()),
           mainAxisSize: MainAxisSize.min,
           children: [
-            // auto solve / start
+            // auto solve / pause (pause auto solve) / start
             StylizedButton(
               key: Key('puzzle_control_${hasStarted}_${isLoading}_$isReady'),
               onPressed: () {
                 if (!isReady) return;
 
                 if (hasStarted) {
-                  _onAutoSolve();
+                  _onAutoSolve(
+                    context,
+                    isAutoSolving
+                        ? PuzzleAutoSolveState.stop
+                        : PuzzleAutoSolveState.start,
+                  );
                 } else {
                   _onStart(context, hasStarted);
                 }
@@ -89,9 +98,14 @@ class PuzzleControl extends StatelessWidget {
 
             // restart
             StylizedButton(
-              onPressed: hasStarted ? _onRestart : null,
+              onPressed: () {
+                if (!hasStarted || isAutoSolving) return;
+                _onRestart(context);
+              },
               child: StylizedContainer(
-                color: hasStarted ? Colors.greenAccent : Colors.grey,
+                color: !hasStarted || isAutoSolving
+                    ? Colors.grey
+                    : Colors.greenAccent,
                 child: StylizedText(
                   text: AppString.restart,
                   fontSize: isLarge ? 24.0 : 20.0,
