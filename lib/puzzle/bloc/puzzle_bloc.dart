@@ -145,7 +145,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     required List<Position> currentPositions,
     required List<Position> correctPositions,
   }) {
-    final whitespacePosition = Position(x: size, y: size);
+    final whitespacePosition = Position(x: size - 1, y: size - 1);
     final n = size * size;
     return [
       for (int i = 0; i < n; i++)

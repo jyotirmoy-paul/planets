@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/global/stylized_text.dart';
 import 'package:planets/puzzles/planet/planet.dart';
 import '../../../layout/utils/responsive_layout_builder.dart';
 import '../../../puzzle/puzzle.dart';
@@ -86,17 +87,14 @@ class _PuzzleStats extends StatelessWidget {
       textToShow = 'Not Started';
     }
 
-    final child = Text(
-      textToShow,
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: isLarge
-            ? 32.0
-            : isSmall
-                ? 24.0
-                : 28.0,
-        letterSpacing: 1.5,
-      ),
+    final child = StylizedText(
+      text: textToShow,
+      textColor: Colors.white,
+      fontSize: isLarge
+          ? 32.0
+          : isSmall
+              ? 24.0
+              : 28.0,
     );
 
     if (isTicking) {

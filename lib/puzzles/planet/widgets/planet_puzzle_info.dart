@@ -49,8 +49,12 @@ class PlanetPuzzleInfo extends StatelessWidget {
                 textAlign: isLarge ? TextAlign.start : TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: isSmall ? 16.0 : isLarge ? 24.0 : 20.0,
-                  letterSpacing: 1.2,
+                  fontSize: isSmall
+                      ? 16.0
+                      : isLarge
+                          ? 24.0
+                          : 20.0,
+                  letterSpacing: 1.5,
                 ),
               ),
             ],

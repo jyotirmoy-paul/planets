@@ -51,7 +51,7 @@ class _PuzzleTile extends StatelessWidget {
     final state = context.select((PuzzleBloc bloc) => bloc.state);
 
     return tile.isWhitespace
-        ? theme.puzzleLayoutDelegate.whitespaceTileBuilder()
+        ? theme.puzzleLayoutDelegate.whitespaceTileBuilder(tile, state)
         : theme.puzzleLayoutDelegate.tileBuilder(tile, state);
   }
 }

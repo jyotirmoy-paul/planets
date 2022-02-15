@@ -20,5 +20,5 @@ abstract class PuzzleLayoutDelegate extends Equatable {
 
   Widget tileBuilder(Tile tile, PuzzleState state);
 
-  Widget whitespaceTileBuilder();
+  Widget whitespaceTileBuilder(Tile tile, PuzzleState state);
 }

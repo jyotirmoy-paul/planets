@@ -23,7 +23,7 @@ class CommunityPuzzleLayoutDelegate extends PuzzleLayoutDelegate {
   }
 
   @override
-  Widget whitespaceTileBuilder() {
+  Widget whitespaceTileBuilder(Tile tile, PuzzleState state) {
     // TODO: implement whitespaceTileBuilder
     throw UnimplementedError();
   }
