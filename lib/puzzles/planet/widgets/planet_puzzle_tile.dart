@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/global/shake_animator.dart';
+import '../../../global/shake_animator.dart';
 import '../../../models/tile.dart';
 import '../../../puzzle/cubit/puzzle_init_cubit.dart';
 import '../../../puzzle/puzzle.dart';
@@ -109,24 +109,31 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
           ),
           child: ClipPath(
             clipper: _PuzzlePieceClipper(widget.tile),
-            child: InkWell(
-              hoverColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              focusColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              onTap: () {
-                if (canPress) {
-                  context.read<PuzzleBloc>().add(TileTapped(widget.tile));
-                }
+            child: MouseRegion(
+              cursor: canPress
+                  ? SystemMouseCursors.click
+                  : SystemMouseCursors.forbidden,
+              onEnter: (_) {
+                if (canPress) _onHovering(true);
               },
-              onHover: (bool isHovering) {
-                if (canPress) {
-                  _onHovering(isHovering);
-                }
+              onExit: (_) {
+                if (canPress) _onHovering(false);
               },
-              child: SizedBox.square(
-                dimension: size,
-                child: child,
+              child: GestureDetector(
+                onTap: () {
+                  if (canPress) {
+                    context.read<PuzzleBloc>().add(TileTapped(widget.tile));
+                  }
+                },
+                // onHover: (bool isHovering) {
+                //   if (canPress) {
+                //     _onHovering(isHovering);
+                //   }
+                // },
+                child: SizedBox.square(
+                  dimension: size,
+                  child: child,
+                ),
               ),
             ),
           ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:planets/global/stylized_button.dart';
-import 'package:planets/global/stylized_text.dart';
-import 'package:planets/utils/app_logger.dart';
+import '../../global/stylized_button.dart';
+import '../../global/stylized_text.dart';
+import '../../utils/app_logger.dart';
 import '../../dashboard/cubit/planet_selection_cubit.dart';
 import '../../global/stylized_container.dart';
 import '../../layout/utils/responsive_layout_builder.dart';

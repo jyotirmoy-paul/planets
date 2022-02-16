@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:planets/global/stylized_button.dart';
-import 'package:planets/global/stylized_text.dart';
-import 'package:planets/layout/utils/responsive_layout_builder.dart';
-import 'package:planets/puzzle/cubit/puzzle_init_cubit.dart';
-import 'package:planets/resource/app_string.dart';
+import 'stylized_button.dart';
+import 'stylized_text.dart';
+import '../layout/utils/responsive_layout_builder.dart';
+import '../puzzle/cubit/puzzle_init_cubit.dart';
+import '../resource/app_string.dart';
 import '../puzzle/puzzle.dart';
 import '../puzzles/planet/planet.dart';
 import '../timer/timer.dart';
@@ -72,7 +72,7 @@ class PuzzleControl extends StatelessWidget {
             StylizedButton(
               key: Key('puzzle_control_${hasStarted}_${isLoading}_$isReady'),
               onPressed: () {
-                if (!isReady) return;
+                if (!isReady || isLoading) return;
 
                 if (hasStarted) {
                   _onAutoSolve(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/global/stylized_text.dart';
-import 'package:planets/puzzles/planet/planet.dart';
+import '../../../global/stylized_text.dart';
+import '../planet.dart';
 import '../../../layout/utils/responsive_layout_builder.dart';
 import '../../../puzzle/puzzle.dart';
 import '../../../timer/timer.dart';
@@ -90,11 +90,7 @@ class _PuzzleStats extends StatelessWidget {
     final child = StylizedText(
       text: textToShow,
       textColor: Colors.white,
-      fontSize: isLarge
-          ? 32.0
-          : isSmall
-              ? 24.0
-              : 28.0,
+      fontSize: isLarge ? 32.0 : 28.0,
     );
 
     if (isTicking) {

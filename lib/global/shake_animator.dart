@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-const _shakeAnimationDuration = Duration(milliseconds: 500);
+const _shakeAnimationDuration = Duration(milliseconds: 400);
 const double _offsetAmount = 8.0;
+const double _w = 26.4;
+const double _a = 0.8;
 
 class ShakeAnimator extends StatefulWidget {
   const ShakeAnimator({
@@ -113,9 +115,7 @@ class SpringCurve extends Curve {
 
   @override
   double transformInternal(double t) {
-    const double w = 26.0;
-    const double a = 1.5;
-
-    return (1 - t) * (math.pow(math.e, -t / a) * (math.sin(t * w)));
+    return (1 - math.pow(t, 2)) *
+        (math.pow(math.e, -t / _a) * (math.sin(t * _w)));
   }
 }

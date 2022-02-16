@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/puzzle/puzzle.dart';
-import 'package:planets/utils/app_logger.dart';
+import '../../../puzzle/puzzle.dart';
+import '../../../utils/app_logger.dart';
 
 import '../../../models/tile.dart';
 import '../planet.dart';

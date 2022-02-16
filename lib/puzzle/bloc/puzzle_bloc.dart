@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:planets/global/shake_animator.dart';
-import 'package:planets/utils/app_logger.dart';
+import '../../global/shake_animator.dart';
+import '../../utils/app_logger.dart';
 
 import '../../models/position.dart';
 import '../../models/puzzle.dart';

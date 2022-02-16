@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:planets/puzzles/planet/planet.dart';
-import 'package:planets/utils/app_logger.dart';
+import '../../puzzles/planet/planet.dart';
+import '../../utils/app_logger.dart';
 import 'package:rive/rive.dart';
 
 part 'puzzle_init_state.dart';
@@ -25,7 +25,7 @@ class PuzzleInitCubit extends Cubit<PuzzleInitState> {
 
     if (_riveController.containsKey(tileKey)) return _riveController[tileKey]!;
 
-    final controller = SimpleAnimation('Animation 1', autoplay: true);
+    final controller = SimpleAnimation('Animation 1');
     _riveController[tileKey] = controller;
 
     return controller;

@@ -41,7 +41,7 @@ class PlanetPuzzleInfo extends StatelessWidget {
               ),
 
               // gap
-              isSmall ? const Gap(6.0) : const Gap(24.0),
+              isSmall ? const Gap(32.0) : const Gap(24.0),
 
               // description
               Text(
@@ -50,7 +50,7 @@ class PlanetPuzzleInfo extends StatelessWidget {
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: isSmall
-                      ? 16.0
+                      ? 18.0
                       : isLarge
                           ? 24.0
                           : 20.0,

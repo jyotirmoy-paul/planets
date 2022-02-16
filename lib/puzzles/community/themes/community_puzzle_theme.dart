@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import '../../../layout/layout.dart';
-import '../layout/community_puzzle_layout_delegate.dart';
 import '../../../theme/themes/puzzle_theme.dart';
+import '../layout/community_puzzle_layout_delegate.dart';
 
 class CommunityPuzzleTheme extends PuzzleTheme {
   const CommunityPuzzleTheme();

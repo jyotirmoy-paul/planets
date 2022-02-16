@@ -1,6 +1,6 @@
 import '../../../layout/layout.dart';
-import '../planet.dart';
 import '../../../theme/themes/puzzle_theme.dart';
+import '../planet.dart';
 
 abstract class PlanetPuzzleTheme extends PuzzleTheme {
   const PlanetPuzzleTheme();

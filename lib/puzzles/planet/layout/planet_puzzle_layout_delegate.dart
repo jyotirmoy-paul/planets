@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:planets/puzzles/planet/widgets/planet_whitespace_tile.dart';
+import '../widgets/planet_whitespace_tile.dart';
 import '../../../global/puzzle_control.dart';
 import '../../../layout/layout.dart';
 import '../../../puzzle/bloc/puzzle_bloc.dart';
@@ -30,13 +30,13 @@ class PlanetPuzzleLayoutDelegate extends PuzzleLayoutDelegate {
     return Column(
       children: [
         const ResponsiveGap(
-          small: 32,
+          small: 48,
           medium: 32,
           large: 96,
         ),
         PlanetPuzzleBoard(tiles: tiles),
         const ResponsiveGap(
-          small: 32,
+          small: 48,
           medium: 32,
           large: 96,
         ),
