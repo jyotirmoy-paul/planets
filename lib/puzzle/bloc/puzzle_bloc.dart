@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:planets/global/shake_animator.dart';
+import 'package:planets/utils/app_logger.dart';
 
 import '../../models/position.dart';
 import '../../models/puzzle.dart';
@@ -14,11 +16,41 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   final int _size;
   final Random? random;
 
+  final Map<int, ShakeAnimatorController> _shakeControllers = {};
+
   PuzzleBloc(this._size, {this.random}) : super(const PuzzleState()) {
     on<PuzzleInitialized>(_onPuzzleInitialized);
     on<TileTapped>(_onTileTapped);
     on<PuzzleAutoSolve>(_onPuzzleAutoSolve);
     on<PuzzleReset>(_onPuzzleReset);
+  }
+
+  ShakeAnimatorController getShakeControllerFor(int tileKey) {
+    if (_shakeControllers.containsKey(tileKey)) {
+      return _shakeControllers[tileKey]!;
+    }
+
+    final controller = ShakeAnimatorController();
+    _shakeControllers[tileKey] = controller;
+    return controller;
+  }
+
+  void _notifyShakeAnimation(Tile tile) {
+    final whitespacePos = state.puzzle.getWhitespaceTile().currentPosition;
+    final tilePos = tile.currentPosition;
+
+    final diff = tilePos - whitespacePos;
+    final sign = diff.x * diff.y;
+
+    ShakeDirection direction = ShakeDirection.diagonal;
+
+    if (sign < 0) {
+      direction = ShakeDirection.oppositeDianogal;
+    }
+
+    AppLogger.log('_notifyShakeAnimation: shakeDirection: $direction');
+
+    _shakeControllers[tile.value]!.shake(direction);
   }
 
   void _onPuzzleInitialized(
@@ -68,6 +100,8 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
         );
       }
     } else {
+      _notifyShakeAnimation(tappedTile);
+
       emit(
         state.copyWith(
           tileMovementStatus: TileMovementStatus.cannotBeMoved,

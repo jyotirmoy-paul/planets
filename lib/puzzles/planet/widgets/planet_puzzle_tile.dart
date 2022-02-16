@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/utils/app_logger.dart';
+import 'package:planets/global/shake_animator.dart';
 import '../../../models/tile.dart';
 import '../../../puzzle/cubit/puzzle_init_cubit.dart';
 import '../../../puzzle/puzzle.dart';
@@ -27,7 +27,7 @@ class PlanetPuzzleTile extends StatefulWidget {
 }
 
 class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
-  late final Widget child;
+  late Widget child;
 
   double scale = 1.0;
 
@@ -72,9 +72,9 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
 
   @override
   Widget build(BuildContext context) {
+    final puzzleBloc = context.select((PuzzleBloc bloc) => bloc);
     final puzzleIncomplete =
-        context.select((PuzzleBloc bloc) => bloc.state.puzzleStatus) ==
-            PuzzleStatus.incomplete;
+        puzzleBloc.state.puzzleStatus == PuzzleStatus.incomplete;
 
     final status = context.select((PlanetPuzzleBloc bloc) => bloc.state.status);
     final hasStarted = status == PlanetPuzzleStatus.started;
@@ -97,34 +97,37 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
       curve: Curves.easeInOut,
       top: offset * (y - correctY),
       left: offset * (x - correctX),
-      child: AnimatedScale(
-        scale: scale,
-        curve: Curves.easeInOut,
-        duration: const Duration(milliseconds: 250),
-        alignment: FractionalOffset(
-          ((correctX + 1 / 2) * offset) / size,
-          ((correctY + 1 / 2) * offset) / size,
-        ),
-        child: ClipPath(
-          clipper: _PuzzlePieceClipper(widget.tile),
-          child: InkWell(
-            hoverColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            focusColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            onTap: () {
-              if (canPress) {
-                context.read<PuzzleBloc>().add(TileTapped(widget.tile));
-              }
-            },
-            onHover: (bool isHovering) {
-              if (canPress) {
-                _onHovering(isHovering);
-              }
-            },
-            child: SizedBox.square(
-              dimension: size,
-              child: child,
+      child: ShakeAnimator(
+        controller: puzzleBloc.getShakeControllerFor(widget.tile.value),
+        child: AnimatedScale(
+          scale: scale,
+          curve: Curves.easeInOut,
+          duration: const Duration(milliseconds: 250),
+          alignment: FractionalOffset(
+            ((correctX + 1 / 2) * offset) / size,
+            ((correctY + 1 / 2) * offset) / size,
+          ),
+          child: ClipPath(
+            clipper: _PuzzlePieceClipper(widget.tile),
+            child: InkWell(
+              hoverColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              focusColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              onTap: () {
+                if (canPress) {
+                  context.read<PuzzleBloc>().add(TileTapped(widget.tile));
+                }
+              },
+              onHover: (bool isHovering) {
+                if (canPress) {
+                  _onHovering(isHovering);
+                }
+              },
+              child: SizedBox.square(
+                dimension: size,
+                child: child,
+              ),
             ),
           ),
         ),

@@ -6,6 +6,8 @@ class Position extends Equatable implements Comparable<Position> {
 
   const Position({required this.x, required this.y});
 
+  operator -(Position p) => Position(x: x - p.x, y: y - p.y);
+
   @override
   List<Object> get props => [x, y];
 
