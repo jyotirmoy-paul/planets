@@ -21,7 +21,8 @@ class PuzzleControl extends StatelessWidget {
 
     context.read<PlanetPuzzleBloc>().add(
           PlanetCountdownReset(
-            secondsToBegin: hasStarted ? 5 : 3,
+            secondsToBegin:
+                hasStarted ? 1 : 1, // todo: for testing, actual value: 5, 3
           ),
         );
   }

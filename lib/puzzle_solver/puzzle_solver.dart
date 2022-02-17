@@ -4,6 +4,7 @@ import 'package:planets/models/position.dart';
 import 'package:planets/puzzle/puzzle.dart';
 import 'package:planets/puzzle_solver/solver_tile.dart';
 import 'package:planets/utils/app_logger.dart';
+import 'dart:math' as math;
 
 import '../models/tile.dart';
 
@@ -71,8 +72,19 @@ class PuzzleSolver {
     return tile.correctPosition == pos;
   }
 
+  /// using euclidean distance instead of manhattan distance
+  /// kind of euclidean distance, as we don't do sqrt()
+  /// just need the magnitudes to compare
+  int _getDistanceBetween(Position a, Position b) {
+    return (math.pow(a.x - b.x, 2) + math.pow(a.y - b.y, 2)).toInt();
+  }
+
   // find the optimized neighbour (optimized -> nearest distance between pos and from)
-  Position? _getNeighbourOf(Position pos, Position from) {
+  Position? _getNeighbourOf(
+    Position pos,
+    Position from, {
+    Position? excludingPos,
+  }) {
     final top = Position(x: pos.x, y: pos.y - 1);
     final bottom = Position(x: pos.x, y: pos.y + 1);
     final left = Position(x: pos.x - 1, y: pos.y);
@@ -80,20 +92,26 @@ class PuzzleSolver {
 
     final List<Position> neighbours = [];
 
+    void add(Position pos) {
+      if (excludingPos == null || excludingPos != pos) {
+        neighbours.add(pos);
+      }
+    }
+
     if (_isValidPosition(top) && !_isCorrectTilePlacedAt(top)) {
-      neighbours.add(top);
+      add(top);
     }
 
     if (_isValidPosition(bottom) && !_isCorrectTilePlacedAt(bottom)) {
-      neighbours.add(bottom);
+      add(bottom);
     }
 
     if (_isValidPosition(left) && !_isCorrectTilePlacedAt(left)) {
-      neighbours.add(left);
+      add(left);
     }
 
     if (_isValidPosition(right) && !_isCorrectTilePlacedAt(right)) {
-      neighbours.add(right);
+      add(right);
     }
 
     if (neighbours.isEmpty) {
@@ -104,7 +122,7 @@ class PuzzleSolver {
     late Position optimizedNeighbour;
 
     for (final n in neighbours) {
-      final distance = abs(n.x - from.x) + abs(n.y - from.y);
+      final distance = _getDistanceBetween(n, from);
       if (distance < minDistance) {
         minDistance = distance;
         optimizedNeighbour = n;
@@ -121,13 +139,53 @@ class PuzzleSolver {
     b.currentPosition = tempPos;
   }
 
+  List<SolverTile> _moveWhitespaceToPos(Position targetPos) {
+    final List<SolverTile> steps = [];
+
+    final tile = whitespaceTile;
+
+    final wx = tile.currentPosition.x;
+    final wy = tile.currentPosition.y;
+
+    final tx = targetPos.x;
+    final ty = targetPos.y;
+
+    final x = tx - wx;
+    final xabs = abs(x);
+
+    final y = ty - wy;
+    final yabs = abs(y);
+
+    // take x steps right/left
+    for (int _ = 0; _ < xabs; _++) {
+      if (x > 0) {
+        steps.add(_move(Direction.right));
+      } else {
+        steps.add(_move(Direction.left));
+      }
+    }
+
+    // take y steps up/down
+    for (int _ = 0; _ < yabs; _++) {
+      if (y > 0) {
+        steps.add(_move(Direction.down));
+      } else {
+        steps.add(_move(Direction.up));
+      }
+    }
+
+    return steps;
+  }
+
   // returns the tapped tile, to achieve a particular move
   // calling this method assumes that a particular move can be made
   // this method just makes the move, and does not validates a move
-  SolverTile _move(SolverTile whitespace, Direction direction) {
+  SolverTile _move(Direction direction) {
     // make the move
     // update the tile's currentPos
     // update the _tiles array maintained in this class
+
+    final SolverTile whitespace = whitespaceTile;
 
     final pos = whitespace.currentPosition;
     late Position targetPos;
@@ -159,49 +217,61 @@ class PuzzleSolver {
     return targetTile;
   }
 
-  /// moves a particular tile to 1 step neighbour of targetPos
-  List<SolverTile> _moveTileNear(SolverTile tile, Position targetPos) {
+  List<SolverTile> _moveWhitespaceNear(Position targetPos) {
+    final tile = whitespaceTile;
+    final neighbour = _getNeighbourOf(targetPos, tile.currentPosition);
+    if (neighbour == null) return [];
+    return _moveWhitespaceToPos(neighbour);
+  }
+
+  /// it is guranteed that `around` tile is a neighbour of whitespace
+  List<SolverTile> _moveWhitespace({
+    required Position around,
+    required Position to,
+  }) {
     final List<SolverTile> steps = [];
 
-    // there can be two movement types
-    // whitespace and normal tiles move in different ways
+    final ws = whitespaceTile;
 
-    final neighbour = _getNeighbourOf(targetPos, tile.currentPosition);
+    while (ws.currentPosition != to) {
+      /// get an unsolved neighbour nearest to `to` position, excluding `around` Pos
+      final pos = _getNeighbourOf(ws.currentPosition, to, excludingPos: around);
+      if (pos == null) return steps;
+      steps.addAll(_moveWhitespaceToPos(pos));
+    }
 
-    // if null, means there is no valid neighbour available, puzzle is already solved
-    if (neighbour == null) return [];
+    return steps;
+  }
 
-    if (tile.isWhitespace) {
-      final wx = tile.currentPosition.x;
-      final wy = tile.currentPosition.y;
+  SolverTile _moveNeighbourTile(SolverTile tile) {
+    // if whitespace is a neighbour, we are guaranteed to have only one element
+    return _moveWhitespaceToPos(tile.currentPosition).first;
+  }
 
-      final tx = neighbour.x;
-      final ty = neighbour.y;
+  /// moves a particular tile to 1 step neighbour of targetPos
+  /// using whitespace, move tile to it's targetPos
+  List<SolverTile> _moveTile(SolverTile tile) {
+    final List<SolverTile> steps = [];
 
-      final x = tx - wx;
-      final xabs = abs(x);
+    while (tile.currentPosition != tile.correctPosition) {
+      // get the tile closest to the correct position of tile
+      final neighbour = _getNeighbourOf(
+        tile.currentPosition,
+        tile.correctPosition,
+      );
 
-      final y = ty - wy;
-      final yabs = abs(y);
-
-      // take x steps right/left
-      for (int _ = 0; _ < xabs; _++) {
-        if (x > 0) {
-          steps.add(_move(tile, Direction.right));
-        } else {
-          steps.add(_move(tile, Direction.left));
-        }
+      if (neighbour == null) {
+        return steps;
       }
 
-      // take y steps up/down
-      for (int _ = 0; _ < yabs; _++) {
-        if (y > 0) {
-          steps.add(_move(tile, Direction.down));
-        } else {
-          steps.add(_move(tile, Direction.up));
-        }
-      }
-    } else {}
+      // move whitespace to neighbour
+      steps.addAll(
+        _moveWhitespace(around: tile.currentPosition, to: neighbour),
+      );
+
+      // swap
+      steps.add(_moveNeighbourTile(tile));
+    }
 
     return steps;
   }
@@ -221,14 +291,11 @@ class PuzzleSolver {
   List<SolverTile> _determineStepsFor(SolverTile tile) {
     final List<SolverTile> steps = [];
 
-    // find whitespace
-    final wsTile = whitespaceTile;
-
     // move the whitespace near the target tile
-    steps.addAll(_moveTileNear(wsTile, tile.currentPosition));
+    steps.addAll(_moveWhitespaceNear(tile.currentPosition));
 
     // now using the help of whitespace tile, move the tile near it's correct position
-    steps.addAll(_moveTileNear(tile, tile.correctPosition));
+    steps.addAll(_moveTile(tile));
 
     // place the tile
     // make sure - whitespace, target and tile are all at 1 step distance
@@ -241,14 +308,13 @@ class PuzzleSolver {
   List<SolverTile> _determineSteps() {
     final List<SolverTile> steps = [];
 
-    final solvedOrderTiles = _determineSolveOrder();
+    final solvedOrderTiles = _determineSolveOrder().sublist(0, 3);
 
     for (final tile in solvedOrderTiles) {
       AppLogger.log('puzzle_solver: solving: $tile');
 
       if (tile.currentPosition != tile.correctPosition) {
         steps.addAll(_determineStepsFor(tile));
-        break;
       }
     }
 
@@ -257,7 +323,7 @@ class PuzzleSolver {
 
   /// first determine all the steps to solve the puzzle form current state
   void start() {
-    // take a snapshot of the current tiles array
+    // take a snapshot of the current tiles arrangement
     _tiles.clear();
     _tiles.addAll(tiles.map((tile) => SolverTile.fromTile(tile)));
 
