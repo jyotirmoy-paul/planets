@@ -7,12 +7,7 @@ import 'package:planets/utils/app_logger.dart';
 
 import '../models/tile.dart';
 
-enum Direction {
-  left,
-  right,
-  up,
-  down,
-}
+enum Direction { left, right, up, down }
 
 const _stepDuration = Duration(milliseconds: 300);
 
@@ -76,29 +71,47 @@ class PuzzleSolver {
     return tile.correctPosition == pos;
   }
 
-  Position? _getNeighbourOf(Position pos) {
+  // find the optimized neighbour (optimized -> nearest distance between pos and from)
+  Position? _getNeighbourOf(Position pos, Position from) {
     final top = Position(x: pos.x, y: pos.y - 1);
     final bottom = Position(x: pos.x, y: pos.y + 1);
     final left = Position(x: pos.x - 1, y: pos.y);
     final right = Position(x: pos.x + 1, y: pos.y);
 
+    final List<Position> neighbours = [];
+
     if (_isValidPosition(top) && !_isCorrectTilePlacedAt(top)) {
-      return top;
+      neighbours.add(top);
     }
 
     if (_isValidPosition(bottom) && !_isCorrectTilePlacedAt(bottom)) {
-      return bottom;
+      neighbours.add(bottom);
     }
 
     if (_isValidPosition(left) && !_isCorrectTilePlacedAt(left)) {
-      return left;
+      neighbours.add(left);
     }
 
     if (_isValidPosition(right) && !_isCorrectTilePlacedAt(right)) {
-      return right;
+      neighbours.add(right);
     }
 
-    return null;
+    if (neighbours.isEmpty) {
+      return null;
+    }
+
+    int minDistance = n * n;
+    late Position optimizedNeighbour;
+
+    for (final n in neighbours) {
+      final distance = abs(n.x - from.x) + abs(n.y - from.y);
+      if (distance < minDistance) {
+        minDistance = distance;
+        optimizedNeighbour = n;
+      }
+    }
+
+    return optimizedNeighbour;
   }
 
   // swaps the currentPosition of two tiles
@@ -153,7 +166,7 @@ class PuzzleSolver {
     // there can be two movement types
     // whitespace and normal tiles move in different ways
 
-    final neighbour = _getNeighbourOf(targetPos);
+    final neighbour = _getNeighbourOf(targetPos, tile.currentPosition);
 
     // if null, means there is no valid neighbour available, puzzle is already solved
     if (neighbour == null) return [];
@@ -254,7 +267,7 @@ class PuzzleSolver {
 
     // actually take steps to solve the puzzle
     _streamSubscription = Stream<SolverTile>.periodic(_stepDuration, (i) {
-      if (i < steps.length - 1) return steps[i];
+      if (i < steps.length) return steps[i];
       stop();
       return steps.last;
     }).listen(
