@@ -6,10 +6,23 @@ class Position extends Equatable implements Comparable<Position> {
 
   const Position({required this.x, required this.y});
 
-  operator -(Position p) => Position(x: x - p.x, y: y - p.y);
+  Position operator -(Position p) => Position(x: x - p.x, y: y - p.y);
+
+  @override
+  bool operator ==(Object other) {
+    return other is Position && (x == other.x && y == other.y);
+  }
+
+  @override
+  int get hashCode => x.hashCode ^ y.hashCode;
 
   @override
   List<Object> get props => [x, y];
+
+  @override
+  String toString() {
+    return 'Position($x, $y)';
+  }
 
   @override
   int compareTo(Position other) {

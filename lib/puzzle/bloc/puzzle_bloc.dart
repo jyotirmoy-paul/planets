@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:planets/puzzle_solver/puzzle_solver.dart';
 import '../../global/shake_animator.dart';
 import '../../utils/app_logger.dart';
 
@@ -14,11 +15,16 @@ part 'puzzle_state.dart';
 
 class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   final int _size;
+  int get size => _size;
+
   final Random? random;
 
   final Map<int, ShakeAnimatorController> _shakeControllers = {};
+  late PuzzleSolver _puzzleSolver;
 
   PuzzleBloc(this._size, {this.random}) : super(const PuzzleState()) {
+    _puzzleSolver = PuzzleSolver(puzzleBloc: this);
+
     on<PuzzleInitialized>(_onPuzzleInitialized);
     on<TileTapped>(_onTileTapped);
     on<PuzzleAutoSolve>(_onPuzzleAutoSolve);
@@ -114,7 +120,19 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     PuzzleAutoSolve event,
     Emitter<PuzzleState> emit,
   ) {
-    // todo: implement auto solve
+    bool startSolving = event._state == PuzzleAutoSolveState.start;
+
+    _puzzleSolver.start();
+
+    // if (startSolving) {
+    //   _puzzleSolver.start();
+    // } else {
+    //   _puzzleSolver.stop();
+    // }
+
+    emit(state.copyWith(
+      isAutoSolving: startSolving,
+    ));
   }
 
   void _onPuzzleReset(
@@ -199,5 +217,11 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
             puzzleSize: size,
           )
     ];
+  }
+
+  @override
+  Future<void> close() {
+    _puzzleSolver.dispose();
+    return super.close();
   }
 }

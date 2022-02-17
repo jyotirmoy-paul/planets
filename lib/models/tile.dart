@@ -35,4 +35,9 @@ class Tile extends Equatable {
         puzzleSize,
         isWhitespace,
       ];
+
+  @override
+  String toString() {
+    return 'Tile($currentPosition)';
+  }
 }
