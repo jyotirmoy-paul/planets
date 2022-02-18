@@ -132,7 +132,24 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
                 // },
                 child: SizedBox.square(
                   dimension: size,
-                  child: child,
+                  child: Stack(
+                    children: [
+                      child,
+                      Align(
+                        alignment: FractionalOffset(
+                          ((correctX + 1 / 2) * offset) / size,
+                          ((correctY + 1 / 2) * offset) / size,
+                        ),
+                        child: Text(
+                          '${widget.tile.value}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

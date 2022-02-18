@@ -61,29 +61,31 @@ class _PuzzleView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.grey[900],
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return Stack(
-            children: [
-              // background
-              theme.puzzleLayoutDelegate.backgroundBuilder(theme),
-
-              // main body
-              SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      PuzzleHeader(),
-                      PuzzleSections(),
-                    ],
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return Stack(
+              children: [
+                // background
+                theme.puzzleLayoutDelegate.backgroundBuilder(theme),
+      
+                // main body
+                SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        PuzzleHeader(),
+                        PuzzleSections(),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          );
-        },
+              ],
+            );
+          },
+        ),
       ),
     );
   }

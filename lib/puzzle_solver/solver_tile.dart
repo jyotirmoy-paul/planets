@@ -14,6 +14,15 @@ class SolverTile {
     required this.correctPosition,
   });
 
+  factory SolverTile.none() {
+    return SolverTile(
+      value: -1,
+      currentPosition: Position.zero(),
+      isWhitespace: false,
+      correctPosition: Position.zero(),
+    );
+  }
+
   factory SolverTile.fromTile(Tile tile) {
     return SolverTile(
       value: tile.value,
@@ -21,5 +30,12 @@ class SolverTile {
       correctPosition: tile.correctPosition,
       isWhitespace: tile.isWhitespace,
     );
+  }
+
+  bool get isNone => value == -1;
+
+  @override
+  String toString() {
+    return 'SolverTile($currentPosition)';
   }
 }

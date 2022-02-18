@@ -10,7 +10,9 @@ import '../models/tile.dart';
 
 enum Direction { left, right, up, down }
 
-const _stepDuration = Duration(milliseconds: 300);
+const _stepDuration = Duration(milliseconds: 100);
+
+extension PositionHelper on Position {}
 
 class PuzzleSolver {
   final PuzzleBloc puzzleBloc;
@@ -67,9 +69,17 @@ class PuzzleSolver {
     return (0 <= pos.x && pos.x < n) && (0 <= pos.y && pos.y < n);
   }
 
+  /// if `_currentSolvingTileIndex` is 3 meaning, 1 and 2 positions are already solved
+  final List<int> _tilesPlacedAlready = [];
+
   bool _isCorrectTilePlacedAt(Position pos) {
     final tile = _tiles.firstWhere((tile) => tile.currentPosition == pos);
-    return tile.correctPosition == pos;
+
+    if (_tilesPlacedAlready.contains(tile.value)) {
+      return true;
+    }
+
+    return false;
   }
 
   /// using euclidean distance instead of manhattan distance
@@ -83,7 +93,7 @@ class PuzzleSolver {
   Position? _getNeighbourOf(
     Position pos,
     Position from, {
-    Position? excludingPos,
+    List<Position>? excludingPos,
   }) {
     final top = Position(x: pos.x, y: pos.y - 1);
     final bottom = Position(x: pos.x, y: pos.y + 1);
@@ -93,7 +103,7 @@ class PuzzleSolver {
     final List<Position> neighbours = [];
 
     void add(Position pos) {
-      if (excludingPos == null || excludingPos != pos) {
+      if (excludingPos == null || !excludingPos.contains(pos)) {
         neighbours.add(pos);
       }
     }
@@ -156,21 +166,21 @@ class PuzzleSolver {
     final y = ty - wy;
     final yabs = abs(y);
 
-    // take x steps right/left
-    for (int _ = 0; _ < xabs; _++) {
-      if (x > 0) {
-        steps.add(_move(Direction.right));
-      } else {
-        steps.add(_move(Direction.left));
-      }
-    }
-
     // take y steps up/down
     for (int _ = 0; _ < yabs; _++) {
       if (y > 0) {
         steps.add(_move(Direction.down));
       } else {
         steps.add(_move(Direction.up));
+      }
+    }
+
+    // take x steps right/left
+    for (int _ = 0; _ < xabs; _++) {
+      if (x > 0) {
+        steps.add(_move(Direction.right));
+      } else {
+        steps.add(_move(Direction.left));
       }
     }
 
@@ -192,19 +202,19 @@ class PuzzleSolver {
 
     switch (direction) {
       case Direction.left:
-        targetPos = Position(x: pos.x - 1, y: pos.y);
+        targetPos = pos.left;
         break;
 
       case Direction.right:
-        targetPos = Position(x: pos.x + 1, y: pos.y);
+        targetPos = pos.right;
         break;
 
       case Direction.up:
-        targetPos = Position(x: pos.x, y: pos.y - 1);
+        targetPos = pos.top;
         break;
 
       case Direction.down:
-        targetPos = Position(x: pos.x, y: pos.y + 1);
+        targetPos = pos.bottom;
         break;
     }
 
@@ -218,10 +228,85 @@ class PuzzleSolver {
   }
 
   List<SolverTile> _moveWhitespaceNear(Position targetPos) {
-    final tile = whitespaceTile;
-    final neighbour = _getNeighbourOf(targetPos, tile.currentPosition);
-    if (neighbour == null) return [];
+    final ws = whitespaceTile;
+    final neighbour = _getNeighbourOf(targetPos, ws.currentPosition);
+    if (neighbour == null) return const [];
     return _moveWhitespaceToPos(neighbour);
+  }
+
+  bool _pathIsValid(List<Position> path) {
+    for (final pos in path) {
+      if (!_isValidPosition(pos) || _isCorrectTilePlacedAt(pos)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  List<Position> _getFavourablePath(
+    List<Position> a,
+    List<Position> b,
+  ) {
+    if (a.length <= b.length && _pathIsValid(a)) {
+      return a;
+    }
+
+    return _pathIsValid(b)
+        ? b
+        : _pathIsValid(a)
+            ? a
+            : const [];
+  }
+
+  List<SolverTile> _takeFavourableSteps({
+    required Position from,
+    required Position around,
+    required Position to,
+  }) {
+    final List<Position> neighbours = [];
+    // starting from centerLeft - moving clockwise for all 8 neighbours
+    neighbours.add(around.left);
+    neighbours.add(around.left.top);
+    neighbours.add(around.top);
+    neighbours.add(around.top.right);
+    neighbours.add(around.right);
+    neighbours.add(around.right.bottom);
+    neighbours.add(around.bottom);
+    neighbours.add(around.bottom.left);
+
+    // it is sure that from and to are among these neighbours
+    final fi = neighbours.indexWhere((pos) => pos == from);
+    final ti = neighbours.indexWhere((pos) => pos == to);
+
+    // there can be two paths available
+    final List<Position> pathforward = [];
+    final List<Position> pathbackward = [];
+
+    // move forward
+    int i = fi;
+    while (i != ti) {
+      i = (i + 1) % neighbours.length;
+      pathforward.add(neighbours[i]);
+    }
+
+    // move backward
+    i = fi;
+    while (i != ti) {
+      i = (i - 1) % neighbours.length;
+      pathbackward.add(neighbours[i]);
+    }
+
+    // verify which path is favourable
+    final favourablePath = _getFavourablePath(pathforward, pathbackward);
+
+    final List<SolverTile> steps = [];
+
+    for (final position in favourablePath) {
+      steps.addAll(_moveWhitespaceToPos(position));
+    }
+
+    return steps;
   }
 
   /// it is guranteed that `around` tile is a neighbour of whitespace
@@ -233,11 +318,19 @@ class PuzzleSolver {
 
     final ws = whitespaceTile;
 
-    while (ws.currentPosition != to) {
-      /// get an unsolved neighbour nearest to `to` position, excluding `around` Pos
-      final pos = _getNeighbourOf(ws.currentPosition, to, excludingPos: around);
-      if (pos == null) return steps;
-      steps.addAll(_moveWhitespaceToPos(pos));
+    if (ws.currentPosition == to) return steps;
+
+    // the directions to take
+    final favourableSteps = _takeFavourableSteps(
+      from: ws.currentPosition,
+      around: around,
+      to: to,
+    );
+
+    if (favourableSteps.isEmpty) {
+      return []; // todo: no path is available, this might be the special case - handle
+    } else {
+      steps.addAll(favourableSteps);
     }
 
     return steps;
@@ -253,7 +346,13 @@ class PuzzleSolver {
   List<SolverTile> _moveTile(SolverTile tile) {
     final List<SolverTile> steps = [];
 
+    int count = 0;
+
     while (tile.currentPosition != tile.correctPosition) {
+      count += 1;
+      if (count > 10) {
+        break;
+      }
       // get the tile closest to the correct position of tile
       final neighbour = _getNeighbourOf(
         tile.currentPosition,
@@ -299,7 +398,7 @@ class PuzzleSolver {
 
     // place the tile
     // make sure - whitespace, target and tile are all at 1 step distance
-    steps.addAll(_placeTile(tile));
+    // steps.addAll(_placeTile(tile));
 
     return steps;
   }
@@ -308,14 +407,16 @@ class PuzzleSolver {
   List<SolverTile> _determineSteps() {
     final List<SolverTile> steps = [];
 
-    final solvedOrderTiles = _determineSolveOrder().sublist(0, 3);
+    final solvedOrderTiles = _determineSolveOrder().sublist(0, 13);
 
     for (final tile in solvedOrderTiles) {
-      AppLogger.log('puzzle_solver: solving: $tile');
+      AppLogger.log('puzzle_solver: solving: ${tile.value}');
 
       if (tile.currentPosition != tile.correctPosition) {
         steps.addAll(_determineStepsFor(tile));
       }
+
+      _tilesPlacedAlready.add(tile.value);
     }
 
     return steps;
@@ -327,6 +428,9 @@ class PuzzleSolver {
     _tiles.clear();
     _tiles.addAll(tiles.map((tile) => SolverTile.fromTile(tile)));
 
+    // clear
+    _tilesPlacedAlready.clear();
+
     // determine steps to solve the puzzle
     final steps = _determineSteps();
     AppLogger.log('puzzle_solver: start: steps.length: ${steps.length}');
@@ -334,15 +438,24 @@ class PuzzleSolver {
     // actually take steps to solve the puzzle
     _streamSubscription = Stream<SolverTile>.periodic(_stepDuration, (i) {
       if (i < steps.length) return steps[i];
-      stop();
-      return steps.last;
+      if (i == steps.length) {
+        _onAutoSolvingDone();
+      }
+      return SolverTile.none();
     }).listen(
       (SolverTile tile) {
+        AppLogger.log('AutoSolver: tap tile: ${tile.value}');
+        if (tile.isNone) return;
+
         puzzleBloc.add(
           TileTapped(tiles.firstWhere((t) => tile.value == t.value)),
         );
       },
     );
+  }
+
+  void _onAutoSolvingDone() {
+    puzzleBloc.add(const PuzzleAutoSolve(PuzzleAutoSolveState.stop));
   }
 
   void stop() {

@@ -82,23 +82,25 @@ class _DashboardViewState extends State<_DashboardView>
     }
 
     return Scaffold(
-      body: Container(
-        color: Colors.grey[900],
-        width: size.width,
-        height: size.height,
-        child: Stack(
-          children: [
-            // solar system
-            ResponsiveLayoutBuilder(
-              small: (_, Widget? child) => _DashboardPageSmall(child: child!),
-              medium: (_, Widget? child) => _DashboardPageMedium(child: child!),
-              large: (_, Widget? child) => child!,
-              child: (_) => _DashboardPageLarge(state: state as DashboardReady),
-            ),
-
-            // header
-            const HeaderWidget(),
-          ],
+      body: SafeArea(
+        child: Container(
+          color: Colors.grey[900],
+          width: size.width,
+          height: size.height,
+          child: Stack(
+            children: [
+              // solar system
+              ResponsiveLayoutBuilder(
+                small: (_, Widget? child) => _DashboardPageSmall(child: child!),
+                medium: (_, Widget? child) => _DashboardPageMedium(child: child!),
+                large: (_, Widget? child) => child!,
+                child: (_) => _DashboardPageLarge(state: state as DashboardReady),
+              ),
+      
+              // header
+              const HeaderWidget(),
+            ],
+          ),
         ),
       ),
     );

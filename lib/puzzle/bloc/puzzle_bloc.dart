@@ -122,13 +122,11 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   ) {
     bool startSolving = event._state == PuzzleAutoSolveState.start;
 
-    _puzzleSolver.start();
-
-    // if (startSolving) {
-    //   _puzzleSolver.start();
-    // } else {
-    //   _puzzleSolver.stop();
-    // }
+    if (startSolving) {
+      _puzzleSolver.start();
+    } else {
+      _puzzleSolver.stop();
+    }
 
     emit(state.copyWith(
       isAutoSolving: startSolving,
