@@ -10,9 +10,9 @@ import '../models/tile.dart';
 
 enum Direction { left, right, up, down }
 
-const _stepDuration = Duration(milliseconds: 100);
+enum SpecialCaseGroup { topRight, bottomLeft, none }
 
-extension PositionHelper on Position {}
+const _stepDuration = Duration(milliseconds: 100);
 
 class PuzzleSolver {
   final PuzzleBloc puzzleBloc;
@@ -254,24 +254,6 @@ class PuzzleSolver {
 
     final favourablePath = _getFavourablePath(pathA, pathB);
 
-    // // take y steps up/down
-    // for (int _ = 0; _ < yabs; _++) {
-    //   if (y > 0) {
-    //     steps.add(_move(Direction.down));
-    //   } else {
-    //     steps.add(_move(Direction.up));
-    //   }
-    // }
-
-    // // take x steps right/left
-    // for (int _ = 0; _ < xabs; _++) {
-    //   if (x > 0) {
-    //     steps.add(_move(Direction.right));
-    //   } else {
-    //     steps.add(_move(Direction.left));
-    //   }
-    // }
-
     final List<SolverTile> steps = [];
 
     // no valid path is found
@@ -424,11 +406,7 @@ class PuzzleSolver {
       to: to,
     );
 
-    if (favourableSteps.isEmpty) {
-      return []; // todo: no path is available, this might be the special case - handle
-    } else {
-      steps.addAll(favourableSteps);
-    }
+    steps.addAll(favourableSteps);
 
     return steps;
   }
@@ -437,49 +415,140 @@ class PuzzleSolver {
     return _moveWhitespaceToNeighbourPos(tile.currentPosition);
   }
 
+  SpecialCaseGroup _getGroup(int v) {
+    v += 1;
+
+    // end of each row, except last two rows
+    if (v % n == 0 && n * (n - 1) != v) {
+      return SpecialCaseGroup.topRight;
+    }
+
+    // last row, except last 2 elements
+    if (n * (n - 1) < v && v < n * n - 1) {
+      return SpecialCaseGroup.bottomLeft;
+    }
+
+    return SpecialCaseGroup.none;
+  }
+
+  bool _isSpecialCase(int v) {
+    return _getGroup(v) != SpecialCaseGroup.none;
+  }
+
+  Position _getTargetPos(SolverTile tile) {
+    SpecialCaseGroup group = _getGroup(tile.value);
+
+    assert(group != SpecialCaseGroup.none);
+
+    if (group == SpecialCaseGroup.topRight) {
+      return tile.correctPosition.bottom.left;
+    }
+
+    return tile.correctPosition.top.right;
+  }
+
+  List<SolverTile> _handleSpecialCaseFor(SolverTile tile) {
+    final group = _getGroup(tile.value);
+    assert(group != SpecialCaseGroup.none);
+
+    final List<SolverTile> steps = [];
+
+    if (tile.correctPosition == tile.currentPosition) return steps;
+
+    final ws = whitespaceTile;
+
+    if (group == SpecialCaseGroup.topRight) {
+      // position the whitespace correctly
+      if (ws.currentPosition != tile.currentPosition.right) {
+        // move whitespace to left of tile
+        steps.addAll(_moveWhitespaceToPos(tile.currentPosition.left));
+      } else {
+        // bottom, left, left, top
+        steps.add(_move(Direction.down));
+        steps.add(_move(Direction.left));
+        steps.add(_move(Direction.left));
+        steps.add(_move(Direction.up));
+      }
+
+      // run the positioning algorithm
+      steps.add(_move(Direction.up));
+      steps.add(_move(Direction.right));
+      steps.add(_move(Direction.down));
+
+      // place everyone correctly
+      steps.add(_move(Direction.right));
+      steps.add(_move(Direction.up));
+      steps.add(_move(Direction.left));
+      steps.add(_move(Direction.left));
+      steps.add(_move(Direction.down));
+    } else {
+      // bottom left case
+
+      // position the whitespace correctly
+      steps.addAll(_moveWhitespaceToPos(tile.currentPosition.right));
+
+      // run algorithm for bottom left case
+      steps.add(_move(Direction.up));
+      steps.add(_move(Direction.left));
+      steps.add(_move(Direction.left));
+      steps.add(_move(Direction.down));
+
+      // placement
+      steps.add(_move(Direction.right));
+
+      // place everyone correctly
+      steps.add(_move(Direction.down));
+      steps.add(_move(Direction.left));
+      steps.add(_move(Direction.up));
+      steps.add(_move(Direction.up));
+      steps.add(_move(Direction.right));
+    }
+
+    return steps;
+  }
+
   /// moves a particular tile to 1 step neighbour of targetPos
   /// using whitespace, move tile to it's targetPos
   List<SolverTile> _moveTile(SolverTile tile) {
     final List<SolverTile> steps = [];
 
+    final isSpecialCase = _isSpecialCase(tile.value);
+
+    final targetPos =
+        isSpecialCase ? _getTargetPos(tile) : tile.correctPosition;
+
     int count = 0;
 
-    while (tile.currentPosition != tile.correctPosition) {
-      count += 1;
-      if (count > 10) {
+    while (tile.currentPosition != targetPos) {
+      if (count > 20) {
         break;
       }
+      count += 1;
+
       // get the tile closest to the correct position of tile
-      final neighbour = _getNeighbourOf(
-        tile.currentPosition,
-        tile.correctPosition,
-      );
+      final neighbour = _getNeighbourOf(tile.currentPosition, targetPos);
 
       if (neighbour == null) {
         return steps;
       }
 
       // move whitespace to neighbour
-      steps.addAll(
-        _moveWhitespace(around: tile.currentPosition, to: neighbour),
-      );
+      steps.addAll(_moveWhitespace(
+        around: tile.currentPosition,
+        to: neighbour,
+      ));
 
       // swap
       steps.add(_moveNeighbourTile(tile));
+
+      if (tile.correctPosition == tile.currentPosition) return steps;
+    }
+
+    if (isSpecialCase) {
+      steps.addAll(_handleSpecialCaseFor(tile));
     }
 
     return steps;
-  }
-
-  /// if calling this method, we are sure that tile is 1 step neighbour of
-  /// it's correctPosition
-  List<SolverTile> _placeTile(SolverTile tile) {
-    // todo: there can be two placement types
-    // todo: normal case and special cases
-    // todo: normal case - when whitespace tile can be placed in target tile's correct position and replaced
-    // todo: special case - when to place the tile, we need to move already placed blocks
-
-    return [];
   }
 
   /// this method works on `tile` to put it in it's correctPosition
@@ -489,12 +558,8 @@ class PuzzleSolver {
     // move the whitespace near the target tile
     steps.addAll(_moveWhitespaceNear(tile.currentPosition));
 
-    // now using the help of whitespace tile, move the tile near it's correct position
+    // now using the help of whitespace tile, move the tile to it's correct position
     steps.addAll(_moveTile(tile));
-
-    // place the tile
-    // make sure - whitespace, target and tile are all at 1 step distance
-    // steps.addAll(_placeTile(tile));
 
     return steps;
   }
@@ -503,7 +568,7 @@ class PuzzleSolver {
   List<SolverTile> _determineSteps() {
     final List<SolverTile> steps = [];
 
-    final solvedOrderTiles = _determineSolveOrder().sublist(0, 4);
+    final solvedOrderTiles = _determineSolveOrder().sublist(0, 13);
 
     for (final tile in solvedOrderTiles) {
       AppLogger.log('puzzle_solver: solving: ${tile.value}');
