@@ -14,29 +14,49 @@ enum SpecialCaseGroup { topRight, bottomLeft, none }
 
 const _stepDuration = Duration(milliseconds: 100);
 
+extension ListHelper on List<SolverTile> {
+  SolverTile whitespace() => firstWhere((e) => e.isWhitespace);
+  SolverTile findByValue(int v) => firstWhere((e) => e.value == v);
+  SolverTile findWhereCurrPosIs(Position p) =>
+      firstWhere((e) => e.currentPosition == p);
+}
+
 class PuzzleSolver {
   final PuzzleBloc puzzleBloc;
 
-  PuzzleSolver({
-    required this.puzzleBloc,
-  });
+  PuzzleSolver({required this.puzzleBloc});
 
   List<Tile> get tiles => puzzleBloc.state.puzzle.tiles;
 
   StreamSubscription<SolverTile>? _streamSubscription;
-
   final List<SolverTile> _tiles = [];
-
   int get n => puzzleBloc.size;
 
-  SolverTile get whitespaceTile =>
-      _tiles.firstWhere((tile) => tile.isWhitespace);
+  /// returns the whitespace tile
+  SolverTile get whitespaceTile => _tiles.whitespace();
 
-  int abs(int x) {
-    return x > 0 ? x : -x;
-  }
+  /// returns absolute value of `x`
+  int abs(int x) => x > 0 ? x : -x;
 
-  /// this method returns the list of tile in order they will be solved
+  /// determines the order in which the tiles will be sovled
+  /// first the top row, then left column
+  /// 1, 2, 3, 4, 7 ... ->  solving top row and left column,
+  /// the problem reduces to a 2x2 grid, then apply the same algorithm,
+  /// works perfectly for higher order nxn grids as well
+  /// this row-col method should be easy for humans to follow as well, thus instead of writing any
+  /// sophisticated algorithms such as A*, wanted to write this simple to follow one
+  ///   ┌─────0───────1───────2────► x
+  ///   │  ┌─────┐ ┌─────┐ ┌─────┐
+  ///   0  │  1  │ │  2  │ │  3  │
+  ///   │  └─────┘ └─────┘ └─────┘
+  ///   │  ┌─────┐
+  ///   1  │  4  │
+  ///   │  └─────┘
+  ///   │  ┌─────┐
+  ///   2  │  7  │
+  ///   │  └─────┘
+  ///   ▼
+  ///   y
   List<SolverTile> _determineSolveOrder() {
     final tiles = <SolverTile>[];
 
@@ -47,7 +67,7 @@ class PuzzleSolver {
       while (j < n) {
         // (i, j) contains a tile
         final index = i * n + j;
-        tiles.add(_tiles.firstWhere((tile) => tile.value == index));
+        tiles.add(_tiles.findByValue(index));
         j += 1;
       }
 
@@ -57,7 +77,7 @@ class PuzzleSolver {
       while (i < n) {
         // (i, j) contains a tile
         final index = i * n + j;
-        tiles.add(_tiles.firstWhere((tile) => tile.value == index));
+        tiles.add(_tiles.findByValue(index));
         i += 1;
       }
     }
@@ -65,15 +85,17 @@ class PuzzleSolver {
     return tiles;
   }
 
+  /// determines if a particular position `pos` is inside the nxn puzzle grid
   bool _isValidPosition(Position pos) {
     return (0 <= pos.x && pos.x < n) && (0 <= pos.y && pos.y < n);
   }
 
-  /// if `_currentSolvingTileIndex` is 3 meaning, 1 and 2 positions are already solved
+  /// this array is maintained to keep solved tiles in check
+  /// if `_tilesPlacedAlready` contains 1, 2, 3, meaning tiles 1, 2 and 3 are correctly placed
   final List<int> _tilesPlacedAlready = [];
 
   bool _isCorrectTilePlacedAt(Position pos) {
-    final tile = _tiles.firstWhere((tile) => tile.currentPosition == pos);
+    final tile = _tiles.findWhereCurrPosIs(pos);
 
     if (_tilesPlacedAlready.contains(tile.value)) {
       return true;
@@ -84,17 +106,13 @@ class PuzzleSolver {
 
   /// using euclidean distance instead of manhattan distance
   /// kind of euclidean distance, as we don't do sqrt()
-  /// just need the magnitudes to compare
+  /// as we just need the magnitudes to compare
   int _getDistanceBetween(Position a, Position b) {
     return (math.pow(a.x - b.x, 2) + math.pow(a.y - b.y, 2)).toInt();
   }
 
   // find the optimized neighbour (optimized -> nearest distance between pos and from)
-  Position? _getNeighbourOf(
-    Position pos,
-    Position from, {
-    List<Position>? excludingPos,
-  }) {
+  Position? _getNeighbourOf(Position pos, Position from) {
     final top = Position(x: pos.x, y: pos.y - 1);
     final bottom = Position(x: pos.x, y: pos.y + 1);
     final left = Position(x: pos.x - 1, y: pos.y);
@@ -102,32 +120,27 @@ class PuzzleSolver {
 
     final List<Position> neighbours = [];
 
-    void add(Position pos) {
-      if (excludingPos == null || !excludingPos.contains(pos)) {
-        neighbours.add(pos);
-      }
-    }
-
     if (_isValidPosition(top) && !_isCorrectTilePlacedAt(top)) {
-      add(top);
+      neighbours.add(top);
     }
 
     if (_isValidPosition(bottom) && !_isCorrectTilePlacedAt(bottom)) {
-      add(bottom);
+      neighbours.add(bottom);
     }
 
     if (_isValidPosition(left) && !_isCorrectTilePlacedAt(left)) {
-      add(left);
+      neighbours.add(left);
     }
 
     if (_isValidPosition(right) && !_isCorrectTilePlacedAt(right)) {
-      add(right);
+      neighbours.add(right);
     }
 
     if (neighbours.isEmpty) {
       return null;
     }
 
+    // finding the neighbour that takes min effort to get there
     int minDistance = n * n + 1;
     late Position optimizedNeighbour;
 
@@ -142,14 +155,15 @@ class PuzzleSolver {
     return optimizedNeighbour;
   }
 
-  // swaps the currentPosition of two tiles
+  /// swaps the `currentPosition` of two tiles
   void _swap(SolverTile a, SolverTile b) {
     final tempPos = a.currentPosition;
     a.currentPosition = b.currentPosition;
     b.currentPosition = tempPos;
   }
 
-  /// calling this function should make sure targetPos is a neighbour of whitespace
+  /// this function moves the whitespace one step to one of it's neighbour (`targetPos`)
+  /// while calling this function should make sure `targetPos` is a neighbour of `whiteSpace`
   SolverTile _moveWhitespaceToNeighbourPos(Position targetPos) {
     final tile = whitespaceTile;
 
@@ -174,6 +188,7 @@ class PuzzleSolver {
     return _move(Direction.up);
   }
 
+  /// get the new `Position` from `start`, if moved in `dir` direction
   Position _posInDirection(Position start, Direction dir) {
     switch (dir) {
       case Direction.left:
@@ -190,6 +205,8 @@ class PuzzleSolver {
     }
   }
 
+  /// this method moves whitespace `a` steps in `aDir` direction
+  /// followed by `b` steps in `bDir` direction
   List<Position> _moveInAB(int a, Direction aDir, int b, bDir) {
     final ws = whitespaceTile;
     Position currentPos = ws.currentPosition;
@@ -211,21 +228,10 @@ class PuzzleSolver {
     return path;
   }
 
-  List<Position> _moveInY(int n, Direction direction) {
-    final ws = whitespaceTile;
-    Position currentPos = ws.currentPosition;
-
-    final List<Position> path = [];
-
-    for (int _ = 0; _ < n; _++) {
-      currentPos =
-          direction == Direction.up ? currentPos.top : currentPos.bottom;
-      path.add(currentPos);
-    }
-
-    return path;
-  }
-
+  /// this method moves whitespace to a `targetPos` position
+  /// following an favourable path
+  /// favourable path referes to a path that is shortest and valid, and do not
+  /// disturb already placed tiles
   List<SolverTile> _moveWhitespaceToPos(Position targetPos) {
     final tile = whitespaceTile;
 
@@ -266,10 +272,11 @@ class PuzzleSolver {
     return steps;
   }
 
-  // returns the tapped tile, to achieve a particular move
-  // calling this method assumes that a particular move can be made
-  // this method just makes the move, and does not validates a move
-  SolverTile _move(Direction direction) {
+  /// moves whitespace in `dir` direction
+  /// returns the tapped tile, to achieve that particular move
+  /// calling this method assumes that a particular move can be made
+  /// this method just makes the move, and does not validates a move
+  SolverTile _move(Direction dir) {
     // make the move
     // update the tile's currentPos
     // update the _tiles array maintained in this class
@@ -279,7 +286,7 @@ class PuzzleSolver {
     final pos = whitespace.currentPosition;
     late Position targetPos;
 
-    switch (direction) {
+    switch (dir) {
       case Direction.left:
         targetPos = pos.left;
         break;
@@ -298,14 +305,15 @@ class PuzzleSolver {
     }
 
     // get the target tile
-    final targetTile =
-        _tiles.firstWhere((tile) => tile.currentPosition == targetPos);
+    final targetTile = _tiles.findWhereCurrPosIs(targetPos);
 
     _swap(whitespace, targetTile);
 
     return targetTile;
   }
 
+  /// this method moves the whitespace, near a `targetPos` position
+  /// near refers to any one of the 4 neighbours of `targetPos`
   List<SolverTile> _moveWhitespaceNear(Position targetPos) {
     final ws = whitespaceTile;
     final neighbour = _getNeighbourOf(targetPos, ws.currentPosition);
@@ -313,7 +321,10 @@ class PuzzleSolver {
     return _moveWhitespaceToPos(neighbour);
   }
 
-  bool _pathIsValid(List<Position> path) {
+  /// verifies if a series of Position movement (`path`) is valid
+  /// validity is checked by making sure path do not contain any invalid position
+  /// and do not disturb any settled tiles
+  bool _isPathValid(List<Position> path) {
     for (final pos in path) {
       if (!_isValidPosition(pos) || _isCorrectTilePlacedAt(pos)) {
         return false;
@@ -323,21 +334,21 @@ class PuzzleSolver {
     return true;
   }
 
-  List<Position> _getFavourablePath(
-    List<Position> a,
-    List<Position> b,
-  ) {
-    if (a.length <= b.length && _pathIsValid(a)) {
+  /// returns an optimized path, choosen between `a` and `b`
+  List<Position> _getFavourablePath(List<Position> a, List<Position> b) {
+    if (a.length <= b.length && _isPathValid(a)) {
       return a;
     }
 
-    return _pathIsValid(b)
+    return _isPathValid(b)
         ? b
-        : _pathIsValid(a)
+        : _isPathValid(a)
             ? a
             : const [];
   }
 
+  /// this method takes steps from `from` to `to`, going around `around` position
+  /// making sure whitespace moves from `from` to `to`, always staying neighbour of `around`
   List<SolverTile> _takeFavourableSteps({
     required Position from,
     required Position around,
@@ -357,6 +368,9 @@ class PuzzleSolver {
     // it is sure that from and to are among these neighbours
     final fi = neighbours.indexWhere((pos) => pos == from);
     final ti = neighbours.indexWhere((pos) => pos == to);
+
+    assert(fi != -1);
+    assert(ti != -1);
 
     // there can be two paths available
     final List<Position> pathforward = [];
@@ -388,6 +402,7 @@ class PuzzleSolver {
     return steps;
   }
 
+  /// this function moves whitespace making sure favourable steps are taken
   /// it is guranteed that `around` tile is a neighbour of whitespace
   List<SolverTile> _moveWhitespace({
     required Position around,
@@ -411,10 +426,14 @@ class PuzzleSolver {
     return steps;
   }
 
+  /// swaps `tile` with whitespace
   SolverTile _moveNeighbourTile(SolverTile tile) {
     return _moveWhitespaceToNeighbourPos(tile.currentPosition);
   }
 
+  /// there are certain special case tiles
+  /// this method returns which particular special type group a tiles belong to
+  /// `v` is `tile.value` used to determine group for a tile
   SpecialCaseGroup _getGroup(int v) {
     v += 1;
 
@@ -431,10 +450,12 @@ class PuzzleSolver {
     return SpecialCaseGroup.none;
   }
 
+  /// checks if a tile is special case or not
   bool _isSpecialCase(int v) {
     return _getGroup(v) != SpecialCaseGroup.none;
   }
 
+  /// target position are needed only for special case tiles
   Position _getTargetPos(SolverTile tile) {
     SpecialCaseGroup group = _getGroup(tile.value);
 
@@ -447,8 +468,10 @@ class PuzzleSolver {
     return tile.correctPosition.top.right;
   }
 
+  /// determines steps for a special case `tile`
   List<SolverTile> _handleSpecialCaseFor(SolverTile tile) {
     final group = _getGroup(tile.value);
+
     assert(group != SpecialCaseGroup.none);
 
     final List<SolverTile> steps = [];
@@ -464,18 +487,21 @@ class PuzzleSolver {
         steps.addAll(_moveWhitespaceToPos(tile.currentPosition.left));
       } else {
         // bottom, left, left, top
+        // moves whitespace from right neighbour to left neighbour of target tile
         steps.add(_move(Direction.down));
         steps.add(_move(Direction.left));
         steps.add(_move(Direction.left));
         steps.add(_move(Direction.up));
       }
 
-      // run the positioning algorithm
+      // run positioning algorithm for top right case
       steps.add(_move(Direction.up));
       steps.add(_move(Direction.right));
+
+      // placement of the correct tile
       steps.add(_move(Direction.down));
 
-      // place everyone correctly
+      // finally position displaced tiles correctly
       steps.add(_move(Direction.right));
       steps.add(_move(Direction.up));
       steps.add(_move(Direction.left));
@@ -487,28 +513,29 @@ class PuzzleSolver {
       // position the whitespace correctly
       steps.addAll(_moveWhitespaceToPos(tile.currentPosition.right));
 
-      // run algorithm for bottom left case
+      // run positioning algorithm for bottom left case
       steps.add(_move(Direction.up));
       steps.add(_move(Direction.left));
       steps.add(_move(Direction.left));
       steps.add(_move(Direction.down));
 
-      // placement
+      // placement of the correct tile
       steps.add(_move(Direction.right));
 
-      // place everyone correctly
+      // finally position displaced tiles correctly
       steps.add(_move(Direction.down));
       steps.add(_move(Direction.left));
       steps.add(_move(Direction.up));
       steps.add(_move(Direction.up));
       steps.add(_move(Direction.right));
+      steps.add(_move(Direction.right));
+      steps.add(_move(Direction.down));
     }
 
     return steps;
   }
 
-  /// moves a particular tile to 1 step neighbour of targetPos
-  /// using whitespace, move tile to it's targetPos
+  /// moves a tile to either correct position / special case target position
   List<SolverTile> _moveTile(SolverTile tile) {
     final List<SolverTile> steps = [];
 
@@ -541,6 +568,7 @@ class PuzzleSolver {
       // swap
       steps.add(_moveNeighbourTile(tile));
 
+      /// this step is needed for special tiles, where `targetPos != tile.correctPosition`
       if (tile.correctPosition == tile.currentPosition) return steps;
     }
 
@@ -552,6 +580,7 @@ class PuzzleSolver {
   }
 
   /// this method works on `tile` to put it in it's correctPosition
+  /// and generates a series of tiles that can be tapped to achieve the solution
   List<SolverTile> _determineStepsFor(SolverTile tile) {
     final List<SolverTile> steps = [];
 
@@ -561,6 +590,7 @@ class PuzzleSolver {
     // now using the help of whitespace tile, move the tile to it's correct position
     steps.addAll(_moveTile(tile));
 
+    // return the generates steps
     return steps;
   }
 
@@ -568,12 +598,14 @@ class PuzzleSolver {
   List<SolverTile> _determineSteps() {
     final List<SolverTile> steps = [];
 
-    final solvedOrderTiles = _determineSolveOrder().sublist(0, 13);
+    /// determine the solve order, this current algorithm needs to solve the tile in a specific order
+    final solvedOrderTiles = _determineSolveOrder();
 
+    /// after getting the order, solve one by one tile
     for (final tile in solvedOrderTiles) {
-      AppLogger.log('puzzle_solver: solving: ${tile.value}');
-
       if (tile.currentPosition != tile.correctPosition) {
+        /// generate the steps for correctly placing `tile`
+        /// from it's current position to it's correct position
         steps.addAll(_determineStepsFor(tile));
       }
 
@@ -583,45 +615,48 @@ class PuzzleSolver {
     return steps;
   }
 
-  /// first determine all the steps to solve the puzzle form current state
+  void _onAutoSolvingDone() {
+    puzzleBloc.add(const PuzzleAutoSolve(PuzzleAutoSolveState.stop));
+  }
+
+  void _takeStep(SolverTile tile) {
+    if (tile.isNone) return;
+
+    /// add TileTapped event, which will cause UI rebuild to show solving puzzling
+    puzzleBloc.add(
+      TileTapped(tiles.firstWhere((t) => tile.value == t.value)),
+    );
+  }
+
+  SolverTile _computeSteps(int i, List<SolverTile> steps) {
+    if (i < steps.length) return steps[i];
+    if (i == steps.length) _onAutoSolvingDone();
+    return SolverTile.none();
+  }
+
+  /// Following public methods of puzzle_solver are exposed
+
   void start() {
     // take a snapshot of the current tiles arrangement
     _tiles.clear();
     _tiles.addAll(tiles.map((tile) => SolverTile.fromTile(tile)));
 
-    // clear
+    // cleanup
     _tilesPlacedAlready.clear();
 
-    // determine steps to solve the puzzle
+    // determine all the steps to solve the puzzle
     final steps = _determineSteps();
     AppLogger.log('puzzle_solver: start: steps.length: ${steps.length}');
 
-    // actually take steps to solve the puzzle
-    _streamSubscription = Stream<SolverTile>.periodic(_stepDuration, (i) {
-      if (i < steps.length) return steps[i];
-      if (i == steps.length) {
-        _onAutoSolvingDone();
-      }
-      return SolverTile.none();
-    }).listen(
-      (SolverTile tile) {
-        AppLogger.log('AutoSolver: tap tile: ${tile.value}');
-        if (tile.isNone) return;
-
-        puzzleBloc.add(
-          TileTapped(tiles.firstWhere((t) => tile.value == t.value)),
-        );
-      },
-    );
-  }
-
-  void _onAutoSolvingDone() {
-    puzzleBloc.add(const PuzzleAutoSolve(PuzzleAutoSolveState.stop));
+    /// take real steps to solve the puzzle
+    /// a `Stream` is used so that upon user's request, the auto solve can be cancelled
+    _streamSubscription = Stream<SolverTile>.periodic(
+        _stepDuration, (i) => _computeSteps(i, steps)).listen(_takeStep);
   }
 
   void stop() {
-    /// we will have a stream of steps to solve this puzzle
-    /// and on stop called, we will cancel the stream, thus stopping the auto solver
+    /// as we have a stream of steps to solve this puzzle
+    /// and on stop, we can cancel the stream, thus stopping the auto solver
     _streamSubscription?.cancel();
   }
 
