@@ -128,7 +128,7 @@ class PuzzleSolver {
       return null;
     }
 
-    int minDistance = n * n;
+    int minDistance = n * n + 1;
     late Position optimizedNeighbour;
 
     for (final n in neighbours) {
@@ -149,9 +149,84 @@ class PuzzleSolver {
     b.currentPosition = tempPos;
   }
 
-  List<SolverTile> _moveWhitespaceToPos(Position targetPos) {
-    final List<SolverTile> steps = [];
+  /// calling this function should make sure targetPos is a neighbour of whitespace
+  SolverTile _moveWhitespaceToNeighbourPos(Position targetPos) {
+    final tile = whitespaceTile;
 
+    final wx = tile.currentPosition.x;
+    final wy = tile.currentPosition.y;
+
+    final tx = targetPos.x;
+    final ty = targetPos.y;
+
+    final x = tx - wx;
+
+    final y = ty - wy;
+
+    if (x > 0) {
+      return _move(Direction.right);
+    } else if (x < 0) {
+      return _move(Direction.left);
+    } else if (y > 0) {
+      return _move(Direction.down);
+    }
+
+    return _move(Direction.up);
+  }
+
+  Position _posInDirection(Position start, Direction dir) {
+    switch (dir) {
+      case Direction.left:
+        return start.left;
+
+      case Direction.right:
+        return start.right;
+
+      case Direction.up:
+        return start.top;
+
+      case Direction.down:
+        return start.bottom;
+    }
+  }
+
+  List<Position> _moveInAB(int a, Direction aDir, int b, bDir) {
+    final ws = whitespaceTile;
+    Position currentPos = ws.currentPosition;
+
+    final List<Position> path = [];
+
+    // make movements in a first
+    for (int _ = 0; _ < a; _++) {
+      currentPos = _posInDirection(currentPos, aDir);
+      path.add(currentPos);
+    }
+
+    // then, make movements in b
+    for (int _ = 0; _ < b; _++) {
+      currentPos = _posInDirection(currentPos, bDir);
+      path.add(currentPos);
+    }
+
+    return path;
+  }
+
+  List<Position> _moveInY(int n, Direction direction) {
+    final ws = whitespaceTile;
+    Position currentPos = ws.currentPosition;
+
+    final List<Position> path = [];
+
+    for (int _ = 0; _ < n; _++) {
+      currentPos =
+          direction == Direction.up ? currentPos.top : currentPos.bottom;
+      path.add(currentPos);
+    }
+
+    return path;
+  }
+
+  List<SolverTile> _moveWhitespaceToPos(Position targetPos) {
     final tile = whitespaceTile;
 
     final wx = tile.currentPosition.x;
@@ -166,22 +241,44 @@ class PuzzleSolver {
     final y = ty - wy;
     final yabs = abs(y);
 
-    // take y steps up/down
-    for (int _ = 0; _ < yabs; _++) {
-      if (y > 0) {
-        steps.add(_move(Direction.down));
-      } else {
-        steps.add(_move(Direction.up));
-      }
-    }
+    final List<Position> pathA = [];
+    final List<Position> pathB = [];
+    final xDir = x > 0 ? Direction.right : Direction.left;
+    final yDir = y > 0 ? Direction.down : Direction.up;
 
-    // take x steps right/left
-    for (int _ = 0; _ < xabs; _++) {
-      if (x > 0) {
-        steps.add(_move(Direction.right));
-      } else {
-        steps.add(_move(Direction.left));
-      }
+    // in path a, first x steps are taken then y
+    pathA.addAll(_moveInAB(xabs, xDir, yabs, yDir));
+
+    // in path b, first y steps are taken then x
+    pathB.addAll(_moveInAB(yabs, yDir, xabs, xDir));
+
+    final favourablePath = _getFavourablePath(pathA, pathB);
+
+    // // take y steps up/down
+    // for (int _ = 0; _ < yabs; _++) {
+    //   if (y > 0) {
+    //     steps.add(_move(Direction.down));
+    //   } else {
+    //     steps.add(_move(Direction.up));
+    //   }
+    // }
+
+    // // take x steps right/left
+    // for (int _ = 0; _ < xabs; _++) {
+    //   if (x > 0) {
+    //     steps.add(_move(Direction.right));
+    //   } else {
+    //     steps.add(_move(Direction.left));
+    //   }
+    // }
+
+    final List<SolverTile> steps = [];
+
+    // no valid path is found
+    if (favourablePath.isEmpty) return steps;
+
+    for (final pos in favourablePath) {
+      steps.add(_moveWhitespaceToNeighbourPos(pos));
     }
 
     return steps;
@@ -303,7 +400,7 @@ class PuzzleSolver {
     final List<SolverTile> steps = [];
 
     for (final position in favourablePath) {
-      steps.addAll(_moveWhitespaceToPos(position));
+      steps.add(_moveWhitespaceToNeighbourPos(position));
     }
 
     return steps;
@@ -337,8 +434,7 @@ class PuzzleSolver {
   }
 
   SolverTile _moveNeighbourTile(SolverTile tile) {
-    // if whitespace is a neighbour, we are guaranteed to have only one element
-    return _moveWhitespaceToPos(tile.currentPosition).first;
+    return _moveWhitespaceToNeighbourPos(tile.currentPosition);
   }
 
   /// moves a particular tile to 1 step neighbour of targetPos
@@ -407,7 +503,7 @@ class PuzzleSolver {
   List<SolverTile> _determineSteps() {
     final List<SolverTile> steps = [];
 
-    final solvedOrderTiles = _determineSolveOrder().sublist(0, 13);
+    final solvedOrderTiles = _determineSolveOrder().sublist(0, 4);
 
     for (final tile in solvedOrderTiles) {
       AppLogger.log('puzzle_solver: solving: ${tile.value}');

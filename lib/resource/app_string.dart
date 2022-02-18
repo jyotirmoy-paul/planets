@@ -4,6 +4,7 @@ abstract class AppString {
   static const String dashboard = 'Dashboard';
   static const String community = 'Community';
   static const String start = 'Start';
+  static const String stop = 'Stop';
   static const String restart = 'Restart';
   static const String autoSolve = 'Auto Solve';
   static const String getReady = 'Get Ready';

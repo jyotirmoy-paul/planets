@@ -122,7 +122,7 @@ class Puzzle extends Equatable {
     }
 
     final whitespace = tiles.singleWhere((tile) => tile.isWhitespace);
-    final whitespaceRow = whitespace.currentPosition.y;
+    final whitespaceRow = whitespace.currentPosition.y + 1;
 
     if (((height - whitespaceRow) + 1).isOdd) {
       return inversions.isEven;

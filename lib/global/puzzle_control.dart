@@ -50,13 +50,15 @@ class PuzzleControl extends StatelessWidget {
     final isLoading = status == PlanetPuzzleStatus.loading;
     final isAutoSolving = puzzleState.isAutoSolving;
 
-    final text = !isReady
-        ? AppString.pleaseWait
-        : isLoading
-            ? AppString.getReady
-            : hasStarted
-                ? AppString.autoSolve
-                : AppString.start;
+    final text = isAutoSolving
+        ? AppString.stop
+        : !isReady
+            ? AppString.pleaseWait
+            : isLoading
+                ? AppString.getReady
+                : hasStarted
+                    ? AppString.autoSolve
+                    : AppString.start;
 
     return ResponsiveLayoutBuilder(
       small: (_, Widget? child) => child!,
@@ -87,7 +89,11 @@ class PuzzleControl extends StatelessWidget {
                 }
               },
               child: StylizedContainer(
-                color: !isReady || isLoading ? Colors.grey : Colors.greenAccent,
+                color: isAutoSolving
+                    ? Colors.redAccent
+                    : !isReady || isLoading
+                        ? Colors.grey
+                        : Colors.greenAccent,
                 child: StylizedText(
                   text: text,
                   fontSize: isLarge ? 24.0 : 20.0,
