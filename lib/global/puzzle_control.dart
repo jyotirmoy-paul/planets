@@ -12,19 +12,13 @@ import '../timer/timer.dart';
 import 'stylized_container.dart';
 
 class PuzzleControl extends StatelessWidget {
-  final PuzzleState puzzleState;
-
-  const PuzzleControl({Key? key, required this.puzzleState}) : super(key: key);
+  const PuzzleControl({Key? key}) : super(key: key);
 
   void _onStart(BuildContext context, bool hasStarted) {
     context.read<TimerBloc>().add(const TimerReset());
-
-    context.read<PlanetPuzzleBloc>().add(
-          PlanetCountdownReset(
-            secondsToBegin:
-                hasStarted ? 1 : 1, // todo: for testing, actual value: 5, 3
-          ),
-        );
+    context.read<PlanetPuzzleBloc>().add(PlanetCountdownReset(
+          secondsToBegin: hasStarted ? 5 : 3,
+        ));
   }
 
   void _onAutoSolve(BuildContext context, PuzzleAutoSolveState autoSolveState) {
@@ -41,6 +35,7 @@ class PuzzleControl extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final state = context.select((PuzzleBloc bloc) => bloc.state);
     final puzzleInitState =
         context.select((PuzzleInitCubit cubit) => cubit.state);
     final isReady = puzzleInitState is PuzzleInitReady;
@@ -48,7 +43,7 @@ class PuzzleControl extends StatelessWidget {
     final status = context.select((PlanetPuzzleBloc bloc) => bloc.state.status);
     final hasStarted = status == PlanetPuzzleStatus.started;
     final isLoading = status == PlanetPuzzleStatus.loading;
-    final isAutoSolving = puzzleState.isAutoSolving;
+    final isAutoSolving = state.isAutoSolving;
 
     final text = isAutoSolving
         ? AppString.stop

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/utils/app_logger.dart';
 import '../../../global/shake_animator.dart';
 import '../../../models/tile.dart';
 import '../../../puzzle/cubit/puzzle_init_cubit.dart';
@@ -14,13 +15,8 @@ import '../../../layout/layout.dart';
 
 class PlanetPuzzleTile extends StatefulWidget {
   final Tile tile;
-  final PuzzleState state;
 
-  const PlanetPuzzleTile({
-    Key? key,
-    required this.tile,
-    required this.state,
-  }) : super(key: key);
+  const PlanetPuzzleTile({Key? key, required this.tile}) : super(key: key);
 
   @override
   State<PlanetPuzzleTile> createState() => _PlanetPuzzleTileState();
@@ -75,6 +71,7 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
     final puzzleBloc = context.select((PuzzleBloc bloc) => bloc);
     final puzzleIncomplete =
         puzzleBloc.state.puzzleStatus == PuzzleStatus.incomplete;
+    final isAutoSolving = puzzleBloc.state.isAutoSolving;
 
     final status = context.select((PlanetPuzzleBloc bloc) => bloc.state.status);
     final hasStarted = status == PlanetPuzzleStatus.started;
@@ -83,7 +80,7 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
         ? const Duration(milliseconds: 800)
         : const Duration(milliseconds: 350);
 
-    final canPress = hasStarted && puzzleIncomplete;
+    final canPress = hasStarted && puzzleIncomplete && !isAutoSolving;
 
     final offset = size / widget.tile.puzzleSize;
     final x = widget.tile.currentPosition.x;
@@ -117,7 +114,7 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
                 if (canPress) _onHovering(true);
               },
               onExit: (_) {
-                if (canPress) _onHovering(false);
+                _onHovering(false);
               },
               child: GestureDetector(
                 onTap: () {
@@ -125,11 +122,6 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
                     context.read<PuzzleBloc>().add(TileTapped(widget.tile));
                   }
                 },
-                // onHover: (bool isHovering) {
-                //   if (canPress) {
-                //     _onHovering(isHovering);
-                //   }
-                // },
                 child: SizedBox.square(
                   dimension: size,
                   child: Stack(

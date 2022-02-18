@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../widgets/planet_whitespace_tile.dart';
 import '../../../global/puzzle_control.dart';
 import '../../../layout/layout.dart';
-import '../../../puzzle/bloc/puzzle_bloc.dart';
 import '../../../models/tile.dart';
 import '../widgets/planet_puzzle_board.dart';
 import '../widgets/planet_puzzle_info.dart';
@@ -45,35 +44,28 @@ class PlanetPuzzleLayoutDelegate extends PuzzleLayoutDelegate {
   }
 
   @override
-  Widget controlBuilder(PuzzleState state) {
-    return PuzzleControl(puzzleState: state);
+  Widget controlBuilder() {
+    return const PuzzleControl();
   }
 
   @override
-  Widget infoBuilder(PuzzleState state) {
+  Widget infoBuilder() {
     return const PlanetPuzzleInfo();
   }
 
   @override
-  Widget statsBuilder(PuzzleState state) {
-    return PlanetPuzzleStats(state: state);
+  Widget statsBuilder() {
+    return const PlanetPuzzleStats();
   }
 
   @override
-  Widget tileBuilder(Tile tile, PuzzleState state) {
-    return PlanetPuzzleTile(
-      key: ValueKey(tile.value),
-      tile: tile,
-      state: state,
-    );
+  Widget tileBuilder(Tile tile) {
+    return PlanetPuzzleTile(key: ValueKey(tile.value), tile: tile);
   }
 
   @override
-  Widget whitespaceTileBuilder(Tile tile, PuzzleState state) {
-    return PlanetWhitespaceTile(
-      tile: tile,
-      state: state,
-    );
+  Widget whitespaceTileBuilder(Tile tile) {
+    return PlanetWhitespaceTile(tile: tile);
   }
 
   @override

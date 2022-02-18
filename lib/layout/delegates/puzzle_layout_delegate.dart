@@ -8,17 +8,17 @@ import '../../puzzle/bloc/puzzle_bloc.dart';
 abstract class PuzzleLayoutDelegate extends Equatable {
   const PuzzleLayoutDelegate();
 
-  Widget infoBuilder(PuzzleState state);
+  Widget infoBuilder();
 
-  Widget statsBuilder(PuzzleState state);
+  Widget statsBuilder();
 
-  Widget controlBuilder(PuzzleState state);
+  Widget controlBuilder();
 
   Widget backgroundBuilder(PuzzleTheme theme);
 
   Widget boardBuilder(int size, List<Widget> tiles);
 
-  Widget tileBuilder(Tile tile, PuzzleState state);
+  Widget tileBuilder(Tile tile);
 
-  Widget whitespaceTileBuilder(Tile tile, PuzzleState state);
+  Widget whitespaceTileBuilder(Tile tile);
 }

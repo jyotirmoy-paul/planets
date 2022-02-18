@@ -84,6 +84,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
       final mutablePuzzle = Puzzle(tiles: [...state.puzzle.tiles]);
       final puzzle = mutablePuzzle.moveTiles(tappedTile, []);
       if (puzzle.isComplete()) {
+        AppLogger.log('PuzzleBloc: puzzle.isComplete()');
         emit(
           state.copyWith(
             puzzle: puzzle.sort(),
@@ -121,6 +122,8 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     Emitter<PuzzleState> emit,
   ) {
     bool startSolving = event._state == PuzzleAutoSolveState.start;
+
+    AppLogger.log('PuzzleBloc: _onPuzzleAutoSolve: ${event._state}');
 
     if (startSolving) {
       _puzzleSolver.start();

@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../models/planet.dart';
-import '../../puzzles/community/themes/community_puzzle_theme.dart';
 import '../../puzzles/planet/planet.dart';
 import '../themes/puzzle_theme.dart';
 
@@ -22,13 +21,11 @@ const Map<PlanetType, PuzzleTheme> _planetThemeMap = {
 };
 
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
-  static PuzzleTheme _getTheme(Planet? planet) {
-    return planet == null
-        ? const CommunityPuzzleTheme()
-        : _planetThemeMap[planet.type]!;
+  static PuzzleTheme _getTheme(Planet planet) {
+    return _planetThemeMap[planet.type]!;
   }
 
-  ThemeBloc({Planet? planet}) : super(ThemeState(theme: _getTheme(planet))) {
+  ThemeBloc({required Planet planet}) : super(ThemeState(theme: _getTheme(planet))) {
     on<ThemeChangedEvent>(_onThemeChanged);
   }
 

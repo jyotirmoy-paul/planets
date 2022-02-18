@@ -17,9 +17,9 @@ class PlanetSelectionCubit extends Cubit<PlanetSelectionState> {
   PlanetSelectionCubit(this._levelSelectionCubit, this._context)
       : super(NoPlanetSelected());
 
-  Planet? _planet;
+  late Planet _planet;
 
-  Planet? get planet => _planet;
+  Planet get planet => _planet;
 
   void onPlanetSelected(Planet planet) async {
     _planet = planet;
@@ -40,7 +40,5 @@ class PlanetSelectionCubit extends Cubit<PlanetSelectionState> {
         ),
       ),
     );
-
-    _planet = null;
   }
 }

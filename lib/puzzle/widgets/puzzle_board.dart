@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/utils/app_logger.dart';
 
 import '../../models/tile.dart';
 import '../../theme/bloc/theme_bloc.dart';
@@ -20,6 +21,7 @@ class PuzzleBoard extends StatelessWidget {
     return BlocListener<PuzzleBloc, PuzzleState>(
       listener: (context, state) {
         if (state.puzzleStatus == PuzzleStatus.complete) {
+          AppLogger.log('PuzzleBoard: PuzzleStatus.complete');
           context.read<TimerBloc>().add(const TimerStopped());
         }
       },
@@ -27,7 +29,7 @@ class PuzzleBoard extends StatelessWidget {
         size,
         puzzle.tiles
             .map((tile) => _PuzzleTile(
-                  key: Key('puzzle_tile_${tile.value.toString()}'),
+                  key: Key('puzzle_tile_${tile.value}'),
                   tile: tile,
                 ))
             .toList(),
@@ -37,10 +39,7 @@ class PuzzleBoard extends StatelessWidget {
 }
 
 class _PuzzleTile extends StatelessWidget {
-  const _PuzzleTile({
-    Key? key,
-    required this.tile,
-  }) : super(key: key);
+  const _PuzzleTile({Key? key, required this.tile}) : super(key: key);
 
   /// The tile to be displayed.
   final Tile tile;
@@ -48,10 +47,9 @@ class _PuzzleTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
-    final state = context.select((PuzzleBloc bloc) => bloc.state);
 
     return tile.isWhitespace
-        ? theme.puzzleLayoutDelegate.whitespaceTileBuilder(tile, state)
-        : theme.puzzleLayoutDelegate.tileBuilder(tile, state);
+        ? theme.puzzleLayoutDelegate.whitespaceTileBuilder(tile)
+        : theme.puzzleLayoutDelegate.tileBuilder(tile);
   }
 }

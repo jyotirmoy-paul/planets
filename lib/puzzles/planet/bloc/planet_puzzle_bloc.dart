@@ -24,6 +24,17 @@ class PlanetPuzzleBloc extends Bloc<PlanetPuzzleEvent, PlanetPuzzleState> {
     on<PlanetCountdownTicked>(_onCountdownTicked);
     on<PlanetCountdownStopped>(_onCountdownStopped);
     on<PlanetCountdownReset>(_onCountdownReset);
+    on<PlanetPuzzleResetEvent>(_onPlanetPuzzleResetEvent);
+  }
+
+  void _onPlanetPuzzleResetEvent(
+    PlanetPuzzleResetEvent event,
+    Emitter<PlanetPuzzleState> emit,
+  ) {
+    emit(state.copyWith(
+      secondsToBegin: secondsToBegin,
+      isCountdownRunning: false,
+    ));
   }
 
   void _startTicker() {

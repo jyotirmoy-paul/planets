@@ -8,13 +8,8 @@ import '../planet.dart';
 
 class PlanetWhitespaceTile extends StatelessWidget {
   final Tile tile;
-  final PuzzleState state;
 
-  const PlanetWhitespaceTile({
-    Key? key,
-    required this.tile,
-    required this.state,
-  }) : super(key: key);
+  const PlanetWhitespaceTile({Key? key, required this.tile}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +23,6 @@ class PlanetWhitespaceTile extends StatelessWidget {
         : PlanetPuzzleTile(
             key: ValueKey(tile.value),
             tile: tile,
-            state: state,
           );
   }
 }

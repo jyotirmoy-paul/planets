@@ -8,9 +8,9 @@ abstract class ThemeEvent extends Equatable {
 }
 
 class ThemeChangedEvent extends ThemeEvent {
-  final Planet? planet;
+  final Planet planet;
 
-  const ThemeChangedEvent({this.planet});
+  const ThemeChangedEvent({required this.planet});
 
   @override
   List<Object?> get props => [planet];

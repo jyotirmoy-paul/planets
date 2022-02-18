@@ -28,7 +28,6 @@ class PuzzleSolver {
 
   List<Tile> get tiles => puzzleBloc.state.puzzle.tiles;
 
-  StreamSubscription<SolverTile>? _streamSubscription;
   final List<SolverTile> _tiles = [];
   int get n => puzzleBloc.size;
 
@@ -544,14 +543,7 @@ class PuzzleSolver {
     final targetPos =
         isSpecialCase ? _getTargetPos(tile) : tile.correctPosition;
 
-    int count = 0;
-
     while (tile.currentPosition != targetPos) {
-      if (count > 20) {
-        break;
-      }
-      count += 1;
-
       // get the tile closest to the correct position of tile
       final neighbour = _getNeighbourOf(tile.currentPosition, targetPos);
 
@@ -600,6 +592,8 @@ class PuzzleSolver {
 
     /// determine the solve order, this current algorithm needs to solve the tile in a specific order
     final solvedOrderTiles = _determineSolveOrder();
+    // the whitespace need not to be solved, thus remove it
+    solvedOrderTiles.removeLast();
 
     /// after getting the order, solve one by one tile
     for (final tile in solvedOrderTiles) {
@@ -616,27 +610,41 @@ class PuzzleSolver {
   }
 
   void _onAutoSolvingDone() {
+    AppLogger.log('PuzzleSolver: _onAutoSolvingDone');
+    stop();
     puzzleBloc.add(const PuzzleAutoSolve(PuzzleAutoSolveState.stop));
   }
 
   void _takeStep(SolverTile tile) {
-    if (tile.isNone) return;
-
     /// add TileTapped event, which will cause UI rebuild to show solving puzzling
     puzzleBloc.add(
       TileTapped(tiles.firstWhere((t) => tile.value == t.value)),
     );
   }
 
-  SolverTile _computeSteps(int i, List<SolverTile> steps) {
-    if (i < steps.length) return steps[i];
-    if (i == steps.length) _onAutoSolvingDone();
-    return SolverTile.none();
+  bool _isInterupted = false;
+  late SolverTile _lastStep;
+
+  void _solve(List<SolverTile> steps) async {
+    for (final step in steps) {
+      // if interupted, return
+      if (_isInterupted) return;
+
+      // otherwise, take step
+      _takeStep(step);
+
+      // wait
+      await Future.delayed(_stepDuration);
+    }
+
+    _onAutoSolvingDone();
+    _takeStep(_lastStep);
   }
 
   /// Following public methods of puzzle_solver are exposed
 
   void start() {
+    AppLogger.log('PuzzleSolver: start()');
     // take a snapshot of the current tiles arrangement
     _tiles.clear();
     _tiles.addAll(tiles.map((tile) => SolverTile.fromTile(tile)));
@@ -646,21 +654,20 @@ class PuzzleSolver {
 
     // determine all the steps to solve the puzzle
     final steps = _determineSteps();
-    AppLogger.log('puzzle_solver: start: steps.length: ${steps.length}');
+    _lastStep = steps.removeLast();
+    AppLogger.log('PuzzleSolver: start: steps.length: ${steps.length}');
+
+    _isInterupted = false;
 
     /// take real steps to solve the puzzle
-    /// a `Stream` is used so that upon user's request, the auto solve can be cancelled
-    _streamSubscription = Stream<SolverTile>.periodic(
-        _stepDuration, (i) => _computeSteps(i, steps)).listen(_takeStep);
+    _solve(steps);
   }
 
   void stop() {
-    /// as we have a stream of steps to solve this puzzle
-    /// and on stop, we can cancel the stream, thus stopping the auto solver
-    _streamSubscription?.cancel();
+    _isInterupted = true;
   }
 
   void dispose() {
-    _streamSubscription?.cancel();
+    _isInterupted = true;
   }
 }

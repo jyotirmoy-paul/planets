@@ -7,6 +7,10 @@ abstract class PlanetPuzzleEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class PlanetPuzzleResetEvent extends PlanetPuzzleEvent {
+  const PlanetPuzzleResetEvent();
+}
+
 class PlanetCountdownStarted extends PlanetPuzzleEvent {
   const PlanetCountdownStarted();
 }
@@ -20,9 +24,9 @@ class PlanetCountdownStopped extends PlanetPuzzleEvent {
 }
 
 class PlanetCountdownReset extends PlanetPuzzleEvent {
-  const PlanetCountdownReset({required this.secondsToBegin});
+  const PlanetCountdownReset({this.secondsToBegin});
 
-  final int secondsToBegin;
+  final int? secondsToBegin;
 
   @override
   List<Object?> get props => [secondsToBegin];
