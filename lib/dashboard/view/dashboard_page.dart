@@ -82,21 +82,22 @@ class _DashboardViewState extends State<_DashboardView>
     }
 
     return Scaffold(
+      backgroundColor: Colors.grey[900],
       body: SafeArea(
-        child: Container(
-          color: Colors.grey[900],
-          width: size.width,
-          height: size.height,
+        child: SizedBox.fromSize(
+          size: size,
           child: Stack(
             children: [
               // solar system
               ResponsiveLayoutBuilder(
                 small: (_, Widget? child) => _DashboardPageSmall(child: child!),
-                medium: (_, Widget? child) => _DashboardPageMedium(child: child!),
+                medium: (_, Widget? child) =>
+                    _DashboardPageMedium(child: child!),
                 large: (_, Widget? child) => child!,
-                child: (_) => _DashboardPageLarge(state: state as DashboardReady),
+                child: (_) =>
+                    _DashboardPageLarge(state: state as DashboardReady),
               ),
-      
+
               // header
               const HeaderWidget(),
             ],
@@ -199,8 +200,10 @@ class _ScrollableSolarSystemState extends State<_ScrollableSolarSystem> {
           controller: _controller,
           physics: const ClampingScrollPhysics(),
           scrollDirection: Axis.horizontal,
-          child:
-              SizedBox(width: AppBreakpoints.medium, child: widget.solarSystem),
+          child: SizedBox(
+            width: AppBreakpoints.medium,
+            child: widget.solarSystem,
+          ),
         ),
 
         // control buttons

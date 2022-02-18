@@ -45,7 +45,7 @@ class HeaderWidget extends StatelessWidget {
           ),
 
           // gap
-          const Gap(20.0),
+          const Gap(32.0),
 
           // level selection
           BlocBuilder<LevelSelectionCubit, LevelSelectionState>(

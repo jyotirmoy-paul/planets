@@ -68,11 +68,14 @@ class _PuzzleView extends StatelessWidget {
               children: [
                 // background
                 theme.puzzleLayoutDelegate.backgroundBuilder(theme),
-      
+
                 // main body
                 SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
                   child: ConstrainedBox(
-                    constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [

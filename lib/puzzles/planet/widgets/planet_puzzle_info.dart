@@ -50,7 +50,7 @@ class PlanetPuzzleInfo extends StatelessWidget {
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: isSmall
-                      ? 18.0
+                      ? 16.0
                       : isLarge
                           ? 24.0
                           : 20.0,

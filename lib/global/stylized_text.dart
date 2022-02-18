@@ -9,6 +9,7 @@ class StylizedText extends StatelessWidget {
   final double strokeWidth;
   final double fontSize;
   final double offset;
+  final TextStyle? style;
 
   const StylizedText({
     Key? key,
@@ -18,6 +19,7 @@ class StylizedText extends StatelessWidget {
     this.strokeWidth = 6.0,
     this.fontSize = 16.0,
     this.offset = 2.0,
+    this.style,
   }) : super(key: key);
 
   @override
@@ -28,11 +30,12 @@ class StylizedText extends StatelessWidget {
       strokeColor: strokeColor,
       child: Text(
         text,
-        style: TextStyle(
-          color: textColor,
-          fontSize: fontSize,
-          letterSpacing: 1.2,
-        ),
+        style: style ??
+            TextStyle(
+              color: textColor,
+              fontSize: fontSize,
+              letterSpacing: 1.2,
+            ),
       ),
     );
   }
