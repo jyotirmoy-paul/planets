@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/app/cubit/audio_player_cubit.dart';
 
 class StylizedButton extends StatelessWidget {
   final Widget child;
@@ -21,6 +23,11 @@ class StylizedButton extends StatelessWidget {
     _buttonPressedVn.value = false;
   }
 
+  void _onPressConfirm(BuildContext context) {
+    context.read<AudioPlayerCubit>().buttonClickAudio();
+    onPressed?.call();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
@@ -29,7 +36,7 @@ class StylizedButton extends StatelessWidget {
         onTapDown: (_) => _animate(),
         onTapUp: (_) async {
           await _reverseAnimate();
-          onPressed?.call();
+          _onPressConfirm(context);
         },
         onTapCancel: _reverseAnimate,
         child: ValueListenableBuilder(

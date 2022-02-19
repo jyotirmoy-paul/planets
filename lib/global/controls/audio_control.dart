@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:planets/app/bloc/audio_bloc.dart';
+import 'package:planets/app/bloc/audio_control_bloc.dart';
 import 'package:planets/global/stylized_button.dart';
 import 'package:planets/global/stylized_container.dart';
 import 'package:planets/global/stylized_icon.dart';
@@ -11,16 +11,16 @@ class AudioControl extends StatelessWidget {
   const AudioControl({Key? key}) : super(key: key);
 
   void _onMusicToggle(BuildContext context) {
-    context.read<AudioBloc>().add(const AudioMusicToggle());
+    context.read<AudioControlBloc>().add(const AudioControlMusicToggle());
   }
 
   void _onSoundEffectToggle(BuildContext context) {
-    context.read<AudioBloc>().add(const AudioSoundEffectToggle());
+    context.read<AudioControlBloc>().add(const AudioControlSoundEffectToggle());
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = context.select((AudioBloc bloc) => bloc.state);
+    final state = context.select((AudioControlBloc bloc) => bloc.state);
     final isMusicEnabled = state.isMusicEnabled;
     final isSoundEffectEnabled = state.isSoundEffectEnabled;
 

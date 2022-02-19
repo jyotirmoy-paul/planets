@@ -1,19 +1,20 @@
-part of 'audio_bloc.dart';
+part of 'audio_control_bloc.dart';
 
-class AudioState extends Equatable {
+class AudioControlState extends Equatable {
   final bool isMusicEnabled;
   final bool isSoundEffectEnabled;
 
-  const AudioState({
-    this.isMusicEnabled = true,
+  const AudioControlState({
+    /// default set music to false, due to chrome policy: https://goo.gl/xX8pDD
+    this.isMusicEnabled = false,
     this.isSoundEffectEnabled = true,
   });
 
-  AudioState copyWith({
+  AudioControlState copyWith({
     bool? isMusicEnabled,
     bool? isSoundEffectEnabled,
   }) {
-    return AudioState(
+    return AudioControlState(
       isMusicEnabled: isMusicEnabled ?? this.isMusicEnabled,
       isSoundEffectEnabled: isSoundEffectEnabled ?? this.isSoundEffectEnabled,
     );
