@@ -21,6 +21,9 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
 
   final Random? random;
 
+  int _autoSolverSteps = 0;
+  int get autoSolverSteps => _autoSolverSteps;
+
   final Map<int, ShakeAnimatorController> _shakeControllers = {};
   late PuzzleSolver _puzzleSolver;
 
@@ -66,6 +69,8 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     PuzzleInitialized event,
     Emitter<PuzzleState> emit,
   ) {
+    // todo: verifiy if resetting here is the right way
+    _autoSolverSteps = 0;
     final puzzle = _generatePuzzle(_size, shuffle: event.shufflePuzzle);
     emit(
       PuzzleState(
@@ -116,7 +121,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
       }
     } else {
       _notifyShakeAnimation(tappedTile);
-      
+
       // play error sound
       _audioPlayerCubit.tileTappedAudio(isError: true);
 
@@ -131,13 +136,14 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   void _onPuzzleAutoSolve(
     PuzzleAutoSolve event,
     Emitter<PuzzleState> emit,
-  ) {
+  ) async {
     bool startSolving = event._state == PuzzleAutoSolveState.start;
 
     AppLogger.log('PuzzleBloc: _onPuzzleAutoSolve: ${event._state}');
 
     if (startSolving) {
-      _puzzleSolver.start();
+      // add all the steps taken everytime auto solver is invoked
+      _autoSolverSteps += await _puzzleSolver.start();
     } else {
       _puzzleSolver.stop();
     }

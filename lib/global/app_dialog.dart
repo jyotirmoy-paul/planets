@@ -1,45 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:planets/global/stylized_container.dart';
 
 import '../layout/layout.dart';
 
-/// {@template app_dialog}
-/// Displays a full screen dialog on a small display and
-/// a fixed-width rounded dialog on a medium and large display.
-/// {@endtemplate}
 class AppDialog extends StatelessWidget {
-  /// {@macro app_dialog}
-  const AppDialog({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
+  const AppDialog({Key? key, required this.child}) : super(key: key);
 
-  /// The content of this dialog.
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayoutBuilder(
-      small: (_, __) => Material(
+      small: (_, __) => SafeArea(
         child: SizedBox(
           width: double.infinity,
           height: double.infinity,
-          child: child,
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Container(
+              color: Colors.amber[100]!,
+              child: Material(
+                clipBehavior: Clip.hardEdge,
+                color: Colors.transparent,
+                child: child,
+              ),
+            ),
+          ),
         ),
       ),
       medium: (_, child) => child!,
       large: (_, child) => child!,
-      child: (currentSize) {
+      child: (layoutSize) {
         final dialogWidth =
-            currentSize == ResponsiveLayoutSize.large ? 740.0 : 700.0;
+            layoutSize == ResponsiveLayoutSize.large ? 740.0 : 700.0;
 
         return Dialog(
-          clipBehavior: Clip.hardEdge,
-          backgroundColor: Colors.white,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(12),
-            ),
-          ),
+          backgroundColor: Colors.transparent,
           child: SizedBox(
             width: dialogWidth,
             child: child,

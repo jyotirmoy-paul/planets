@@ -624,14 +624,18 @@ class PuzzleSolver {
 
   bool _isInterupted = false;
   late SolverTile _lastStep;
+  int _stepsTakenBySolver = 0;
 
-  void _solve(List<SolverTile> steps) async {
+  Future<int> _solve(List<SolverTile> steps) async {
     for (final step in steps) {
       // if interupted, return
-      if (_isInterupted) return;
+      if (_isInterupted) return _stepsTakenBySolver;
 
       // otherwise, take step
       _takeStep(step);
+
+      // increment everytime a step is taken
+      _stepsTakenBySolver += 1;
 
       // wait
       await Future.delayed(_stepDuration);
@@ -639,11 +643,15 @@ class PuzzleSolver {
 
     _onAutoSolvingDone();
     _takeStep(_lastStep);
+
+    return _stepsTakenBySolver;
   }
 
   /// Following public methods of puzzle_solver are exposed
 
-  void start() {
+  /// starts the auto solver, and returns the number of steps taken by the auto solver
+  /// This method completes either when the puzzle is solved, or when stop is invoked
+  Future<int> start() {
     AppLogger.log('PuzzleSolver: start()');
     // take a snapshot of the current tiles arrangement
     _tiles.clear();
@@ -651,16 +659,16 @@ class PuzzleSolver {
 
     // cleanup
     _tilesPlacedAlready.clear();
+    _stepsTakenBySolver = 0;
+    _isInterupted = false;
 
     // determine all the steps to solve the puzzle
     final steps = _determineSteps();
     _lastStep = steps.removeLast();
     AppLogger.log('PuzzleSolver: start: steps.length: ${steps.length}');
 
-    _isInterupted = false;
-
     /// take real steps to solve the puzzle
-    _solve(steps);
+    return _solve(steps);
   }
 
   void stop() {

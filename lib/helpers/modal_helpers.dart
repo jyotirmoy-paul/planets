@@ -27,7 +27,6 @@ Future<T?> showAppDialog<T>({
       transitionDuration: const Duration(milliseconds: 650),
       barrierDismissible: barrierDismissible,
       barrierLabel: barrierLabel,
-      barrierColor: const Color(0x66000000),
       context: context,
       pageBuilder: (context, animation, secondaryAnimation) => AppDialog(
         child: child,

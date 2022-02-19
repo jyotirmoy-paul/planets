@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:planets/global/stylized_text.dart';
+import 'package:planets/utils/utils.dart';
 
 class StylizedIcon extends StatelessWidget {
   final IconData icon;
   final double size;
   final double strokeWidth;
   final double offset;
+  final Color color;
 
   const StylizedIcon({
     Key? key,
@@ -13,6 +15,7 @@ class StylizedIcon extends StatelessWidget {
     this.size = 24.0,
     this.strokeWidth = 6.0,
     this.offset = 2.0,
+    this.color = Colors.white,
   }) : super(key: key);
 
   @override
@@ -20,10 +23,12 @@ class StylizedIcon extends StatelessWidget {
     return StylizedText(
       text: String.fromCharCode(icon.codePoint),
       strokeWidth: strokeWidth,
+      strokeColor:
+          color == Colors.white ? Colors.black : Utils.darkenColor(color),
       offset: offset,
       style: TextStyle(
         inherit: false,
-        color: Colors.white,
+        color: color,
         fontSize: size,
         fontWeight: FontWeight.bold,
         fontFamily: icon.fontFamily,
