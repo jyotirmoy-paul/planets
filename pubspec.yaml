@@ -17,6 +17,7 @@ dependencies:
   flutter_bloc: ^8.0.1
   font_awesome_flutter: ^9.2.0
   gap: ^2.0.0
+  just_audio: ^0.9.20
   rive: ^0.8.1
 
 dev_dependencies:
@@ -26,8 +27,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
   assets:
+    - assets/audio/
     - assets/animations/
 
   fonts:

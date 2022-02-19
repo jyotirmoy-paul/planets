@@ -72,6 +72,7 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
     final puzzleIncomplete =
         puzzleBloc.state.puzzleStatus == PuzzleStatus.incomplete;
     final isAutoSolving = puzzleBloc.state.isAutoSolving;
+    final showHelp = puzzleBloc.state.showHelp;
 
     final status = context.select((PlanetPuzzleBloc bloc) => bloc.state.status);
     final hasStarted = status == PlanetPuzzleStatus.started;
@@ -127,18 +128,11 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
                   child: Stack(
                     children: [
                       child,
-                      Align(
-                        alignment: FractionalOffset(
-                          ((correctX + 1 / 2) * offset) / size,
-                          ((correctY + 1 / 2) * offset) / size,
-                        ),
-                        child: Text(
-                          '${widget.tile.value}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.0,
-                          ),
-                        ),
+                      _HelpWidget(
+                        key: ValueKey(widget.tile.value),
+                        tile: widget.tile,
+                        showHelp: showHelp,
+                        size: size,
                       ),
                     ],
                   ),
@@ -147,6 +141,47 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _HelpWidget extends StatelessWidget {
+  final Tile tile;
+  final bool showHelp;
+  final double size;
+
+  const _HelpWidget({
+    Key? key,
+    required this.tile,
+    required this.showHelp,
+    required this.size,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final correctX = tile.correctPosition.x;
+    final correctY = tile.correctPosition.y;
+
+    final offset = size / tile.puzzleSize;
+
+    return Align(
+      alignment: FractionalOffset(
+        ((correctX + 1 / 2) * offset) / size,
+        ((correctY + 1 / 2) * offset) / size,
+      ),
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        reverseDuration: const Duration(microseconds: 300),
+        child: showHelp
+            ? Text(
+                '${tile.value}',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),
+              )
+            : const SizedBox.shrink(),
       ),
     );
   }

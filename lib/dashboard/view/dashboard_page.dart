@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/global/controls/music_control.dart';
 
 import '../../layout/utils/app_breakpoints.dart';
 import '../../layout/utils/responsive_layout_builder.dart';
@@ -100,6 +101,16 @@ class _DashboardViewState extends State<_DashboardView>
 
               // header
               const HeaderWidget(),
+
+              // music control
+              ResponsiveLayoutBuilder(
+                small: (_, __) => const SizedBox.shrink(),
+                medium: (_, __) => const SizedBox.shrink(),
+                large: (_, __) => const Align(
+                  alignment: FractionalOffset(0.95, 0.05),
+                  child: MusicControl(),
+                ),
+              ),
             ],
           ),
         ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/planet_whitespace_tile.dart';
-import '../../../global/puzzle_control.dart';
+import '../../../global/controls/puzzle_control.dart';
 import '../../../layout/layout.dart';
 import '../../../models/tile.dart';
 import '../widgets/planet_puzzle_board.dart';

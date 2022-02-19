@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'stylized_button.dart';
-import 'stylized_text.dart';
-import '../layout/utils/responsive_layout_builder.dart';
-import '../puzzle/cubit/puzzle_init_cubit.dart';
-import '../resource/app_string.dart';
-import '../puzzle/puzzle.dart';
-import '../puzzles/planet/planet.dart';
-import '../timer/timer.dart';
-import 'stylized_container.dart';
+import '../stylized_button.dart';
+import '../stylized_text.dart';
+import '../../layout/utils/responsive_layout_builder.dart';
+import '../../puzzle/cubit/puzzle_init_cubit.dart';
+import '../../resource/app_string.dart';
+import '../../puzzle/puzzle.dart';
+import '../../puzzles/planet/planet.dart';
+import '../../timer/timer.dart';
+import '../stylized_container.dart';
 
 class PuzzleControl extends StatelessWidget {
   const PuzzleControl({Key? key}) : super(key: key);
@@ -27,10 +27,9 @@ class PuzzleControl extends StatelessWidget {
 
   void _onRestart(BuildContext context) {
     _onStart(context, true);
-
-    context.read<PuzzleBloc>().add(
-          const PuzzleInitialized(shufflePuzzle: false),
-        );
+    context
+        .read<PuzzleBloc>()
+        .add(const PuzzleInitialized(shufflePuzzle: false));
   }
 
   @override

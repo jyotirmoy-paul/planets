@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:planets/global/controls/music_control.dart';
 import 'package:planets/global/stylized_icon.dart';
 import '../../global/stylized_button.dart';
 import '../../global/stylized_text.dart';
@@ -22,29 +23,38 @@ class PuzzleHeader extends StatelessWidget {
 
         return Container(
           margin: const EdgeInsets.all(25.0),
-          child: StylizedButton(
-            key: ValueKey(isSmall),
-            onPressed: () => Navigator.pop(context),
-            child: StylizedContainer(
-              color: Colors.redAccent,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  StylizedIcon(
-                    icon: FontAwesomeIcons.chevronLeft,
-                    size: isSmall ? 18.0 : 24.0,
-                    offset: isSmall ? 1.0 : 2.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // back button
+              StylizedButton(
+                key: ValueKey(isSmall),
+                onPressed: () => Navigator.pop(context),
+                child: StylizedContainer(
+                  color: Colors.redAccent,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      StylizedIcon(
+                        icon: FontAwesomeIcons.chevronLeft,
+                        size: isSmall ? 18.0 : 24.0,
+                        offset: isSmall ? 1.0 : 2.0,
+                      ),
+                      isSmall ? const Gap(12.0) : const Gap(24.0),
+                      StylizedText(
+                        text: AppString.solarSystem,
+                        strokeWidth: isSmall ? 5.0 : 6.0,
+                        offset: isSmall ? 1.0 : 2.0,
+                        fontSize: isSmall ? 18.0 : 22.0,
+                      ),
+                    ],
                   ),
-                  isSmall ? const Gap(12.0) : const Gap(24.0),
-                  StylizedText(
-                    text: AppString.solarSystem,
-                    strokeWidth: isSmall ? 5.0 : 6.0,
-                    offset: isSmall ? 1.0 : 2.0,
-                    fontSize: isSmall ? 18.0 : 22.0,
-                  ),
-                ],
+                ),
               ),
-            ),
+
+              // music control buttons
+              const MusicControl(),
+            ],
           ),
         );
       },

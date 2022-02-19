@@ -1,12 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import '../../global/controls/music_control.dart';
 import '../../global/stylized_button.dart';
 import '../../global/stylized_text.dart';
 import '../../layout/layout.dart';
 import '../../layout/utils/responsive_layout_builder.dart';
-import '../../global/bordered_text.dart';
 import '../cubit/level_selection_cubit.dart';
 import '../../global/stylized_container.dart';
 import '../../models/puzzle.dart';
@@ -61,6 +60,17 @@ class HeaderWidget extends StatelessWidget {
                     context.read<LevelSelectionCubit>().onNewLevelSelected,
               );
             },
+          ),
+
+          // gap
+          const Gap(32),
+
+          // music control for medium & small screens
+          ResponsiveLayoutBuilder(
+            small: (_, Widget? child) => child!,
+            medium: (_, Widget? child) => child!,
+            large: (_, __) => const SizedBox.shrink(),
+            child: (_) => const MusicControl(),
           ),
         ],
       ),
