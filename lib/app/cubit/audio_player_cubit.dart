@@ -6,11 +6,13 @@ import 'package:just_audio/just_audio.dart';
 import 'package:planets/app/bloc/audio_control_bloc.dart';
 import 'package:planets/helpers/audio_player.dart';
 import 'package:planets/resource/app_assets.dart';
+import 'package:planets/utils/app_logger.dart';
 
 part 'audio_player_state.dart';
 
 const _maxThemeVolume = 0.15;
-const _clickVolume = 0.50;
+const _clickVolume = 0.80;
+const _tapVolume = 0.60;
 
 class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   final AudioControlBloc _audioBloc;
@@ -23,7 +25,8 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   final AudioPlayer _buttonClickPlayer = getAudioPlayer();
 
   // tile tap player
-  final AudioPlayer _tileTapPlayer = getAudioPlayer();
+  final AudioPlayer _tileTapPlayerSuccess = getAudioPlayer();
+  final AudioPlayer _tileTapPlayerError = getAudioPlayer();
 
   Timer? _timer;
 
@@ -40,11 +43,17 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
       await _themeMusicPlayer.setLoopMode(LoopMode.one);
       await _themeMusicPlayer.setVolume(_maxThemeVolume);
 
-      // button & tile clicks
+      // button click
       await _buttonClickPlayer.setAsset(AppAssets.buttonClick);
       await _buttonClickPlayer.setVolume(_clickVolume);
-      
-      // todo: setAsset for tile tapped
+
+      // tile tap success
+      await _tileTapPlayerSuccess.setAsset(AppAssets.tileTapSuccess);
+      await _tileTapPlayerSuccess.setVolume(_tapVolume);
+
+      // tile tap error
+      await _tileTapPlayerError.setAsset(AppAssets.tileTapError);
+      await _tileTapPlayerError.setVolume(_tapVolume);
 
       emit(const AudioPlayerReady());
     });
@@ -72,7 +81,8 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     _timer?.cancel();
     _themeMusicPlayer.dispose();
     _buttonClickPlayer.dispose();
-    _tileTapPlayer.dispose();
+    _tileTapPlayerSuccess.dispose();
+    _tileTapPlayerError.dispose();
     return super.close();
   }
 
@@ -80,8 +90,14 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
 
   // public methods
 
-  void tileTappedAudio() {
-    // todo do this
+  void tileTappedAudio({isError = false}) {
+    AppLogger.log('AudioPlayerCubit :: tileTappedAudio');
+    if (!_isSoundEffectEnabled) return;
+    if (isError) {
+      unawaited(_tileTapPlayerError.replay());
+    } else {
+      unawaited(_tileTapPlayerSuccess.replay());
+    }
   }
 
   void buttonClickAudio() {

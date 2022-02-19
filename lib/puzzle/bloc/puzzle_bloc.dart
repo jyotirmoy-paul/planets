@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:planets/app/cubit/audio_player_cubit.dart';
 import 'package:planets/puzzle_solver/puzzle_solver.dart';
 import '../../global/shake_animator.dart';
 import '../../utils/app_logger.dart';
@@ -14,6 +15,7 @@ part 'puzzle_event.dart';
 part 'puzzle_state.dart';
 
 class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
+  final AudioPlayerCubit _audioPlayerCubit;
   final int _size;
   int get size => _size;
 
@@ -22,7 +24,8 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   final Map<int, ShakeAnimatorController> _shakeControllers = {};
   late PuzzleSolver _puzzleSolver;
 
-  PuzzleBloc(this._size, {this.random}) : super(const PuzzleState()) {
+  PuzzleBloc(this._size, this._audioPlayerCubit, {this.random})
+      : super(const PuzzleState()) {
     _puzzleSolver = PuzzleSolver(puzzleBloc: this);
 
     on<PuzzleInitialized>(_onPuzzleInitialized);
@@ -80,6 +83,11 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     final isPuzzleIncomplete = state.puzzleStatus == PuzzleStatus.incomplete;
     final isTileMovable = state.puzzle.isTileMovable(tappedTile);
 
+    // play audio if tile is movable
+    if (isTileMovable) {
+      _audioPlayerCubit.tileTappedAudio();
+    }
+
     if (isPuzzleIncomplete && isTileMovable) {
       final mutablePuzzle = Puzzle(tiles: [...state.puzzle.tiles]);
       final puzzle = mutablePuzzle.moveTiles(tappedTile, []);
@@ -108,6 +116,9 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
       }
     } else {
       _notifyShakeAnimation(tappedTile);
+      
+      // play error sound
+      _audioPlayerCubit.tileTappedAudio(isError: true);
 
       emit(
         state.copyWith(

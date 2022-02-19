@@ -10,7 +10,8 @@ class AudioControlBloc extends Bloc<AudioControlEvent, AudioControlState> {
     on<AudioControlSoundEffectToggle>(_onSoundEffectToggle);
   }
 
-  void _onMusicToggle(AudioControlMusicToggle _, Emitter<AudioControlState> emit) {
+  void _onMusicToggle(
+      AudioControlMusicToggle _, Emitter<AudioControlState> emit) {
     emit(state.copyWith(
       isMusicEnabled: !state.isMusicEnabled,
     ));

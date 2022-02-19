@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/app/cubit/audio_player_cubit.dart';
 import '../../puzzles/planet/bloc/planet_puzzle_bloc.dart';
 import '../../dashboard/cubit/level_selection_cubit.dart';
 import '../../dashboard/cubit/planet_selection_cubit.dart';
@@ -33,6 +34,7 @@ class PuzzlePage extends StatelessWidget {
         BlocProvider(
           create: (context) => PuzzleBloc(
             context.read<LevelSelectionCubit>().puzzleSize,
+            context.read<AudioPlayerCubit>(),
           )..add(const PuzzleInitialized(shufflePuzzle: false)),
         ),
         BlocProvider(
