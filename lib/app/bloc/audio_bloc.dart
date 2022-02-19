@@ -7,15 +7,15 @@ import 'package:planets/resource/app_assets.dart';
 
 import '../../helpers/audio_player.dart';
 
-part 'music_event.dart';
-part 'music_state.dart';
+part 'audio_event.dart';
+part 'audio_state.dart';
 
-class MusicBloc extends Bloc<MusicEvent, MusicState> {
-  MusicBloc()
+class AudioBloc extends Bloc<AudioEvent, AudioState> {
+  AudioBloc()
       : _audioPlayer = getAudioPlayer(),
-        super(const MusicState()) {
-    on<MusicToggle>(_onMusicToggle);
-    on<SoundEffectToggle>(_onSoundEffectToggle);
+        super(const AudioState()) {
+    on<AudioMusicToggle>(_onMusicToggle);
+    on<AudioSoundEffectToggle>(_onSoundEffectToggle);
     _initAudioAsset();
   }
 
@@ -33,7 +33,7 @@ class MusicBloc extends Bloc<MusicEvent, MusicState> {
     unawaited(_audioPlayer.play());
   }
 
-  void _onMusicToggle(MusicToggle _, Emitter<MusicState> emit) {
+  void _onMusicToggle(AudioMusicToggle _, Emitter<AudioState> emit) {
     final newIsMusicEnabled = !state.isMusicEnabled;
     _audioPlayer.setVolume(newIsMusicEnabled ? _maxThemeVolume : 0.0);
     emit(state.copyWith(
@@ -41,7 +41,7 @@ class MusicBloc extends Bloc<MusicEvent, MusicState> {
     ));
   }
 
-  void _onSoundEffectToggle(SoundEffectToggle _, Emitter<MusicState> emit) {
+  void _onSoundEffectToggle(AudioSoundEffectToggle _, Emitter<AudioState> emit) {
     emit(state.copyWith(
       isSoundEffectEnabled: !state.isSoundEffectEnabled,
     ));

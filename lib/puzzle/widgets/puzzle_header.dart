@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:planets/global/controls/music_control.dart';
+import 'package:planets/global/controls/audio_control.dart';
 import 'package:planets/global/stylized_icon.dart';
 import '../../global/stylized_button.dart';
 import '../../global/stylized_text.dart';
@@ -53,7 +53,7 @@ class PuzzleHeader extends StatelessWidget {
               ),
 
               // music control buttons
-              const MusicControl(),
+              const AudioControl(),
             ],
           ),
         );

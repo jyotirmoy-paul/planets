@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import '../../global/controls/music_control.dart';
+import '../../global/controls/audio_control.dart';
 import '../../global/stylized_button.dart';
 import '../../global/stylized_text.dart';
 import '../../layout/layout.dart';
@@ -70,7 +70,7 @@ class HeaderWidget extends StatelessWidget {
             small: (_, Widget? child) => child!,
             medium: (_, Widget? child) => child!,
             large: (_, __) => const SizedBox.shrink(),
-            child: (_) => const MusicControl(),
+            child: (_) => const AudioControl(),
           ),
         ],
       ),
