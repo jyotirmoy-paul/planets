@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:planets/app/cubit/audio_player_cubit.dart';
-import 'package:planets/puzzle_solver/puzzle_solver.dart';
 import '../../global/shake_animator.dart';
 import '../../utils/app_logger.dart';
 
@@ -21,19 +20,12 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
 
   final Random? random;
 
-  int _autoSolverSteps = 0;
-  int get autoSolverSteps => _autoSolverSteps;
-
   final Map<int, ShakeAnimatorController> _shakeControllers = {};
-  late PuzzleSolver _puzzleSolver;
 
   PuzzleBloc(this._size, this._audioPlayerCubit, {this.random})
       : super(const PuzzleState()) {
-    _puzzleSolver = PuzzleSolver(puzzleBloc: this);
-
     on<PuzzleInitialized>(_onPuzzleInitialized);
     on<TileTapped>(_onTileTapped);
-    on<PuzzleAutoSolve>(_onPuzzleAutoSolve);
     on<PuzzleReset>(_onPuzzleReset);
   }
 
@@ -69,8 +61,6 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     PuzzleInitialized event,
     Emitter<PuzzleState> emit,
   ) {
-    // todo: verifiy if resetting here is the right way
-    _autoSolverSteps = 0;
     final puzzle = _generatePuzzle(_size, shuffle: event.shufflePuzzle);
     emit(
       PuzzleState(
@@ -131,26 +121,6 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
         ),
       );
     }
-  }
-
-  void _onPuzzleAutoSolve(
-    PuzzleAutoSolve event,
-    Emitter<PuzzleState> emit,
-  ) async {
-    bool startSolving = event._state == PuzzleAutoSolveState.start;
-
-    AppLogger.log('PuzzleBloc: _onPuzzleAutoSolve: ${event._state}');
-
-    if (startSolving) {
-      // add all the steps taken everytime auto solver is invoked
-      _autoSolverSteps += await _puzzleSolver.start();
-    } else {
-      _puzzleSolver.stop();
-    }
-
-    emit(state.copyWith(
-      isAutoSolving: startSolving,
-    ));
   }
 
   void _onPuzzleReset(
@@ -235,11 +205,5 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
             puzzleSize: size,
           )
     ];
-  }
-
-  @override
-  Future<void> close() {
-    _puzzleSolver.dispose();
-    return super.close();
   }
 }

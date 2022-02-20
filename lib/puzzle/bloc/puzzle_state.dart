@@ -12,8 +12,6 @@ class PuzzleState extends Equatable {
     this.numberOfCorrectTiles = 0,
     this.numberOfMoves = 0,
     this.lastTappedTile,
-    this.isAutoSolving = false,
-    this.showHelp = false,
   });
 
   final Puzzle puzzle;
@@ -23,8 +21,6 @@ class PuzzleState extends Equatable {
   final int numberOfCorrectTiles;
   int get numberOfTilesLeft => puzzle.tiles.length - numberOfCorrectTiles - 1;
   final int numberOfMoves;
-  final bool isAutoSolving;
-  final bool showHelp;
 
   PuzzleState copyWith({
     Puzzle? puzzle,
@@ -43,8 +39,6 @@ class PuzzleState extends Equatable {
       numberOfCorrectTiles: numberOfCorrectTiles ?? this.numberOfCorrectTiles,
       numberOfMoves: numberOfMoves ?? this.numberOfMoves,
       lastTappedTile: lastTappedTile ?? this.lastTappedTile,
-      isAutoSolving: isAutoSolving ?? this.isAutoSolving,
-      showHelp: showHelp ?? this.showHelp,
     );
   }
 
@@ -56,7 +50,5 @@ class PuzzleState extends Equatable {
         numberOfCorrectTiles,
         numberOfMoves,
         lastTappedTile,
-        isAutoSolving,
-        showHelp,
       ];
 }

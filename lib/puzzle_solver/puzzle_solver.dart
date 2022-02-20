@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:planets/models/position.dart';
+import 'package:planets/puzzle/cubit/puzzle_helper_cubit.dart';
 import 'package:planets/puzzle/puzzle.dart';
+import 'package:planets/puzzle/widgets/puzzle_header.dart';
 import 'package:planets/puzzle_solver/solver_tile.dart';
 import 'package:planets/utils/app_logger.dart';
 import 'dart:math' as math;
@@ -23,8 +25,12 @@ extension ListHelper on List<SolverTile> {
 
 class PuzzleSolver {
   final PuzzleBloc puzzleBloc;
+  final PuzzleHelperCubit puzzleHelperCubit;
 
-  PuzzleSolver({required this.puzzleBloc});
+  PuzzleSolver({
+    required this.puzzleBloc,
+    required this.puzzleHelperCubit,
+  });
 
   List<Tile> get tiles => puzzleBloc.state.puzzle.tiles;
 
@@ -609,10 +615,9 @@ class PuzzleSolver {
     return steps;
   }
 
-  void _onAutoSolvingDone() {
+  void _onAutoSolvingStopped() {
     AppLogger.log('PuzzleSolver: _onAutoSolvingDone');
-    stop();
-    puzzleBloc.add(const PuzzleAutoSolve(PuzzleAutoSolveState.stop));
+    puzzleHelperCubit.onAutoSolvingEnded();
   }
 
   void _takeStep(SolverTile tile) {
@@ -629,7 +634,11 @@ class PuzzleSolver {
   Future<int> _solve(List<SolverTile> steps) async {
     for (final step in steps) {
       // if interupted, return
-      if (_isInterupted) return _stepsTakenBySolver;
+      if (_isInterupted) {
+        // stopped due to interuption
+        _onAutoSolvingStopped();
+        return _stepsTakenBySolver;
+      }
 
       // otherwise, take step
       _takeStep(step);
@@ -641,7 +650,8 @@ class PuzzleSolver {
       await Future.delayed(_stepDuration);
     }
 
-    _onAutoSolvingDone();
+    // stopped due to puzzle completion
+    _onAutoSolvingStopped();
     _takeStep(_lastStep);
 
     return _stepsTakenBySolver;

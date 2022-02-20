@@ -30,15 +30,6 @@ class TileTapped extends PuzzleEvent {
   List<Object> get props => [tile];
 }
 
-class PuzzleAutoSolve extends PuzzleEvent {
-  final PuzzleAutoSolveState _state;
-
-  const PuzzleAutoSolve(this._state);
-
-  @override
-  List<Object> get props => [_state];
-}
-
 class PuzzleReset extends PuzzleEvent {
   const PuzzleReset();
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:planets/puzzle/cubit/puzzle_helper_cubit.dart';
 import '../stylized_button.dart';
 import '../stylized_text.dart';
 import '../../layout/utils/responsive_layout_builder.dart';
@@ -22,7 +23,11 @@ class PuzzleControl extends StatelessWidget {
   }
 
   void _onAutoSolve(BuildContext context, PuzzleAutoSolveState autoSolveState) {
-    context.read<PuzzleBloc>().add(PuzzleAutoSolve(autoSolveState));
+    if (autoSolveState == PuzzleAutoSolveState.start) {
+      context.read<PuzzleHelperCubit>().startAutoSolver();
+    } else {
+      context.read<PuzzleHelperCubit>().stopAutoSolver();
+    }  
   }
 
   void _onRestart(BuildContext context) {
@@ -34,7 +39,6 @@ class PuzzleControl extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.select((PuzzleBloc bloc) => bloc.state);
     final puzzleInitState =
         context.select((PuzzleInitCubit cubit) => cubit.state);
     final isReady = puzzleInitState is PuzzleInitReady;
@@ -42,7 +46,10 @@ class PuzzleControl extends StatelessWidget {
     final status = context.select((PlanetPuzzleBloc bloc) => bloc.state.status);
     final hasStarted = status == PlanetPuzzleStatus.started;
     final isLoading = status == PlanetPuzzleStatus.loading;
-    final isAutoSolving = state.isAutoSolving;
+
+    final puzzleHelperState =
+        context.select((PuzzleHelperCubit cubit) => cubit.state);
+    final isAutoSolving = puzzleHelperState.isAutoSolving;
 
     final text = isAutoSolving
         ? AppString.stop

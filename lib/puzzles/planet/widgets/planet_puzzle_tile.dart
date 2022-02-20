@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/puzzle/cubit/puzzle_helper_cubit.dart';
+import 'package:planets/utils/app_logger.dart';
 import '../../../global/shake_animator.dart';
 import '../../../models/tile.dart';
 import '../../../puzzle/cubit/puzzle_init_cubit.dart';
@@ -67,11 +69,16 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
 
   @override
   Widget build(BuildContext context) {
-    final puzzleState = context.select((PuzzleBloc bloc) => bloc.state);
+    final puzzleBloc = context.select((PuzzleBloc bloc) => bloc);
     final puzzleIncomplete =
-        puzzleState.puzzleStatus == PuzzleStatus.incomplete;
-    final isAutoSolving = puzzleState.isAutoSolving;
-    final showHelp = puzzleState.showHelp;
+        puzzleBloc.state.puzzleStatus == PuzzleStatus.incomplete;
+
+    final puzzleHelperState =
+        context.select((PuzzleHelperCubit cubit) => cubit.state);
+    final isAutoSolving = puzzleHelperState.isAutoSolving;
+    final showHelp = puzzleHelperState.showHelp;
+
+    AppLogger.log('PlanetPuzzleTile: updated: isAutoSolving: $isAutoSolving');
 
     final status = context.select((PlanetPuzzleBloc bloc) => bloc.state.status);
     final hasStarted = status == PlanetPuzzleStatus.started;
@@ -95,9 +102,9 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
       top: offset * (y - correctY),
       left: offset * (x - correctX),
       child: ShakeAnimator(
-        controller: context.read<PuzzleBloc>().getShakeControllerFor(
-              widget.tile.value,
-            ),
+        controller: puzzleBloc.getShakeControllerFor(
+          widget.tile.value,
+        ),
         child: AnimatedScale(
           scale: scale,
           curve: Curves.easeInOut,
