@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planets/app/bloc/audio_control_bloc.dart';
 import 'package:planets/app/cubit/audio_player_cubit.dart';
+import 'package:planets/global/keyboard_handlers/app_keyboard_handler.dart';
 
 import '../../dashboard/dashboard.dart';
 import '../../utils/constants.dart';
@@ -33,9 +34,11 @@ class _AppState extends State<App> {
           lazy: false,
         ),
       ],
-      child: MaterialApp(
-        theme: ThemeData(fontFamily: Constants.fontFamily),
-        home: const DashboardPage(),
+      child: AppKeyboardHandler(
+        child: MaterialApp(
+          theme: ThemeData(fontFamily: Constants.fontFamily),
+          home: const DashboardPage(),
+        ),
       ),
     );
   }

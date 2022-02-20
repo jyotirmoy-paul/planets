@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/global/keyboard_handlers/puzzle_keyboard_handler.dart';
 import 'package:planets/utils/app_logger.dart';
 
 import '../../models/tile.dart';
@@ -18,21 +19,23 @@ class PuzzleBoard extends StatelessWidget {
     final size = puzzle.getDimension();
     if (size == 0) return const Center(child: CircularProgressIndicator());
 
-    return BlocListener<PuzzleBloc, PuzzleState>(
-      listener: (context, state) {
-        if (state.puzzleStatus == PuzzleStatus.complete) {
-          AppLogger.log('PuzzleBoard: PuzzleStatus.complete');
-          context.read<TimerBloc>().add(const TimerStopped());
-        }
-      },
-      child: theme.puzzleLayoutDelegate.boardBuilder(
-        size,
-        puzzle.tiles
-            .map((tile) => _PuzzleTile(
-                  key: Key('puzzle_tile_${tile.value}'),
-                  tile: tile,
-                ))
-            .toList(),
+    return PuzzleKeyboardHandler(
+      child: BlocListener<PuzzleBloc, PuzzleState>(
+        listener: (context, state) {
+          if (state.puzzleStatus == PuzzleStatus.complete) {
+            AppLogger.log('PuzzleBoard: PuzzleStatus.complete');
+            context.read<TimerBloc>().add(const TimerStopped());
+          }
+        },
+        child: theme.puzzleLayoutDelegate.boardBuilder(
+          size,
+          puzzle.tiles
+              .map((tile) => _PuzzleTile(
+                    key: Key('puzzle_tile_${tile.value}'),
+                    tile: tile,
+                  ))
+              .toList(),
+        ),
       ),
     );
   }
