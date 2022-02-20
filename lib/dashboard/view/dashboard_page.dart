@@ -2,7 +2,12 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:planets/dashboard/cubit/planet_selection_helper_cubit.dart';
 import 'package:planets/global/controls/audio_control.dart';
+import 'package:planets/global/stylized_button.dart';
+import 'package:planets/global/stylized_container.dart';
+import 'package:planets/global/stylized_icon.dart';
 
 import '../../layout/utils/app_breakpoints.dart';
 import '../../layout/utils/responsive_layout_builder.dart';
@@ -31,10 +36,16 @@ class DashboardPage extends StatelessWidget {
         ),
         BlocProvider(create: (_) => LevelSelectionCubit()),
         BlocProvider(
-            create: (c) => PlanetSelectionCubit(
-                  c.read<LevelSelectionCubit>(),
-                  context,
-                )),
+          create: (c) => PlanetSelectionCubit(
+            c.read<LevelSelectionCubit>(),
+            context,
+          ),
+        ),
+        BlocProvider(
+          create: (c) => PlanetSelectionHelperCubit(
+            planetAnimationCubit: c.read<PlanetOrbitalAnimationCubit>(),
+          ),
+        ),
       ],
       child: const _DashboardView(),
     );
@@ -111,8 +122,38 @@ class _DashboardViewState extends State<_DashboardView>
                   child: AudioControl(),
                 ),
               ),
+
+              // planet animation pause/play button
+              const Align(
+                alignment: FractionalOffset(0.95, 0.95),
+                child: _PlanetAnimationToggleButton(),
+              ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PlanetAnimationToggleButton extends StatelessWidget {
+  const _PlanetAnimationToggleButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final state =
+        context.select((PlanetSelectionHelperCubit cubit) => cubit.state);
+
+    final bool isPaused = state.isPaused;
+
+    return StylizedButton(
+      onPressed: () {
+        context.read<PlanetSelectionHelperCubit>().onPlanetMovementToggle();
+      },
+      child: StylizedContainer(
+        color: isPaused ? Colors.grey : Colors.blueAccent,
+        child: StylizedIcon(
+          icon: isPaused ? FontAwesomeIcons.pause : FontAwesomeIcons.play,
         ),
       ),
     );

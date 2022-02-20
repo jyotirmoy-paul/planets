@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:planets/utils/app_logger.dart';
 
 import '../../models/orbit.dart';
 import '../../models/planet.dart';
@@ -46,6 +47,18 @@ const Map<PlanetType, double> _thresholdFactor = {
   PlanetType.pluto: 0.50,
 };
 
+const Map<PlanetType, double> _pausedPosition = {
+  PlanetType.mercury: 0.60,
+  PlanetType.venus: 0.35,
+  PlanetType.earth: 0.45,
+  PlanetType.mars: 0.33,
+  PlanetType.jupiter: 0.55,
+  PlanetType.saturn: 0.41,
+  PlanetType.uranus: 0.30,
+  PlanetType.neptune: 0.53,
+  PlanetType.pluto: 0.30,
+};
+
 class PlanetOrbitalAnimationCubit extends Cubit<PlanetOrbitalAnimationState> {
   PlanetOrbitalAnimationCubit(this._parentSize)
       : super(const PlanetOrbitalAnimationLoading());
@@ -58,6 +71,8 @@ class PlanetOrbitalAnimationCubit extends Cubit<PlanetOrbitalAnimationState> {
   // <planet-key, animation>
   final Map<PlanetType, AnimationController> _animationController = {};
   final Map<PlanetType, Animation<double>> _animations = {};
+
+  bool _isStopped = false;
 
   void setTickerProvider(TickerProvider tickerProvider) {
     _tickerProvider = tickerProvider;
@@ -106,6 +121,7 @@ class PlanetOrbitalAnimationCubit extends Cubit<PlanetOrbitalAnimationState> {
   }
 
   void playAnimation(Planet planet) {
+    if (_isStopped) return;
     final controller = _animationController[planet.type];
     if (controller == null) return;
 
@@ -114,11 +130,32 @@ class PlanetOrbitalAnimationCubit extends Cubit<PlanetOrbitalAnimationState> {
   }
 
   void pauseAnimation(Planet planet) {
+    if (_isStopped) return;
     final controller = _animationController[planet.type];
     if (controller == null) return;
 
     controller.stop();
     controller.repeat(period: _getPausedDuration(planet.type));
+  }
+
+  void stopAll() {
+    _isStopped = true;
+    _animationController.forEach((planetType, controller) {
+      // final v = math.max(math.min(_random.nextDouble(), 0.60), 0.30);
+      // AppLogger.log('planetpositionfinding: $planetType :: $v');
+      controller.stop();
+      controller.animateTo(
+        _pausedPosition[planetType]!,
+        duration: const Duration(milliseconds: 300),
+      );
+    });
+  }
+
+  void playAll() {
+    _isStopped = false;
+    _animationController.forEach((planetType, controller) {
+      controller.repeat(period: _getDuration(planetType));
+    });
   }
 
   void initAnimators(List<Orbit> orbits) {

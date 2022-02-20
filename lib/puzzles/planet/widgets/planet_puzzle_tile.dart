@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/global/stylized_text.dart';
 import 'package:planets/puzzle/cubit/puzzle_helper_cubit.dart';
 import 'package:planets/utils/app_logger.dart';
 import '../../../global/shake_animator.dart';
