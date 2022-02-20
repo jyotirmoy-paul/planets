@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:planets/global/stylized_container.dart';
 
 import '../layout/layout.dart';
 
@@ -17,13 +16,10 @@ class AppDialog extends StatelessWidget {
           height: double.infinity,
           child: Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Container(
-              color: Colors.amber[100]!,
-              child: Material(
-                clipBehavior: Clip.hardEdge,
-                color: Colors.transparent,
-                child: child,
-              ),
+            child: Material(
+              clipBehavior: Clip.hardEdge,
+              color: Colors.transparent,
+              child: child,
             ),
           ),
         ),
@@ -32,10 +28,11 @@ class AppDialog extends StatelessWidget {
       large: (_, child) => child!,
       child: (layoutSize) {
         final dialogWidth =
-            layoutSize == ResponsiveLayoutSize.large ? 740.0 : 700.0;
+            layoutSize == ResponsiveLayoutSize.large ? 1200.0 : 980.0;
 
         return Dialog(
           backgroundColor: Colors.transparent,
+          clipBehavior: Clip.hardEdge,
           child: SizedBox(
             width: dialogWidth,
             child: child,

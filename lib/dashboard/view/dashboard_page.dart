@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:planets/dashboard/cubit/planet_selection_helper_cubit.dart';
 import 'package:planets/global/controls/audio_control.dart';
-import 'package:planets/global/info_card.dart';
+import 'package:planets/global/info_card/info_card.dart';
 import 'package:planets/global/keyboard_handlers/dashboard_keyboard_handler.dart';
 import 'package:planets/global/stylized_button.dart';
 import 'package:planets/global/stylized_container.dart';
@@ -135,7 +135,7 @@ class _DashboardViewState extends State<_DashboardView>
 
                 // info button
                 const Align(
-                  alignment: FractionalOffset(0.05, 0.05),
+                  alignment: FractionalOffset(0.02, 0.05),
                   child: _InfoButton(),
                 ),
               ],
@@ -157,10 +157,13 @@ class _InfoButton extends StatelessWidget {
         InfoCard.show(context: context);
       },
       child: const StylizedContainer(
+        padding: EdgeInsets.all(12.0),
         color: Colors.greenAccent,
         child: StylizedIcon(
           icon: FontAwesomeIcons.info,
-          size: 18.0,
+          size: 15.0,
+          offset: 1.0,
+          strokeWidth: 5.0,
         ),
       ),
     );

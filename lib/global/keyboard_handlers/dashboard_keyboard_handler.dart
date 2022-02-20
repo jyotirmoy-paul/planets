@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planets/dashboard/cubit/level_selection_cubit.dart';
 import 'package:planets/dashboard/cubit/planet_selection_helper_cubit.dart';
 
-import '../info_card.dart';
+import '../info_card/info_card.dart';
 
 class DashboardKeyboardHandler extends StatefulWidget {
   final Widget child;
