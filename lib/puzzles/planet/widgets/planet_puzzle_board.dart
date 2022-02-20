@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/app/cubit/audio_player_cubit.dart';
 import 'package:planets/dashboard/cubit/level_selection_cubit.dart';
 import 'package:planets/helpers/modal_helpers.dart';
 import 'package:planets/puzzle/puzzle.dart';
@@ -28,6 +29,9 @@ class _PlanetPuzzleBoardState extends State<PlanetPuzzleBoard> {
 
   void _onPuzzleCompletionDialog(BuildContext context) async {
     AppLogger.log('PlanetPuzzleBoard: _onPuzzleCompletionDialog');
+
+    // play completion audio
+    context.read<AudioPlayerCubit>().completion();
 
     // show dialog
     await showAppDialog(

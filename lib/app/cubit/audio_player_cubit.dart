@@ -12,9 +12,11 @@ part 'audio_player_state.dart';
 
 const _maxThemeVolume = 0.15;
 const _clickVolume = 0.80;
-const _countDownVolume = 0.50;
+const _countDownVolume = 0.30;
 const _tapVolume = 0.40;
+const _completionVolume = 0.30;
 
+// max size allowed is 5x5
 const _maxTiles = 25;
 
 class AudioPlayerCubit extends Cubit<AudioPlayerState> {
@@ -27,8 +29,11 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   // button click player
   final AudioPlayer _buttonClickPlayer = getAudioPlayer();
 
-  // count down begin
+  // count down begin player
   final AudioPlayer _countDownBeginPlayer = getAudioPlayer();
+
+  // completion player
+  final AudioPlayer _completionPlayer = getAudioPlayer();
 
   // tile tap player
   final Map<int, AudioPlayer> _tileTapSuccess = {};
@@ -58,6 +63,10 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
       // count down begin
       await _countDownBeginPlayer.setAsset(AppAssets.countDownBegin);
       await _countDownBeginPlayer.setVolume(_countDownVolume);
+
+      // completion
+      await _completionPlayer.setAsset(AppAssets.completion);
+      await _completionPlayer.setVolume(_completionVolume);
 
       // tile tap
       for (int i = 0; i < _maxTiles; i++) {
@@ -133,5 +142,9 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
 
   void beginCountDown() {
     unawaited(_countDownBeginPlayer.replay());
+  }
+
+  void completion() {
+    if (_isSoundEffectEnabled) unawaited(_completionPlayer.replay());
   }
 }
