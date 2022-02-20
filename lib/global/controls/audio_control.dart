@@ -33,7 +33,7 @@ class AudioControl extends StatelessWidget {
           onPressed: () => _onMusicToggle(context),
           child: StylizedContainer(
             padding: isSmall
-                ? const EdgeInsets.all(12.0)
+                ? const EdgeInsets.all(8.0)
                 : const EdgeInsets.symmetric(
                     horizontal: 18.0,
                     vertical: 12.0,
@@ -51,13 +51,13 @@ class AudioControl extends StatelessWidget {
         ),
 
         // gap
-        isSmall ? const Gap(8.0) : const Gap(18.0),
+        isSmall ? const Gap(4.0) : const Gap(18.0),
 
         StylizedButton(
           onPressed: () => _onSoundEffectToggle(context),
           child: StylizedContainer(
             padding: isSmall
-                ? const EdgeInsets.all(12.0)
+                ? const EdgeInsets.all(8.0)
                 : const EdgeInsets.symmetric(
                     horizontal: 18.0,
                     vertical: 12.0,

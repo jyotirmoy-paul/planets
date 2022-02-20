@@ -51,15 +51,9 @@ class PuzzleHelperCubit extends Cubit<PuzzleHelperState> {
     ));
   }
 
-  void onShowHelp() {
+  void onHelpToggle() {
     emit(state.copyWith(
-      showHelp: true,
-    ));
-  }
-
-  void onHideHelp() {
-    emit(state.copyWith(
-      isAutoSolving: false,
+      showHelp: !state.showHelp,
     ));
   }
 }

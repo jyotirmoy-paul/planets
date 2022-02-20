@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/global/stylized_text.dart';
 import 'package:planets/puzzle/cubit/puzzle_helper_cubit.dart';
 import 'package:planets/utils/app_logger.dart';
 import '../../../global/shake_animator.dart';
@@ -173,20 +174,30 @@ class _HelpWidget extends StatelessWidget {
 
     final offset = size / tile.puzzleSize;
 
-    return Align(
-      alignment: FractionalOffset(
-        ((correctX + 1 / 2) * offset) / size,
-        ((correctY + 1 / 2) * offset) / size,
+    const containerSize = 40.0;
+
+    return Transform.translate(
+      offset: Offset(
+        ((correctX + 1 / 2) * offset) - containerSize / 2,
+        ((correctY + 1 / 2) * offset) - containerSize / 2,
       ),
       child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 300),
-        reverseDuration: const Duration(microseconds: 300),
+        duration: const Duration(milliseconds: 400),
+        reverseDuration: const Duration(milliseconds: 400),
+        switchInCurve: Curves.easeInOut,
+        switchOutCurve: Curves.easeInOut,
         child: showHelp
-            ? Text(
-                '${tile.value}',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
+            ? Container(
+                key: Key('helper_widget_${tile.value}'),
+                width: containerSize,
+                height: containerSize,
+                alignment: Alignment.center,
+                child: Text(
+                  '${tile.value + 1}',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.80),
+                    fontSize: tile.puzzleSize == 3 ? 35.0 : 20.0,
+                  ),
                 ),
               )
             : const SizedBox.shrink(),
