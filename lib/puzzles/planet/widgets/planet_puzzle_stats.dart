@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/app/cubit/audio_player_cubit.dart';
 import '../../../global/stylized_text.dart';
 import '../../../utils/utils.dart';
 import '../planet.dart';
@@ -13,11 +16,16 @@ class PlanetPuzzleStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.select((PuzzleBloc bloc) => bloc.state);
-    
+
     return BlocListener<PlanetPuzzleBloc, PlanetPuzzleState>(
       listener: (context, state) {
         if (!state.isCountdownRunning) {
           return;
+        }
+
+        // play shuffling sound
+        if (state.secondsToBegin == 3) {
+          context.read<AudioPlayerCubit>().beginCountDown();
         }
 
         if (state.status == PlanetPuzzleStatus.started) {
@@ -50,7 +58,6 @@ class _PuzzleStats extends StatelessWidget {
     required this.layoutSize,
     required this.puzzleState,
   }) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {

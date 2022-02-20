@@ -45,7 +45,7 @@ class PuzzleHeader extends StatelessWidget {
                         text: AppString.solarSystem,
                         strokeWidth: isSmall ? 5.0 : 6.0,
                         offset: isSmall ? 1.0 : 2.0,
-                        fontSize: isSmall ? 18.0 : 22.0,
+                        fontSize: isSmall ? 16.0 : 22.0,
                       ),
                     ],
                   ),
@@ -53,7 +53,7 @@ class PuzzleHeader extends StatelessWidget {
               ),
 
               // music control buttons
-              const AudioControl(),
+              const AudioControl(isSmall: true),
             ],
           ),
         );

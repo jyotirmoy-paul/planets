@@ -90,7 +90,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
 
     // play audio if tile is movable
     if (isTileMovable) {
-      _audioPlayerCubit.tileTappedAudio();
+      _audioPlayerCubit.tileTappedAudio(tappedTile.value);
     }
 
     if (isPuzzleIncomplete && isTileMovable) {
@@ -123,7 +123,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
       _notifyShakeAnimation(tappedTile);
 
       // play error sound
-      _audioPlayerCubit.tileTappedAudio(isError: true);
+      _audioPlayerCubit.tileTappedAudio(tappedTile.value, isError: true);
 
       emit(
         state.copyWith(

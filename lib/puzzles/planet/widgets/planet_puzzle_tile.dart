@@ -67,11 +67,11 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
 
   @override
   Widget build(BuildContext context) {
-    final puzzleBloc = context.select((PuzzleBloc bloc) => bloc);
+    final puzzleState = context.select((PuzzleBloc bloc) => bloc.state);
     final puzzleIncomplete =
-        puzzleBloc.state.puzzleStatus == PuzzleStatus.incomplete;
-    final isAutoSolving = puzzleBloc.state.isAutoSolving;
-    final showHelp = puzzleBloc.state.showHelp;
+        puzzleState.puzzleStatus == PuzzleStatus.incomplete;
+    final isAutoSolving = puzzleState.isAutoSolving;
+    final showHelp = puzzleState.showHelp;
 
     final status = context.select((PlanetPuzzleBloc bloc) => bloc.state.status);
     final hasStarted = status == PlanetPuzzleStatus.started;
@@ -95,7 +95,9 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
       top: offset * (y - correctY),
       left: offset * (x - correctX),
       child: ShakeAnimator(
-        controller: puzzleBloc.getShakeControllerFor(widget.tile.value),
+        controller: context.read<PuzzleBloc>().getShakeControllerFor(
+              widget.tile.value,
+            ),
         child: AnimatedScale(
           scale: scale,
           curve: Curves.easeInOut,

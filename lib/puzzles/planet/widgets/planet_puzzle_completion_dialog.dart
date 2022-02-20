@@ -117,12 +117,20 @@ class _PlanetPuzzleCompletionDialogSmall extends StatelessWidget {
                         // gap
                         const Gap(6.0),
 
-                        const StylizedText(
-                          text: '149 Moves',
-                          fontSize: 22.0,
-                          offset: 1.0,
-                          strokeWidth: 4.0,
+                        Text(
+                          '149 Moves',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 22.0,
+                          ),
                         ),
+
+                        // const StylizedText(
+                        //   text: '149 Moves',
+                        //   fontSize: 22.0,
+                        //   offset: 1.0,
+                        //   strokeWidth: 4.0,
+                        // ),
                       ],
                     ),
                   ),
@@ -141,7 +149,7 @@ class _PlanetPuzzleCompletionDialogSmall extends StatelessWidget {
                         color: Colors.white70,
                         child: Icon(
                           FontAwesomeIcons.facebook,
-                          size: 32.0,
+                          size: 24.0,
                           color: Color(0xff3b5998),
                         ),
                       ),
@@ -153,7 +161,7 @@ class _PlanetPuzzleCompletionDialogSmall extends StatelessWidget {
                         color: Colors.white70,
                         child: Icon(
                           FontAwesomeIcons.twitter,
-                          size: 32.0,
+                          size: 24.0,
                           color: Color(0xff00acee),
                         ),
                       ),
@@ -165,7 +173,7 @@ class _PlanetPuzzleCompletionDialogSmall extends StatelessWidget {
                         color: Color(0xffF0F0F0),
                         child: Icon(
                           FontAwesomeIcons.download,
-                          size: 32.0,
+                          size: 24.0,
                         ),
                       ),
                     ),

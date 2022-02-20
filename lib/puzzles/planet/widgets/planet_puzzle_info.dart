@@ -4,7 +4,6 @@ import 'package:gap/gap.dart';
 import '../../../dashboard/cubit/planet_selection_cubit.dart';
 import '../../../layout/utils/responsive_layout_builder.dart';
 import '../../../models/planet.dart';
-import '../../../resource/app_string.dart';
 
 class PlanetPuzzleInfo extends StatelessWidget {
   const PlanetPuzzleInfo({Key? key}) : super(key: key);
@@ -32,7 +31,7 @@ class PlanetPuzzleInfo extends StatelessWidget {
             children: [
               // title
               Text(
-                planet == null ? AppString.community : planet.type.value,
+                planet.type.value,
                 style: TextStyle(
                   fontSize: isLarge ? 48.0 : 32.0,
                   color: Colors.white,
