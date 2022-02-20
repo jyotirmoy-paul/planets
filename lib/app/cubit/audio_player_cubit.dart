@@ -83,6 +83,14 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   bool _themeMusicInitialized = false;
 
   void _onAudioControlStateChanged(AudioControlState audioControlState) {
+    // sound effect related settings
+    if (audioControlState.isSoundEffectEnabled) {
+      _countDownBeginPlayer.setVolume(_countDownVolume);
+    } else {
+      _countDownBeginPlayer.setVolume(0.0);
+    }
+
+    // music related settings
     if (audioControlState.isMusicEnabled) {
       if (_themeMusicInitialized == false) {
         unawaited(_themeMusicPlayer.play());
@@ -124,6 +132,6 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   }
 
   void beginCountDown() {
-    if (_isSoundEffectEnabled) unawaited(_countDownBeginPlayer.replay());
+    unawaited(_countDownBeginPlayer.replay());
   }
 }
