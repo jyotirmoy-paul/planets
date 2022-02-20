@@ -7,7 +7,6 @@ class StylizedContainer extends StatefulWidget {
   final EdgeInsets? padding;
   final EdgeInsets? margin;
   final Color color;
-  final bool containedReflection;
 
   const StylizedContainer({
     Key? key,
@@ -18,7 +17,6 @@ class StylizedContainer extends StatefulWidget {
     ),
     this.margin,
     this.color = Colors.white,
-    this.containedReflection = false,
   }) : super(key: key);
 
   @override
@@ -37,7 +35,7 @@ class _StylizedContainerState extends State<StylizedContainer> {
     setState(() {
       topReflectionWidget = Container(
         margin: const EdgeInsets.all(5.0),
-        height: widget.containedReflection ? 24.0 : size.height * 0.50,
+        height: size.height * 0.50,
         width: size.width,
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.60),

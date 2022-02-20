@@ -60,7 +60,7 @@ class _PuzzleKeyboardHandlerState extends State<PuzzleKeyboardHandler> {
   /// [DownArrow] key -> move whitespace down
   /// [LeftArrow] key -> move whitespace left
   /// [RightArrow] key -> move whitespace right
-  /// [Esc] key -> move back to solar system
+  /// [esc] key -> move back to solar system
   void _handleKeyEvent(RawKeyEvent event) {
     if (event is RawKeyDownEvent) {
       final physicalKey = event.data.physicalKey;

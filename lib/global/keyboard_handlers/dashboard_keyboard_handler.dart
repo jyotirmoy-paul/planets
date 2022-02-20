@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planets/dashboard/cubit/level_selection_cubit.dart';
-import 'package:planets/dashboard/cubit/planet_selection_cubit.dart';
 import 'package:planets/dashboard/cubit/planet_selection_helper_cubit.dart';
-import 'package:planets/models/planet.dart';
+
+import '../info_card.dart';
 
 class DashboardKeyboardHandler extends StatefulWidget {
   final Widget child;
@@ -32,6 +32,8 @@ class _DashboardKeyboardHandlerState extends State<DashboardKeyboardHandler> {
   /// [Space] key -> play/pause planet orbital animation
   /// [LeftArrow] key -> decrease difficulty level
   /// [RightArrow] key -> increase difficulty level
+  /// [i] key -> show info card
+  /// [esc] key -> close dialog
   void _handleKeyEvent(RawKeyEvent event) {
     if (event is RawKeyDownEvent) {
       final physicalKey = event.data.physicalKey;
@@ -42,6 +44,11 @@ class _DashboardKeyboardHandlerState extends State<DashboardKeyboardHandler> {
         context.read<LevelSelectionCubit>().onLevelDecrease();
       } else if (physicalKey == PhysicalKeyboardKey.arrowRight) {
         context.read<LevelSelectionCubit>().onLevelIncrease();
+      } else if (physicalKey == PhysicalKeyboardKey.keyI) {
+        InfoCard.show(context: context);
+      } else if (physicalKey == PhysicalKeyboardKey.escape) {
+        final navigatorState = Navigator.of(context);
+        if (navigatorState.canPop()) navigatorState.pop();
       }
     }
   }

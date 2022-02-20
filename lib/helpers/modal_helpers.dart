@@ -24,7 +24,7 @@ Future<T?> showAppDialog<T>({
           ),
         );
       },
-      transitionDuration: const Duration(milliseconds: 650),
+      transitionDuration: const Duration(milliseconds: 450),
       barrierDismissible: barrierDismissible,
       barrierLabel: barrierLabel,
       context: context,

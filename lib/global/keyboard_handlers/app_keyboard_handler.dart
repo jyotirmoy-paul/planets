@@ -25,8 +25,8 @@ class _AppKeyboardHandlerState extends State<AppKeyboardHandler> {
   }
 
   /// For the app, the following keyboard events are important
-  /// M key -> mute/unmute music
-  /// S key -> mute/unmute sound effect
+  /// [m] key -> mute/unmute music
+  /// [s] key -> mute/unmute sound effect
   void _handleKeyEvent(RawKeyEvent event) {
     if (event is RawKeyDownEvent) {
       final physicalKey = event.data.physicalKey;
