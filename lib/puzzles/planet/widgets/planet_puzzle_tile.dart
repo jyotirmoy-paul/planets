@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/global/stylized_text.dart';
 import 'package:planets/puzzle/cubit/puzzle_helper_cubit.dart';
 import 'package:planets/utils/app_logger.dart';
 import '../../../global/shake_animator.dart';
@@ -191,10 +192,10 @@ class _HelpWidget extends StatelessWidget {
                 width: containerSize,
                 height: containerSize,
                 alignment: Alignment.center,
-                child: Text(
-                  '${tile.value + 1}',
+                child: StylizedText(
+                  text: '${tile.value + 1}',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.80),
+                    color: Colors.white,
                     fontSize: tile.puzzleSize == 3 ? 35.0 : 20.0,
                   ),
                 ),

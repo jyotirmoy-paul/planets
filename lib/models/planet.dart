@@ -39,7 +39,7 @@ class Planet extends Equatable {
     required this.parentSize,
   });
 
-  Widget get widget => PlanetWidget(planet: this);
+  Widget get widget => PlanetWidget(key: ValueKey(type), planet: this);
 
   @override
   List<Object?> get props => [type, key, origin, r1, r2, planetSize];

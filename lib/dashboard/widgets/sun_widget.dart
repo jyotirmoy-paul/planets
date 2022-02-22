@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import 'package:planets/resource/app_assets.dart';
+
 class SunWidget extends StatelessWidget {
   final double scale;
 
@@ -20,18 +22,28 @@ class SunWidget extends StatelessWidget {
       left: (-sunSize / 2),
       child: Transform.scale(
         scale: scale,
-        child: Container(
-          height: sunSize,
-          width: sunSize,
-          decoration: BoxDecoration(
-            color: Colors.amber,
-            shape: BoxShape.circle,
-            border: Border.all(
-              width: 10.0,
-              color: Colors.yellow,
-            ),
+        child: Transform.rotate(
+          angle: math.pi / 2,
+          // turns: 1,
+          // duration: const Duration(milliseconds: 100),
+          child: Image.asset(
+            AppAssets.sunImage,
+            width: sunSize,
+            height: sunSize,
           ),
         ),
+        // child: Container(
+        //   height: sunSize,
+        //   width: sunSize,
+        //   decoration: BoxDecoration(
+        //     color: Colors.amber,
+        //     shape: BoxShape.circle,
+        //     border: Border.all(
+        //       width: 10.0,
+        //       color: Colors.yellow,
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }

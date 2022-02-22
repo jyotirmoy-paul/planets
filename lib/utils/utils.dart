@@ -33,8 +33,13 @@ abstract class Utils {
     double offsetX = correctPosition.x * width;
     double offsetY = correctPosition.y * height;
 
-    width -= _paddingOffset;
-    height -= _paddingOffset;
+    if (correctPosition.x != puzzleSize - 1) {
+      width -= _paddingOffset;
+    }
+
+    if (correctPosition.y != puzzleSize - 1) {
+      height -= _paddingOffset;
+    }
 
     final path = Path();
 

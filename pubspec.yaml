@@ -30,6 +30,8 @@ flutter:
   assets:
     - assets/audio/
     - assets/animations/
+    - assets/images/
+    - assets/planets/jupiter/
 
   fonts:
     - family: Gameria

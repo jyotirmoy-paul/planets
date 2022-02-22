@@ -25,7 +25,7 @@ class PuzzleInitCubit extends Cubit<PuzzleInitState> {
 
     if (_riveController.containsKey(tileKey)) return _riveController[tileKey]!;
 
-    final controller = SimpleAnimation('Animation 1');
+    final controller = SimpleAnimation('revolution');
     _riveController[tileKey] = controller;
 
     return controller;

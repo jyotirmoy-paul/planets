@@ -2,6 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/resource/app_assets.dart';
+import 'package:rive/rive.dart';
 
 import '../../models/planet.dart';
 import '../cubit/planet_selection_cubit.dart';
@@ -38,13 +40,11 @@ class PlanetWidget extends StatelessWidget {
       onTap: () {
         context.read<PlanetSelectionCubit>().onPlanetSelected(planet);
       },
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Colors.red,
-          shape: BoxShape.circle,
-        ),
-        alignment: Alignment.center,
+      child: Transform.rotate(
+        angle: -math.pi / 10,
+        child: const RiveAnimation.asset(AppAssets.jupiterAnimation),
       ),
+      // child: Image.asset(AppAssets.jupiterImage),
     );
   }
 
