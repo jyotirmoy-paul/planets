@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:planets/dashboard/cubit/planet_selection_helper_cubit.dart';
+import 'package:planets/global/background/background.dart';
 import 'package:planets/global/controls/audio_control.dart';
 import 'package:planets/global/info_card/info_card.dart';
 import 'package:planets/global/keyboard_handlers/dashboard_keyboard_handler.dart';
@@ -96,50 +97,46 @@ class _DashboardViewState extends State<_DashboardView>
     }
 
     return DashboardKeyboardHandler(
-      child: Scaffold(
-        backgroundColor: Colors.grey[900],
-        body: SafeArea(
-          child: SizedBox.fromSize(
-            size: size,
-            child: Stack(
-              children: [
-                // solar system
-                ResponsiveLayoutBuilder(
-                  small: (_, Widget? child) =>
-                      _DashboardPageSmall(child: child!),
-                  medium: (_, Widget? child) =>
-                      _DashboardPageMedium(child: child!),
-                  large: (_, Widget? child) => child!,
-                  child: (_) =>
-                      _DashboardPageLarge(state: state as DashboardReady),
-                ),
+      child: Background(
+        child: SizedBox.fromSize(
+          size: size,
+          child: Stack(
+            children: [
+              // solar system
+              ResponsiveLayoutBuilder(
+                small: (_, Widget? child) => _DashboardPageSmall(child: child!),
+                medium: (_, Widget? child) =>
+                    _DashboardPageMedium(child: child!),
+                large: (_, Widget? child) => child!,
+                child: (_) =>
+                    _DashboardPageLarge(state: state as DashboardReady),
+              ),
 
-                // header
-                const HeaderWidget(),
+              // header
+              const HeaderWidget(),
 
-                // music control
-                ResponsiveLayoutBuilder(
-                  small: (_, __) => const SizedBox.shrink(),
-                  medium: (_, __) => const SizedBox.shrink(),
-                  large: (_, __) => const Align(
-                    alignment: FractionalOffset(0.95, 0.05),
-                    child: AudioControl(),
-                  ),
+              // music control
+              ResponsiveLayoutBuilder(
+                small: (_, __) => const SizedBox.shrink(),
+                medium: (_, __) => const SizedBox.shrink(),
+                large: (_, __) => const Align(
+                  alignment: FractionalOffset(0.95, 0.05),
+                  child: AudioControl(),
                 ),
+              ),
 
-                // planet animation pause/play button
-                const Align(
-                  alignment: FractionalOffset(0.95, 0.95),
-                  child: _PlanetAnimationToggleButton(),
-                ),
+              // planet animation pause/play button
+              const Align(
+                alignment: FractionalOffset(0.95, 0.95),
+                child: _PlanetAnimationToggleButton(),
+              ),
 
-                // info button
-                const Align(
-                  alignment: FractionalOffset(0.02, 0.05),
-                  child: _InfoButton(),
-                ),
-              ],
-            ),
+              // info button
+              const Align(
+                alignment: FractionalOffset(0.02, 0.05),
+                child: _InfoButton(),
+              ),
+            ],
           ),
         ),
       ),

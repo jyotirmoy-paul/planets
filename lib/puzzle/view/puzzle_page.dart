@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planets/app/cubit/audio_player_cubit.dart';
+import 'package:planets/global/background/background.dart';
 import 'package:planets/puzzle/cubit/puzzle_helper_cubit.dart';
 import '../../puzzles/planet/bloc/planet_puzzle_bloc.dart';
 import '../../dashboard/cubit/level_selection_cubit.dart';
@@ -65,36 +66,33 @@ class _PuzzleView extends StatelessWidget {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
     // final state = context.select((PuzzleBloc bloc) => bloc.state);
 
-    return Scaffold(
-      backgroundColor: Colors.grey[900],
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return Stack(
-              children: [
-                // background
-                theme.puzzleLayoutDelegate.backgroundBuilder(theme),
+    return Background(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // background
+              theme.puzzleLayoutDelegate.backgroundBuilder(theme),
 
-                // main body
-                SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        PuzzleHeader(),
-                        PuzzleSections(),
-                      ],
-                    ),
+              // main body
+              SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      PuzzleHeader(),
+                      PuzzleSections(),
+                    ],
                   ),
                 ),
-              ],
-            );
-          },
-        ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

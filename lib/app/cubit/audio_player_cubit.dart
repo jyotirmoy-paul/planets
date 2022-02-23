@@ -50,11 +50,15 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   void _init() {
     // do audio initializations after showing loading screen
     // to avoid freeze screen
-    _timer = Timer(const Duration(milliseconds: 500), () async {
+    _timer = Timer(const Duration(milliseconds: 200), () async {
       // theme music setup
       await _themeMusicPlayer.setAsset(AppAssets.planetThemeMusic);
       await _themeMusicPlayer.setLoopMode(LoopMode.one);
       await _themeMusicPlayer.setVolume(_maxThemeVolume);
+
+      // after the large part of audio is loaded, we can emit audio player ready,
+      // the web app won't freeze the UI anymore - for these small audio files
+      emit(const AudioPlayerReady());
 
       // button click
       await _buttonClickPlayer.setAsset(AppAssets.buttonClick);
@@ -82,8 +86,6 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
         await tileTapError.setVolume(_tapVolume);
         _tileTapError[i] = tileTapError;
       }
-
-      emit(const AudioPlayerReady());
     });
 
     _audioBloc.stream.listen(_onAudioControlStateChanged);

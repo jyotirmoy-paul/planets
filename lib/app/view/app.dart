@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planets/app/bloc/audio_control_bloc.dart';
 import 'package:planets/app/cubit/audio_player_cubit.dart';
 import 'package:planets/global/keyboard_handlers/app_keyboard_handler.dart';
+import 'package:planets/loading/cubit/assetcache_cubit.dart';
+import 'package:planets/loading/view/loading_page.dart';
 
 import '../../dashboard/dashboard.dart';
 import '../../utils/constants.dart';
@@ -29,15 +31,13 @@ class _AppState extends State<App> {
           create: (context) => AudioPlayerCubit(
             context.read<AudioControlBloc>()
           ),
-
-          // todo: we can let lazy load once, we implemented loading page
-          lazy: false,
         ),
+        BlocProvider(create: (_) => AssetcacheCubit()),
       ],
       child: AppKeyboardHandler(
         child: MaterialApp(
           theme: ThemeData(fontFamily: Constants.fontFamily),
-          home: const DashboardPage(),
+          home: const LoadingPage(),
         ),
       ),
     );
