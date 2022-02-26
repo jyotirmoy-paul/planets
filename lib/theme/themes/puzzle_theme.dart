@@ -18,4 +18,8 @@ abstract class PuzzleTheme {
   PuzzleLayoutDelegate get puzzleLayoutDelegate;
 
   String get assetForTile;
+
+  String get placeholderAssetForTile;
+
+  String get placeholderThumbnail;
 }

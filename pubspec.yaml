@@ -29,7 +29,16 @@ flutter:
   uses-material-design: true
   assets:
     - assets/audio/
-    - assets/animations/
+    - assets/images/
+    - assets/planets/earth/
+    - assets/planets/jupiter/
+    - assets/planets/mars/
+    - assets/planets/mercury/
+    - assets/planets/neptune/
+    - assets/planets/pluto/
+    - assets/planets/saturn/
+    - assets/planets/uranus/
+    - assets/planets/venus/
 
   fonts:
     - family: Gameria

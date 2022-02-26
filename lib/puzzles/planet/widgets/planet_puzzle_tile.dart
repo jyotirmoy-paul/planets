@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/global/stylized_text.dart';
 import 'package:planets/puzzle/cubit/puzzle_helper_cubit.dart';
+import 'package:planets/theme/themes/puzzle_theme.dart';
 import 'package:planets/utils/app_logger.dart';
 import '../../../global/shake_animator.dart';
 import '../../../models/tile.dart';
@@ -25,6 +27,7 @@ class PlanetPuzzleTile extends StatefulWidget {
 
 class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
   late Widget child;
+  late ThemeBloc themeBloc;
 
   double scale = 1.0;
 
@@ -49,26 +52,30 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
   }
 
   _buildChild() {
-    final theme = context.read<ThemeBloc>().state.theme;
     final puzzleInit = context.read<PuzzleInitCubit>();
+    final theme = themeBloc.state.theme;
 
     child = RiveAnimation.asset(
       theme.assetForTile,
       controllers: [puzzleInit.getRiveControllerFor(widget.tile.value)],
       onInit: (_) => puzzleInit.onInit(widget.tile.value),
       fit: BoxFit.cover,
-      placeHolder: Container(color: theme.surface),
+      placeHolder: Image.asset(theme.placeholderAssetForTile),
     );
   }
 
   @override
   void initState() {
     super.initState();
+    themeBloc = context.read<ThemeBloc>();
     _buildChild();
   }
 
   @override
   Widget build(BuildContext context) {
+    final cubitState = context.select((PuzzleInitCubit cubit) => cubit.state);
+    final isReady = cubitState is PuzzleInitReady;
+
     final puzzleBloc = context.select((PuzzleBloc bloc) => bloc);
     final puzzleIncomplete =
         puzzleBloc.state.puzzleStatus == PuzzleStatus.incomplete;
@@ -136,6 +143,17 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
                   child: Stack(
                     children: [
                       child,
+                      !isReady
+                          ? SizedBox.square(
+                              key: const Key('puzzle_tile_image'),
+                              dimension: size,
+                              child: FittedBox(
+                                child: Image.asset(
+                                  themeBloc.state.theme.placeholderThumbnail,
+                                ),
+                              ),
+                            )
+                          : const SizedBox.shrink(),
                       _HelpWidget(
                         key: ValueKey(widget.tile.value),
                         tile: widget.tile,
@@ -191,10 +209,10 @@ class _HelpWidget extends StatelessWidget {
                 width: containerSize,
                 height: containerSize,
                 alignment: Alignment.center,
-                child: Text(
-                  '${tile.value + 1}',
+                child: StylizedText(
+                  text: '${tile.value + 1}',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.80),
+                    color: Colors.white,
                     fontSize: tile.puzzleSize == 3 ? 35.0 : 20.0,
                   ),
                 ),

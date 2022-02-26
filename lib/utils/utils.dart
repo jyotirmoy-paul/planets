@@ -1,4 +1,6 @@
 import 'package:flutter/painting.dart';
+import 'package:planets/models/planet.dart';
+import 'package:planets/resource/app_assets.dart';
 
 import '../models/position.dart';
 
@@ -12,6 +14,39 @@ abstract class Utils {
     final hsl = HSLColor.fromColor(color);
     final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0));
     return hslDark.toColor();
+  }
+
+  static String get planetRotationAnimationName => 'revolution';
+
+  static String getPlanetAnimationFor(PlanetType type) {
+    switch (type) {
+      case PlanetType.mercury:
+        return AppAssets.mercuryAnimation;
+
+      case PlanetType.venus:
+        return AppAssets.venusAnimation;
+
+      case PlanetType.earth:
+        return AppAssets.earthAnimation;
+
+      case PlanetType.mars:
+        return AppAssets.marsAnimation;
+
+      case PlanetType.jupiter:
+        return AppAssets.jupiterAnimation;
+
+      case PlanetType.saturn:
+        return AppAssets.saturnAnimation;
+
+      case PlanetType.uranus:
+        return AppAssets.uranusAnimation;
+
+      case PlanetType.neptune:
+        return AppAssets.neptuneAnimation;
+
+      case PlanetType.pluto:
+        return AppAssets.plutoAnimation;
+    }
   }
 
   static String getFormattedElapsedSeconds(int elapsedSeconds) {
@@ -33,8 +68,13 @@ abstract class Utils {
     double offsetX = correctPosition.x * width;
     double offsetY = correctPosition.y * height;
 
-    width -= _paddingOffset;
-    height -= _paddingOffset;
+    if (correctPosition.x != puzzleSize - 1) {
+      width -= _paddingOffset;
+    }
+
+    if (correctPosition.y != puzzleSize - 1) {
+      height -= _paddingOffset;
+    }
 
     final path = Path();
 

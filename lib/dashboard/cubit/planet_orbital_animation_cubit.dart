@@ -50,8 +50,8 @@ const Map<PlanetType, double> _thresholdFactor = {
 const Map<PlanetType, double> _pausedPosition = {
   PlanetType.mercury: 0.60,
   PlanetType.venus: 0.35,
-  PlanetType.earth: 0.45,
-  PlanetType.mars: 0.33,
+  PlanetType.earth: 0.58,
+  PlanetType.mars: 0.46,
   PlanetType.jupiter: 0.55,
   PlanetType.saturn: 0.41,
   PlanetType.uranus: 0.30,

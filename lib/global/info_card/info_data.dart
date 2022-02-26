@@ -56,7 +56,7 @@ abstract class AppShortcutData {
           description: 'Increase difficulty level',
         ),
         InfoPair(
-          titleText: 'I',
+          titleText: 'i',
           description: 'Show this shortcut dialog',
         ),
         InfoPair(
