@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:planets/app/cubit/audio_player_cubit.dart';
-import 'package:planets/dashboard/dashboard.dart';
-import 'package:planets/global/background/background.dart';
-import 'package:planets/global/stylized_button.dart';
-import 'package:planets/global/stylized_container.dart';
-import 'package:planets/global/stylized_text.dart';
-import 'package:planets/layout/layout.dart';
-import 'package:planets/loading/cubit/assetcache_cubit.dart';
-import 'package:planets/loading/widgets/loading.dart';
-import 'package:planets/utils/utils.dart';
+import 'package:planets/resource/app_assets.dart';
+import '../../app/cubit/audio_player_cubit.dart';
+import '../../dashboard/dashboard.dart';
+import '../../global/background/background.dart';
+import '../../global/stylized_button.dart';
+import '../../global/stylized_container.dart';
+import '../../global/stylized_text.dart';
+import '../../layout/layout.dart';
+import '../cubit/assetcache_cubit.dart';
+import '../widgets/loading.dart';
+import '../../utils/utils.dart';
 
 class LoadingPage extends StatelessWidget {
   const LoadingPage({Key? key}) : super(key: key);
@@ -116,7 +117,7 @@ class _LoadingPageSmall extends StatelessWidget {
         children: [
           // show asset
           Expanded(
-            child: Image.asset('assets/images/planets.png'),
+            child: Image.asset(AppAssets.planetsImage),
             flex: 5,
           ),
 

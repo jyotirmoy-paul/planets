@@ -18,9 +18,22 @@ abstract class BoardSize {
 class PlanetPuzzleLayoutDelegate extends PuzzleLayoutDelegate {
   @override
   Widget backgroundBuilder(PuzzleTheme theme) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Image.asset(theme.backgroundAsset),
+    return ResponsiveLayoutBuilder(
+      key: const Key('planet_landscape'),
+      small: (_, Widget? child) => Align(
+        alignment: Alignment.bottomCenter,
+        child: Image.asset(
+          theme.backgroundAsset,
+          height: 120.0,
+          fit: BoxFit.cover,
+        ),
+      ),
+      medium: (_, Widget? child) => child!,
+      large: (_, Widget? child) => child!,
+      child: (_) => Align(
+        alignment: Alignment.bottomCenter,
+        child: Image.asset(theme.backgroundAsset),
+      ),
     );
   }
 

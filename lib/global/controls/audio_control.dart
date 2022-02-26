@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:planets/app/bloc/audio_control_bloc.dart';
-import 'package:planets/global/stylized_button.dart';
-import 'package:planets/global/stylized_container.dart';
-import 'package:planets/global/stylized_icon.dart';
+import '../../app/bloc/audio_control_bloc.dart';
+import '../stylized_button.dart';
+import '../stylized_container.dart';
+import '../stylized_icon.dart';
 
 class AudioControl extends StatelessWidget {
   final bool isSmall;

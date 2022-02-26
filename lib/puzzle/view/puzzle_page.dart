@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/app/cubit/audio_player_cubit.dart';
-import 'package:planets/global/background/background.dart';
-import 'package:planets/puzzle/cubit/puzzle_helper_cubit.dart';
+import '../../app/cubit/audio_player_cubit.dart';
+import '../../global/background/background.dart';
+import '../cubit/puzzle_helper_cubit.dart';
 import '../../puzzles/planet/bloc/planet_puzzle_bloc.dart';
 import '../../dashboard/cubit/level_selection_cubit.dart';
 import '../../dashboard/cubit/planet_selection_cubit.dart';

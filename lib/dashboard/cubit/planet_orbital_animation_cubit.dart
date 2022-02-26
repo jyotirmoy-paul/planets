@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:planets/utils/app_logger.dart';
+import '../../utils/app_logger.dart';
 
 import '../../models/orbit.dart';
 import '../../models/planet.dart';

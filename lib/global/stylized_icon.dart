@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:planets/global/stylized_text.dart';
-import 'package:planets/utils/utils.dart';
+import 'stylized_text.dart';
+import '../utils/utils.dart';
 
 class StylizedIcon extends StatelessWidget {
   final IconData icon;

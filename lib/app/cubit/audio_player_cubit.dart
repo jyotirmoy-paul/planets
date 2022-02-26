@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:planets/app/bloc/audio_control_bloc.dart';
-import 'package:planets/helpers/audio_player.dart';
-import 'package:planets/resource/app_assets.dart';
-import 'package:planets/utils/app_logger.dart';
+import '../bloc/audio_control_bloc.dart';
+import '../../helpers/audio_player.dart';
+import '../../resource/app_assets.dart';
+import '../../utils/app_logger.dart';
 
 part 'audio_player_state.dart';
 

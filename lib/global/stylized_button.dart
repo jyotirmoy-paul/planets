@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/app/cubit/audio_player_cubit.dart';
+import '../app/cubit/audio_player_cubit.dart';
 
 class StylizedButton extends StatelessWidget {
   final Widget child;

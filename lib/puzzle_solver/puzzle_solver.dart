@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:planets/models/position.dart';
-import 'package:planets/puzzle/cubit/puzzle_helper_cubit.dart';
-import 'package:planets/puzzle/puzzle.dart';
-import 'package:planets/puzzle/widgets/puzzle_header.dart';
-import 'package:planets/puzzle_solver/solver_tile.dart';
-import 'package:planets/utils/app_logger.dart';
+import '../models/position.dart';
+import '../puzzle/cubit/puzzle_helper_cubit.dart';
+import '../puzzle/puzzle.dart';
+import '../puzzle/widgets/puzzle_header.dart';
+import 'solver_tile.dart';
+import '../utils/app_logger.dart';
 import 'dart:math' as math;
 
 import '../models/tile.dart';

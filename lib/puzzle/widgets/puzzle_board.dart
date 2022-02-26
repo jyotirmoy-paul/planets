@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/global/keyboard_handlers/puzzle_keyboard_handler.dart';
-import 'package:planets/utils/app_logger.dart';
+import '../../global/keyboard_handlers/puzzle_keyboard_handler.dart';
+import '../../utils/app_logger.dart';
 
 import '../../models/tile.dart';
 import '../../theme/bloc/theme_bloc.dart';

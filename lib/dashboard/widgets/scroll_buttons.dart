@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:planets/global/stylized_button.dart';
-import 'package:planets/global/stylized_container.dart';
-import 'package:planets/global/stylized_icon.dart';
+import '../../global/stylized_button.dart';
+import '../../global/stylized_container.dart';
+import '../../global/stylized_icon.dart';
 import '../../layout/utils/responsive_layout_builder.dart';
 
 class ScrollButtons extends StatelessWidget {

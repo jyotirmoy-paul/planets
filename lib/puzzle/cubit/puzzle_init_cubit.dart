@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:planets/utils/utils.dart';
+import '../../utils/utils.dart';
 import '../../puzzles/planet/planet.dart';
 import '../../utils/app_logger.dart';
 import 'package:rive/rive.dart';
@@ -8,7 +8,7 @@ import 'package:rive/rive.dart';
 part 'puzzle_init_state.dart';
 
 class PuzzleInitCubit extends Cubit<PuzzleInitState> {
-  PlanetPuzzleBloc _planetPuzzleBloc;
+  final PlanetPuzzleBloc _planetPuzzleBloc;
   final int _puzzleSize;
 
   int get _lastTileKey => _puzzleSize * _puzzleSize - 1;

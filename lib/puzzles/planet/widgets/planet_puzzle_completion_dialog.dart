@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:planets/global/stylized_button.dart';
-import 'package:planets/global/stylized_container.dart';
-import 'package:planets/global/stylized_icon.dart';
-import 'package:planets/global/stylized_text.dart';
-import 'package:planets/layout/utils/responsive_layout_builder.dart';
-import 'package:planets/puzzle/puzzle.dart';
-import 'package:planets/timer/timer.dart';
-import 'package:planets/utils/utils.dart';
+import '../../../global/stylized_button.dart';
+import '../../../global/stylized_container.dart';
+import '../../../global/stylized_icon.dart';
+import '../../../global/stylized_text.dart';
+import '../../../layout/utils/responsive_layout_builder.dart';
+import '../../../puzzle/puzzle.dart';
+import '../../../timer/timer.dart';
+import '../../../utils/utils.dart';
 
 class PlanetPuzzleCompletionDialog extends StatelessWidget {
   const PlanetPuzzleCompletionDialog({Key? key}) : super(key: key);

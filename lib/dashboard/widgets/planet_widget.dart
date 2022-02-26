@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/utils/utils.dart';
+import '../../utils/utils.dart';
 import 'package:rive/rive.dart';
 
 import '../../models/planet.dart';
@@ -85,6 +85,9 @@ class _CorePlanet extends StatelessWidget {
         angle: -math.pi / 10,
         child: RiveAnimation.asset(
           Utils.getPlanetAnimationFor(planet.type),
+          placeHolder: FittedBox(
+            child: Image.asset(Utils.getPlanetThumbFor(planet.type)),
+          ),
         ),
       ),
     );

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/global/stylized_text.dart';
-import 'package:planets/puzzle/cubit/puzzle_helper_cubit.dart';
-import 'package:planets/theme/themes/puzzle_theme.dart';
-import 'package:planets/utils/app_logger.dart';
+import '../../../global/stylized_text.dart';
+import '../../../puzzle/cubit/puzzle_helper_cubit.dart';
+import '../../../utils/app_logger.dart';
 import '../../../global/shake_animator.dart';
 import '../../../models/tile.dart';
 import '../../../puzzle/cubit/puzzle_init_cubit.dart';
@@ -140,27 +139,30 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
                 },
                 child: SizedBox.square(
                   dimension: size,
-                  child: Stack(
-                    children: [
-                      child,
-                      !isReady
-                          ? SizedBox.square(
-                              key: const Key('puzzle_tile_image'),
-                              dimension: size,
-                              child: FittedBox(
-                                child: Image.asset(
-                                  themeBloc.state.theme.placeholderThumbnail,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Stack(
+                      children: [
+                        child,
+                        !isReady
+                            ? SizedBox.square(
+                                key: const Key('puzzle_tile_image'),
+                                dimension: size,
+                                child: FittedBox(
+                                  child: Image.asset(
+                                    themeBloc.state.theme.placeholderThumbnail,
+                                  ),
                                 ),
-                              ),
-                            )
-                          : const SizedBox.shrink(),
-                      _HelpWidget(
-                        key: ValueKey(widget.tile.value),
-                        tile: widget.tile,
-                        showHelp: showHelp,
-                        size: size,
-                      ),
-                    ],
+                              )
+                            : const SizedBox.shrink(),
+                        _HelpWidget(
+                          key: ValueKey(widget.tile.value),
+                          tile: widget.tile,
+                          showHelp: showHelp,
+                          size: size,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

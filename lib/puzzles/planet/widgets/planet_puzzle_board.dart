@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/app/cubit/audio_player_cubit.dart';
-import 'package:planets/dashboard/cubit/level_selection_cubit.dart';
-import 'package:planets/helpers/modal_helpers.dart';
-import 'package:planets/puzzle/puzzle.dart';
-import 'package:planets/puzzles/planet/widgets/planet_puzzle_completion_dialog.dart';
-import 'package:planets/utils/app_logger.dart';
+import '../../../app/cubit/audio_player_cubit.dart';
+import '../../../dashboard/cubit/level_selection_cubit.dart';
+import '../../../helpers/modal_helpers.dart';
+import '../../../puzzle/puzzle.dart';
+import 'planet_puzzle_completion_dialog.dart';
+import '../../../utils/app_logger.dart';
 import '../../../dashboard/cubit/planet_selection_cubit.dart';
 import '../../../puzzle/cubit/puzzle_init_cubit.dart';
 

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:planets/global/info_card/info_data.dart';
-import 'package:planets/global/info_card/info_pair.dart';
-import 'package:planets/global/stylized_icon.dart';
-import 'package:planets/global/stylized_text.dart';
-import 'package:planets/helpers/modal_helpers.dart';
-import 'package:planets/layout/utils/responsive_layout_builder.dart';
+import 'info_data.dart';
+import 'info_pair.dart';
+import '../stylized_icon.dart';
+import '../stylized_text.dart';
+import '../../helpers/modal_helpers.dart';
+import '../../layout/utils/responsive_layout_builder.dart';
 
 abstract class InfoCard {
   static Future<void> show({required BuildContext context}) {

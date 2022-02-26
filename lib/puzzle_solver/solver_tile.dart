@@ -1,5 +1,5 @@
-import 'package:planets/models/position.dart';
-import 'package:planets/models/tile.dart';
+import '../models/position.dart';
+import '../models/tile.dart';
 
 class SolverTile {
   final int value;

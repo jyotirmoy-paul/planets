@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/app/bloc/audio_control_bloc.dart';
-import 'package:planets/app/cubit/audio_player_cubit.dart';
-import 'package:planets/global/keyboard_handlers/app_keyboard_handler.dart';
-import 'package:planets/loading/cubit/assetcache_cubit.dart';
-import 'package:planets/loading/view/loading_page.dart';
+import '../bloc/audio_control_bloc.dart';
+import '../cubit/audio_player_cubit.dart';
+import '../../global/keyboard_handlers/app_keyboard_handler.dart';
+import '../../loading/cubit/assetcache_cubit.dart';
+import '../../loading/view/loading_page.dart';
 
 import '../../dashboard/dashboard.dart';
 import '../../utils/constants.dart';

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:planets/puzzle/puzzle.dart';
-import 'package:planets/puzzle_solver/puzzle_solver.dart';
+import '../puzzle.dart';
+import '../../puzzle_solver/puzzle_solver.dart';
 
 part 'puzzle_helper_state.dart';
 

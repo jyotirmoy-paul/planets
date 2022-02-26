@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-import 'package:planets/resource/app_assets.dart';
+import '../../resource/app_assets.dart';
 
 class SunWidget extends StatelessWidget {
   final double scale;

@@ -1,6 +1,6 @@
 import 'package:flutter/painting.dart';
-import 'package:planets/models/planet.dart';
-import 'package:planets/resource/app_assets.dart';
+import '../models/planet.dart';
+import '../resource/app_assets.dart';
 
 import '../models/position.dart';
 
@@ -17,6 +17,38 @@ abstract class Utils {
   }
 
   static String get planetRotationAnimationName => 'revolution';
+
+
+  static String getPlanetThumbFor(PlanetType type) {
+    switch (type) {
+      case PlanetType.mercury:
+        return AppAssets.mercuryThumb;
+
+      case PlanetType.venus:
+        return AppAssets.venusThumb;
+
+      case PlanetType.earth:
+        return AppAssets.earthThumb;
+
+      case PlanetType.mars:
+        return AppAssets.marsThumb;
+
+      case PlanetType.jupiter:
+        return AppAssets.jupiterThumb;
+
+      case PlanetType.saturn:
+        return AppAssets.saturnThumb;
+
+      case PlanetType.uranus:
+        return AppAssets.uranusThumb;
+
+      case PlanetType.neptune:
+        return AppAssets.neptuneThumb;
+
+      case PlanetType.pluto:
+        return AppAssets.plutoThumb;
+    }
+  }
 
   static String getPlanetAnimationFor(PlanetType type) {
     switch (type) {
@@ -68,13 +100,8 @@ abstract class Utils {
     double offsetX = correctPosition.x * width;
     double offsetY = correctPosition.y * height;
 
-    if (correctPosition.x != puzzleSize - 1) {
-      width -= _paddingOffset;
-    }
-
-    if (correctPosition.y != puzzleSize - 1) {
-      height -= _paddingOffset;
-    }
+    width -= _paddingOffset;
+    height -= _paddingOffset;
 
     final path = Path();
 
