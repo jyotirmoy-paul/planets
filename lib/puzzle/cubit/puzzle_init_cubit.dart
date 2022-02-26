@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:planets/utils/utils.dart';
 import '../../puzzles/planet/planet.dart';
 import '../../utils/app_logger.dart';
 import 'package:rive/rive.dart';
@@ -25,7 +26,10 @@ class PuzzleInitCubit extends Cubit<PuzzleInitState> {
 
     if (_riveController.containsKey(tileKey)) return _riveController[tileKey]!;
 
-    final controller = SimpleAnimation('revolution');
+    final controller = SimpleAnimation(
+      Utils.planetRotationAnimationName,
+      autoplay: false,
+    );
     _riveController[tileKey] = controller;
 
     return controller;
@@ -37,6 +41,9 @@ class PuzzleInitCubit extends Cubit<PuzzleInitState> {
 
     _riveController.forEach((_, controller) {
       controller.reset();
+      if (!controller.isActive) {
+        controller.isActive = true;
+      }
     });
 
     emit(const PuzzleInitReady());

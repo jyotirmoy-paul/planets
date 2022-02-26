@@ -12,7 +12,7 @@ import '../../../theme/themes/puzzle_theme.dart';
 abstract class BoardSize {
   static double small = 312;
   static double medium = 424;
-  static double large = 472;
+  static double large = 512;
 }
 
 class PlanetPuzzleLayoutDelegate extends PuzzleLayoutDelegate {
@@ -20,7 +20,7 @@ class PlanetPuzzleLayoutDelegate extends PuzzleLayoutDelegate {
   Widget backgroundBuilder(PuzzleTheme theme) {
     return Align(
       alignment: Alignment.bottomCenter,
-      child: Container(height: 50, color: Colors.green),
+      child: Image.asset(theme.backgroundAsset),
     );
   }
 

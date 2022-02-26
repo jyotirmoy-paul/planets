@@ -98,14 +98,15 @@ class _PuzzleBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubitState = context.select((PuzzleInitCubit cubit) => cubit.state);
-    final isReady = cubitState is PuzzleInitReady;
+    return SizedBox.square(dimension: size, child: child);
+    // final cubitState = context.select((PuzzleInitCubit cubit) => cubit.state);
+    // final isReady = cubitState is PuzzleInitReady;
 
-    return AnimatedOpacity(
-      duration: Duration(milliseconds: isReady ? 250 : 0),
-      opacity: isReady ? 1.0 : 0.1,
-      curve: Curves.easeOutQuint,
-      child: SizedBox.square(dimension: size, child: child),
-    );
+    // return AnimatedOpacity(
+    //   duration: Duration(milliseconds: isReady ? 250 : 0),
+    //   opacity: isReady ? 1.0 : 0.1,
+    //   curve: Curves.easeOutQuint,
+    //   child: SizedBox.square(dimension: size, child: child),
+    // );
   }
 }

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../../resource/app_assets.dart';
 import 'planet_puzzle_theme.dart';
 
 class MarsPuzzleTheme extends PlanetPuzzleTheme {
   const MarsPuzzleTheme();
-
-  @override
-  String get backgroundAsset => '';
 
   @override
   Color get primary => Colors.blue;
@@ -21,5 +19,14 @@ class MarsPuzzleTheme extends PlanetPuzzleTheme {
   Color get onSurface => Colors.amber;
 
   @override
-  String get assetForTile => 'assets/animations/planet_x.riv';
+  String get backgroundAsset => AppAssets.marsLandscape;
+
+  @override
+  String get assetForTile => AppAssets.marsAnimation;
+
+  @override
+  String get placeholderAssetForTile => AppAssets.marsImage;
+
+  @override
+  String get placeholderThumbnail => AppAssets.marsThumb;
 }

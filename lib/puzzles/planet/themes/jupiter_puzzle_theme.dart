@@ -7,9 +7,6 @@ class JupiterPuzzleTheme extends PlanetPuzzleTheme {
   const JupiterPuzzleTheme();
 
   @override
-  String get backgroundAsset => '';
-
-  @override
   Color get primary => Colors.blue;
 
   @override
@@ -22,5 +19,14 @@ class JupiterPuzzleTheme extends PlanetPuzzleTheme {
   Color get onSurface => Colors.amber;
 
   @override
+  String get backgroundAsset => AppAssets.jupiterLandscape;
+
+  @override
   String get assetForTile => AppAssets.jupiterAnimation;
+
+  @override
+  String get placeholderAssetForTile => AppAssets.jupiterImage;
+
+  @override
+  String get placeholderThumbnail => AppAssets.jupiterThumb;
 }
