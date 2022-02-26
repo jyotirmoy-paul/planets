@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../utils/utils.dart';
-import 'package:rive/rive.dart';
 
 import '../../models/planet.dart';
 import '../cubit/planet_selection_cubit.dart';
@@ -82,13 +81,17 @@ class _CorePlanet extends StatelessWidget {
         context.read<PlanetSelectionCubit>().onPlanetSelected(planet);
       },
       child: Transform.rotate(
-        angle: -math.pi / 10,
-        child: RiveAnimation.asset(
-          Utils.getPlanetAnimationFor(planet.type),
-          placeHolder: FittedBox(
-            child: Image.asset(Utils.getPlanetThumbFor(planet.type)),
-          ),
-        ),
+        angle: math.pi / 10,
+        child: Image.asset(Utils.getPlanetThumbFor(planet.type)),
+        // child: RiveAnimation.asset(
+        //   Utils.getPlanetAnimationFor(planet.type),
+        //   placeHolder: SizedBox.square(
+        //     dimension: planet.planetSize,
+        //     child: FittedBox(
+        //       child: Image.asset(Utils.getPlanetThumbFor(planet.type)),
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }

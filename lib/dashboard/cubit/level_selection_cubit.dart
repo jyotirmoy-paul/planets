@@ -2,14 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../models/puzzle.dart';
+import '../../utils/constants.dart';
 
 part 'level_selection_state.dart';
-
-const Map<PuzzleLevel, int> _puzzleSize = {
-  PuzzleLevel.easy: 3,
-  PuzzleLevel.medium: 4,
-  PuzzleLevel.hard: 5,
-};
 
 class LevelSelectionCubit extends Cubit<LevelSelectionState> {
   LevelSelectionCubit() : super(const LevelSelectionState(PuzzleLevel.easy));
@@ -34,5 +29,5 @@ class LevelSelectionCubit extends Cubit<LevelSelectionState> {
     onNewLevelSelected(_puzzleLevels[currentLevel]);
   }
 
-  int get puzzleSize => _puzzleSize[_level]!;
+  int get puzzleSize => kPuzzleLevel[_level]!;
 }

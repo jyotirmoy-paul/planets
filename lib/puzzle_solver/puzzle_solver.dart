@@ -3,7 +3,7 @@ import 'dart:async';
 import '../models/position.dart';
 import '../puzzle/cubit/puzzle_helper_cubit.dart';
 import '../puzzle/puzzle.dart';
-import '../puzzle/widgets/puzzle_header.dart';
+import '../utils/constants.dart';
 import 'solver_tile.dart';
 import '../utils/app_logger.dart';
 import 'dart:math' as math;
@@ -14,7 +14,7 @@ enum Direction { left, right, up, down }
 
 enum SpecialCaseGroup { topRight, bottomLeft, none }
 
-const _stepDuration = Duration(milliseconds: 100);
+const _stepDuration = kMS100;
 
 extension ListHelper on List<SolverTile> {
   SolverTile whitespace() => firstWhere((e) => e.isWhitespace);

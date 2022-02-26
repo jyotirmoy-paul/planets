@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:just_audio/just_audio.dart';
+import '../../utils/constants.dart';
 import '../bloc/audio_control_bloc.dart';
 import '../../helpers/audio_player.dart';
 import '../../resource/app_assets.dart';
@@ -50,7 +51,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   void _init() {
     // do audio initializations after showing loading screen
     // to avoid freeze screen
-    _timer = Timer(const Duration(milliseconds: 200), () async {
+    _timer = Timer(kMS200, () async {
       // theme music setup
       await _themeMusicPlayer.setAsset(AppAssets.planetThemeMusic);
       await _themeMusicPlayer.setLoopMode(LoopMode.one);

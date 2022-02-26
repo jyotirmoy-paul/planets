@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-const _shakeAnimationDuration = Duration(milliseconds: 400);
+import '../utils/constants.dart';
+
+const _shakeAnimationDuration = kMS400;
 const double _offsetAmount = 8.0;
 const double _w = 26.4;
 const double _a = 0.8;

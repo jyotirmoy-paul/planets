@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../app/cubit/audio_player_cubit.dart';
 import '../../../global/stylized_text.dart';
+import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 import '../planet.dart';
 import '../../../layout/utils/responsive_layout_builder.dart';
@@ -129,7 +130,7 @@ class _AnimatedState extends State<_Animated>
 
     controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1),
+      duration: kS1,
     );
 
     inOpacity = Tween<double>(begin: 0, end: 1).animate(

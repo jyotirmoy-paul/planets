@@ -3,61 +3,12 @@ import 'dart:math' as math;
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import '../../utils/app_logger.dart';
 
 import '../../models/orbit.dart';
 import '../../models/planet.dart';
+import '../../utils/constants.dart';
 
 part 'planet_orbital_animation_state.dart';
-
-/// Revolution periods of all planets - to be used for animation period calculation
-// Planet	Period of Revolution
-// Mercury	88 days       0.24
-// Venus	224.7 days      0.62
-// Earth	365 days        1
-// Mars	687 days          1.88
-// Jupiter	11.9 years    11
-// Saturn	29.5 years      29
-// Uranus	84 years        84
-// Neptune	164.8 years   164
-// Pluto	247.7 years     247
-
-const int _baseRevolutionSeconds = 10;
-const Map<PlanetType, double> _planetRevolutionFactor = {
-  PlanetType.mercury: 0.50, // 0.24,
-  PlanetType.venus: 0.80, // 0.62,
-  PlanetType.earth: 1,
-  PlanetType.mars: 1.88,
-  PlanetType.jupiter: 3.0, // 11,
-  PlanetType.saturn: 6.1, // 29,
-  PlanetType.uranus: 9.3, // 84,
-  PlanetType.neptune: 12.0, // 164,
-  PlanetType.pluto: 16.0, // 247,
-};
-
-const Map<PlanetType, double> _thresholdFactor = {
-  PlanetType.mercury: 1.0,
-  PlanetType.venus: 1.0,
-  PlanetType.earth: 1.2,
-  PlanetType.mars: 0.90,
-  PlanetType.jupiter: 1.5,
-  PlanetType.saturn: 1.2,
-  PlanetType.uranus: 0.80,
-  PlanetType.neptune: 0.85,
-  PlanetType.pluto: 0.50,
-};
-
-const Map<PlanetType, double> _pausedPosition = {
-  PlanetType.mercury: 0.60,
-  PlanetType.venus: 0.35,
-  PlanetType.earth: 0.58,
-  PlanetType.mars: 0.46,
-  PlanetType.jupiter: 0.55,
-  PlanetType.saturn: 0.41,
-  PlanetType.uranus: 0.30,
-  PlanetType.neptune: 0.53,
-  PlanetType.pluto: 0.30,
-};
 
 class PlanetOrbitalAnimationCubit extends Cubit<PlanetOrbitalAnimationState> {
   PlanetOrbitalAnimationCubit(this._parentSize)
@@ -82,7 +33,7 @@ class PlanetOrbitalAnimationCubit extends Cubit<PlanetOrbitalAnimationState> {
   static const _thresholdRadian = (math.pi * _thresholdDegree) / 180;
 
   double _getThresholdFactor(PlanetType type) {
-    return _thresholdFactor[type]!;
+    return kRevolutionThresholdFactor[type]!;
   }
 
   double _getMinAngle(Orbit orbit) {
@@ -111,7 +62,7 @@ class PlanetOrbitalAnimationCubit extends Cubit<PlanetOrbitalAnimationState> {
   Duration _getDuration(PlanetType type) {
     return Duration(
       milliseconds:
-          ((_planetRevolutionFactor[type]! * _baseRevolutionSeconds) * 1000)
+          ((kRevolutionFactor[type]! * kBaseRevolutionSeconds) * 1000)
               .toInt(),
     );
   }
@@ -145,8 +96,8 @@ class PlanetOrbitalAnimationCubit extends Cubit<PlanetOrbitalAnimationState> {
       // AppLogger.log('planetpositionfinding: $planetType :: $v');
       controller.stop();
       controller.animateTo(
-        _pausedPosition[planetType]!,
-        duration: const Duration(milliseconds: 300),
+        kPausedPosition[planetType]!,
+        duration: kMS300,
       );
     });
   }

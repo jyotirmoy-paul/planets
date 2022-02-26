@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/utils/constants.dart';
 import '../../../app/cubit/audio_player_cubit.dart';
 import '../../../dashboard/cubit/level_selection_cubit.dart';
 import '../../../helpers/modal_helpers.dart';
@@ -62,7 +63,7 @@ class _PlanetPuzzleBoardState extends State<PlanetPuzzleBoard> {
     return BlocListener<PuzzleBloc, PuzzleState>(
       listener: (BuildContext context, PuzzleState state) {
         if (state.puzzleStatus == PuzzleStatus.complete) {
-          _completePuzzleTimer = Timer(const Duration(milliseconds: 370), () {
+          _completePuzzleTimer = Timer(kMS350, () {
             _onPuzzleCompletionDialog(context);
           });
         }
@@ -99,14 +100,5 @@ class _PuzzleBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox.square(dimension: size, child: child);
-    // final cubitState = context.select((PuzzleInitCubit cubit) => cubit.state);
-    // final isReady = cubitState is PuzzleInitReady;
-
-    // return AnimatedOpacity(
-    //   duration: Duration(milliseconds: isReady ? 250 : 0),
-    //   opacity: isReady ? 1.0 : 0.1,
-    //   curve: Curves.easeOutQuint,
-    //   child: SizedBox.square(dimension: size, child: child),
-    // );
   }
 }

@@ -1,12 +1,48 @@
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
-class Background extends StatelessWidget {
+import '../../models/position.dart';
+import '../../models/star.dart';
+import '../../utils/constants.dart';
+
+class Background extends StatefulWidget {
   final Widget child;
 
-  const Background({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
+  const Background({Key? key, required this.child}) : super(key: key);
+
+  @override
+  State<Background> createState() => _BackgroundState();
+}
+
+class _BackgroundState extends State<Background> {
+  final List<Star> stars = [];
+  final _random = math.Random();
+
+  List<Star> _makeStars(int n) {
+    const size = kStarsDrawingCanvasSize;
+
+    return List.generate(
+      n,
+      (i) => Star(
+        value: i,
+        pos: Position(
+          x: _random.nextInt(size.width.toInt()),
+          y: _random.nextInt(size.height.toInt()),
+        ),
+        size:
+            math.max(_random.nextDouble(), kMinStarPercentage) * kBaseStarSize,
+        rotation: _random.nextDouble() * math.pi,
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      setState(() => stars.addAll(_makeStars(kNoStars)));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +52,21 @@ class Background extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              Color(0xff0a0826),
-              Color(0xff251f45),
-              Color(0xff242021),
+            colors: kBackgroundGradient,
+          ),
+        ),
+        child: SafeArea(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // stars
+              ...stars.map<Widget>((s) => s.widget).toList(),
+
+              // widget
+              widget.child,
             ],
           ),
         ),
-        child: SafeArea(child: child),
       ),
     );
   }

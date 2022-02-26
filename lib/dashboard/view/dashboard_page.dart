@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../utils/constants.dart';
 import '../cubit/planet_selection_helper_cubit.dart';
 import '../../global/background/background.dart';
 import '../../global/controls/audio_control.dart';
@@ -120,20 +121,20 @@ class _DashboardViewState extends State<_DashboardView>
                 small: (_, __) => const SizedBox.shrink(),
                 medium: (_, __) => const SizedBox.shrink(),
                 large: (_, __) => const Align(
-                  alignment: FractionalOffset(0.95, 0.05),
+                  alignment: kFOTopRight,
                   child: AudioControl(),
                 ),
               ),
 
               // planet animation pause/play button
               const Align(
-                alignment: FractionalOffset(0.95, 0.95),
+                alignment: kFOBottomRight,
                 child: _PlanetAnimationToggleButton(),
               ),
 
               // info button
               const Align(
-                alignment: FractionalOffset(0.02, 0.05),
+                alignment: kFOTopLeft,
                 child: _InfoButton(),
               ),
             ],
@@ -245,7 +246,7 @@ class _ScrollableSolarSystemState extends State<_ScrollableSolarSystem> {
   void _moveToOffset() {
     _controller.animateTo(
       _scrollOffset,
-      duration: const Duration(milliseconds: 350),
+      duration: kMS350,
       curve: Curves.easeInOut,
     );
   }
@@ -291,7 +292,7 @@ class _ScrollableSolarSystemState extends State<_ScrollableSolarSystem> {
 
         // control buttons
         Align(
-          alignment: const FractionalOffset(0.50, 0.95),
+          alignment: kFOBottomCenter,
           child: ScrollButtons(onPrevious: _onMovePrev, onNext: _onMoveNext),
         ),
       ],
@@ -313,7 +314,7 @@ class _DashboardPageLarge extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         // sun
-        const SunWidget(),
+        const SunWidget(key: Key('Sun'),),
 
         // orbits
         ...state.orbits.map<Widget>((orbit) => orbit.widget).toList(),

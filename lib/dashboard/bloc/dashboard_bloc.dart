@@ -6,24 +6,11 @@ import '../../layout/layout.dart';
 import '../../models/coordinate.dart';
 import '../../models/orbit.dart';
 import '../../models/planet.dart';
+import '../../utils/constants.dart';
 import '../dashboard.dart';
 
 part 'dashboard_event.dart';
 part 'dashboard_state.dart';
-
-// planet sizes
-// 0.383	0.949	1	0.532	11.21	9.45	4.01	3.88	0.187
-const Map<PlanetType, double> _planetSizeFactor = {
-  PlanetType.mercury: 0.383,
-  PlanetType.venus: 0.949, // venus
-  PlanetType.earth: 1, // earth
-  PlanetType.mars: 0.532, // mars
-  PlanetType.jupiter: 3.0, // 11.21,
-  PlanetType.saturn: 2.3, // 9.45,
-  PlanetType.uranus: 1.15, //4.01,
-  PlanetType.neptune: 1.02, // 3.88,
-  PlanetType.pluto: 0.25, // 0.187,
-};
 
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   final PlanetOrbitalAnimationCubit _planetAnimationCubit;
@@ -38,11 +25,11 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   }
 
   double _getPlanetSizeAt(int index, Size size) {
-    return size.width * 0.055 * _planetSizeFactor[_getPlanetTypeAt(index)]!;
+    return size.width * 0.055 * kPlanetSizeFactor[_getPlanetTypeAt(index)]!;
   }
 
   List<Orbit> _generateOrbits(Size size) {
-    const int totalPlanets = 9;
+    const int totalPlanets = kTotalPlanets;
     final firstRadius = size.width * 0.50;
     final steps = (size.width - firstRadius / 2) / (totalPlanets - 1);
 

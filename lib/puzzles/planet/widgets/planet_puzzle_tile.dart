@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../global/stylized_text.dart';
 import '../../../puzzle/cubit/puzzle_helper_cubit.dart';
+import '../../../utils/constants.dart';
 import '../../../utils/app_logger.dart';
 import '../../../global/shake_animator.dart';
 import '../../../models/tile.dart';
@@ -89,9 +90,8 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
     final status = context.select((PlanetPuzzleBloc bloc) => bloc.state.status);
     final hasStarted = status == PlanetPuzzleStatus.started;
 
-    final movementDuration = status == PlanetPuzzleStatus.loading
-        ? const Duration(milliseconds: 800)
-        : const Duration(milliseconds: 350);
+    final movementDuration =
+        status == PlanetPuzzleStatus.loading ? kMS800 : kMS350;
 
     final canPress = hasStarted && puzzleIncomplete && !isAutoSolving;
 
@@ -114,7 +114,7 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
         child: AnimatedScale(
           scale: scale,
           curve: Curves.easeInOut,
-          duration: const Duration(milliseconds: 250),
+          duration: kMS250,
           alignment: FractionalOffset(
             ((correctX + 1 / 2) * offset) / size,
             ((correctY + 1 / 2) * offset) / size,
@@ -201,8 +201,8 @@ class _HelpWidget extends StatelessWidget {
         ((correctY + 1 / 2) * offset) - containerSize / 2,
       ),
       child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 400),
-        reverseDuration: const Duration(milliseconds: 400),
+        duration: kMS400,
+        reverseDuration: kMS400,
         switchInCurve: Curves.easeInOut,
         switchOutCurve: Curves.easeInOut,
         child: showHelp

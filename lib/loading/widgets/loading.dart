@@ -2,10 +2,11 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:planets/utils/constants.dart';
 
 import '../../models/position.dart';
 
-const Duration _animationTick = Duration(milliseconds: 180);
+const Duration _animationTick = kMS200;
 const int _fallOffset = 2;
 
 class Loading extends StatefulWidget {

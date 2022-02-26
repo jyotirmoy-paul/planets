@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:planets/utils/constants.dart';
 import '../../utils/utils.dart';
 import '../../puzzles/planet/planet.dart';
 import '../../utils/app_logger.dart';
@@ -37,7 +38,7 @@ class PuzzleInitCubit extends Cubit<PuzzleInitState> {
 
   void _startAnimating() async {
     // for performance reasons
-    await Future.delayed(const Duration(milliseconds: 50));
+    await Future.delayed(kMS50);
 
     _riveController.forEach((_, controller) {
       controller.reset();

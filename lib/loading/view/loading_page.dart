@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:planets/resource/app_assets.dart';
+import 'package:planets/utils/constants.dart';
 import '../../app/cubit/audio_player_cubit.dart';
 import '../../dashboard/dashboard.dart';
 import '../../global/background/background.dart';
@@ -202,7 +203,7 @@ class _MainBody extends StatelessWidget {
           children: [
             // loading animation
             AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
+                duration: kMS300,
                 switchInCurve: Curves.easeInOut,
                 switchOutCurve: Curves.easeInOut,
                 child: !isInitialized
@@ -231,7 +232,7 @@ class _MainBody extends StatelessWidget {
 
             // loading animation
             AnimatedOpacity(
-              duration: const Duration(milliseconds: 300),
+              duration: kMS300,
               opacity: isReady ? 1.0 : 0.0,
               child: Loading(
                 key: ValueKey(isReady),

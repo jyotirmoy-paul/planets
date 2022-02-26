@@ -6,6 +6,7 @@ import '../../global/stylized_button.dart';
 import '../../global/stylized_text.dart';
 import '../../layout/layout.dart';
 import '../../layout/utils/responsive_layout_builder.dart';
+import '../../utils/constants.dart';
 import '../cubit/level_selection_cubit.dart';
 import '../../global/stylized_container.dart';
 import '../../models/puzzle.dart';
@@ -17,7 +18,7 @@ class HeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: const FractionalOffset(0.5, 0.05),
+      alignment: kFOTopCenter,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
