@@ -83,15 +83,6 @@ class _CorePlanet extends StatelessWidget {
       child: Transform.rotate(
         angle: math.pi / 10,
         child: Image.asset(Utils.getPlanetThumbFor(planet.type)),
-        // child: RiveAnimation.asset(
-        //   Utils.getPlanetAnimationFor(planet.type),
-        //   placeHolder: SizedBox.square(
-        //     dimension: planet.planetSize,
-        //     child: FittedBox(
-        //       child: Image.asset(Utils.getPlanetThumbFor(planet.type)),
-        //     ),
-        //   ),
-        // ),
       ),
     );
   }

@@ -88,50 +88,47 @@ abstract class AppAssets {
   static const venusAnimation = '$_venusBase/venus.riv';
   static const venusLandscape = '$_venusBase/venus_landscape.png';
 
-  // we keep the following list for caching
-  static const assets = [
-    planetThemeMusic,
-    buttonClick,
-    countDownBegin,
-    completion,
-    tileTapSuccess,
-    tileTapError,
-    planetsImage,
+  // we keep the following lists for caching
+
+  static const assetsToPreFetch = [
     sunImage,
-    earthImage,
     earthThumb,
+    jupiterThumb,
+    marsThumb,
+    mercuryThumb,
+    neptuneThumb,
+    plutoThumb,
+    saturnThumb,
+    uranusThumb,
+    venusThumb,
+  ];
+
+  static const assetsToPrefetchWithoutAwaiting = [
+    earthImage,
     earthAnimation,
     earthLandscape,
     jupiterImage,
-    jupiterThumb,
     jupiterAnimation,
     jupiterLandscape,
     marsImage,
-    marsThumb,
     marsAnimation,
     marsLandscape,
     mercuryImage,
-    mercuryThumb,
     mercuryAnimation,
     mercuryLandscape,
     neptuneImage,
-    neptuneThumb,
     neptuneAnimation,
     neptuneLandscape,
     plutoImage,
-    plutoThumb,
     plutoAnimation,
     plutoLandscape,
     saturnImage,
-    saturnThumb,
     saturnAnimation,
     saturnLandscape,
     uranusImage,
-    uranusThumb,
     uranusAnimation,
     uranusLandscape,
     venusImage,
-    venusThumb,
     venusAnimation,
     venusLandscape,
   ];
