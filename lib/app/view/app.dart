@@ -33,6 +33,7 @@ class _AppState extends State<App> {
       ],
       child: AppKeyboardHandler(
         child: MaterialApp(
+          title: 'Planets',
           theme: ThemeData(fontFamily: kFontFamily),
           home: const LoadingPage(),
         ),

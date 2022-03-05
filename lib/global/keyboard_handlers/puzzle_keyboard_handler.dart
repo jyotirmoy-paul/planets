@@ -86,9 +86,12 @@ class _PuzzleKeyboardHandlerState extends State<PuzzleKeyboardHandler> {
       Tile? tile;
 
       if (physicalKey == PhysicalKeyboardKey.space) {
+        /// do not do anything if
+        /// 1. puzzle is not ready
+        /// 2. puzzle is loading
         if (!isReady || isLoading) return;
 
-        if (hasStarted) {
+        if (hasStarted && puzzleIncomplete) {
           _onAutoSolve(
             isAutoSolving
                 ? PuzzleAutoSolveState.stop

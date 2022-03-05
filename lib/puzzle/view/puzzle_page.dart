@@ -40,7 +40,10 @@ class PuzzlePage extends StatelessWidget {
           )..add(const PuzzleInitialized(shufflePuzzle: false)),
         ),
         BlocProvider(
-          create: (context) => PuzzleHelperCubit(context.read<PuzzleBloc>()),
+          create: (context) => PuzzleHelperCubit(
+            context.read<PuzzleBloc>(),
+            context.read<AudioPlayerCubit>(),
+          ),
         ),
         BlocProvider(
           create: (context) => ThemeBloc(

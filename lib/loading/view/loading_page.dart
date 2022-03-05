@@ -203,32 +203,33 @@ class _MainBody extends StatelessWidget {
           children: [
             // loading animation
             AnimatedSwitcher(
-                duration: kMS300,
-                switchInCurve: Curves.easeInOut,
-                switchOutCurve: Curves.easeInOut,
-                child: !isInitialized
-                    ? Text(
-                        'Please wait, initializing...',
-                        key: const Key('initializing'),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.90),
-                          fontSize: isLarge ? 28.0 : 22.0,
-                          letterSpacing: 1.4,
-                        ),
-                      )
-                    : Text(
-                        'Ready when you are, Captain!',
-                        key: const Key('ready'),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.90),
-                          fontSize: isLarge ? 28.0 : 22.0,
-                          letterSpacing: 1.4,
-                        ),
-                      )),
+              duration: kMS300,
+              switchInCurve: Curves.easeInOut,
+              switchOutCurve: Curves.easeInOut,
+              child: !isInitialized
+                  ? Text(
+                      'Please wait, initializing...',
+                      key: const Key('initializing'),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.90),
+                        fontSize: isLarge ? 28.0 : 22.0,
+                        letterSpacing: 1.4,
+                      ),
+                    )
+                  : Text(
+                      'Ready when you are, Captain!',
+                      key: const Key('ready'),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.90),
+                        fontSize: isLarge ? 28.0 : 22.0,
+                        letterSpacing: 1.4,
+                      ),
+                    ),
+            ),
 
-            const Gap(12.0),
+            const Gap(28.0),
 
             // loading animation
             AnimatedOpacity(

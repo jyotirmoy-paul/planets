@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:planets/utils/constants.dart';
 
 import '../../models/position.dart';
+import '../../utils/utils.dart';
 
 const Duration _animationTick = kMS200;
 const int _fallOffset = 2;
@@ -287,10 +288,18 @@ class _Tile extends StatelessWidget {
         curve: Curves.easeInOut,
         opacity: fade ? 0.0 : 1.0,
         child: Container(
-          margin: const EdgeInsets.all(2.5),
+          margin: const EdgeInsets.all(5.0),
           decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.20),
-            border: Border.all(color: Colors.white, width: 1.0),
+            color: Utils.darkenColor(Colors.blue, 0.38),
+            boxShadow: const [
+              BoxShadow(
+                blurRadius: 0.1,
+                spreadRadius: 2.0,
+                color: Colors.white,
+                offset: Offset(1.0, 1.0),
+              ),
+            ],
+            // border: Border.all(color: Colors.white, width: 1.0),
             borderRadius: BorderRadius.circular(4.0),
           ),
           alignment: Alignment.center,

@@ -13,6 +13,7 @@ part 'audio_player_state.dart';
 
 const _maxThemeVolume = 0.15;
 const _clickVolume = 0.80;
+const _visibilityVolume = 0.30;
 const _countDownVolume = 0.30;
 const _tapVolume = 0.40;
 const _completionVolume = 0.30;
@@ -29,6 +30,9 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
 
   // button click player
   final AudioPlayer _buttonClickPlayer = getAudioPlayer();
+
+  // visibility player
+  final AudioPlayer _visibility = getAudioPlayer();
 
   // count down begin player
   final AudioPlayer _countDownBeginPlayer = getAudioPlayer();
@@ -64,6 +68,10 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
       // button click
       await _buttonClickPlayer.setAsset(AppAssets.buttonClick);
       await _buttonClickPlayer.setVolume(_clickVolume);
+
+      // button click
+      await _visibility.setAsset(AppAssets.visibility);
+      await _visibility.setVolume(_visibilityVolume);
 
       // count down begin
       await _countDownBeginPlayer.setAsset(AppAssets.countDownBegin);
@@ -145,6 +153,10 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
 
   void beginCountDown() {
     unawaited(_countDownBeginPlayer.replay());
+  }
+
+  void onVisibilityShown() {
+    if (_isSoundEffectEnabled) unawaited(_visibility.replay());
   }
 
   void completion() {

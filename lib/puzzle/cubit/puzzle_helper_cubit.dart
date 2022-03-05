@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:planets/app/cubit/audio_player_cubit.dart';
 import '../puzzle.dart';
 import '../../puzzle_solver/puzzle_solver.dart';
 
@@ -11,7 +12,10 @@ class PuzzleHelperCubit extends Cubit<PuzzleHelperState> {
 
   late PuzzleSolver _puzzleSolver;
 
-  PuzzleHelperCubit(PuzzleBloc puzzleBloc) : super(const PuzzleHelperState()) {
+  final AudioPlayerCubit audioPlayerCubit;
+
+  PuzzleHelperCubit(PuzzleBloc puzzleBloc, this.audioPlayerCubit)
+      : super(const PuzzleHelperState()) {
     _puzzleSolver = PuzzleSolver(
       puzzleBloc: puzzleBloc,
       puzzleHelperCubit: this,
@@ -31,6 +35,8 @@ class PuzzleHelperCubit extends Cubit<PuzzleHelperState> {
     // start auto solver
     _start();
 
+    _puzzleSolver.puzzleBloc.onAutoSolvingStarted();
+
     // emit state
     emit(state.copyWith(
       isAutoSolving: true,
@@ -45,6 +51,8 @@ class PuzzleHelperCubit extends Cubit<PuzzleHelperState> {
   }
 
   void onAutoSolvingEnded() {
+    _puzzleSolver.puzzleBloc.onAutoSolvingStopped();
+
     // emit state
     emit(state.copyWith(
       isAutoSolving: false,
@@ -52,6 +60,10 @@ class PuzzleHelperCubit extends Cubit<PuzzleHelperState> {
   }
 
   void onHelpToggle() {
+    if (state.showHelp == false) {
+      // old state false means, we are going to show help, play audio
+      audioPlayerCubit.onVisibilityShown();
+    }
     emit(state.copyWith(
       showHelp: !state.showHelp,
     ));
