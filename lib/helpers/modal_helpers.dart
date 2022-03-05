@@ -18,14 +18,14 @@ Future<T?> showAppDialog<T>({
         );
 
         return ScaleTransition(
-          scale: Tween<double>(begin: 0.8, end: 1).animate(curvedAnimation),
+          scale: Tween<double>(begin: 0.9, end: 1).animate(curvedAnimation),
           child: FadeTransition(
             opacity: curvedAnimation,
             child: widget,
           ),
         );
       },
-      transitionDuration: kMS400,
+      transitionDuration: kMS300,
       barrierDismissible: barrierDismissible,
       barrierLabel: barrierLabel,
       context: context,
