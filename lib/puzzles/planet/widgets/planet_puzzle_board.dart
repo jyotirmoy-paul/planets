@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/puzzle/cubit/puzzle_helper_cubit.dart';
 import 'package:planets/utils/constants.dart';
 import '../../../app/cubit/audio_player_cubit.dart';
 import '../../../dashboard/cubit/level_selection_cubit.dart';
@@ -41,10 +42,11 @@ class _PlanetPuzzleBoardState extends State<PlanetPuzzleBoard> {
         providers: [
           BlocProvider.value(value: context.read<LevelSelectionCubit>()),
           BlocProvider.value(value: context.read<PlanetSelectionCubit>()),
+          BlocProvider.value(value: context.read<PuzzleHelperCubit>()),
           BlocProvider.value(value: context.read<TimerBloc>()),
           BlocProvider.value(value: context.read<PuzzleBloc>()),
         ],
-        child: const PlanetPuzzleCompletionDialog(),
+        child: PlanetPuzzleCompletionDialog(),
       ),
     );
 

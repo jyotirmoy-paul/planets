@@ -6,6 +6,13 @@ import '../models/puzzle.dart';
 // theme
 const kFontFamily = 'Gameria';
 
+const kUrl = 'https://fph-planets.web.app/#/';
+
+// puzzle solving durations expected for perfect score
+const k3PuzzleDuration = Duration(minutes: 2);
+const k4PuzzleDuration = Duration(minutes: 6);
+const k5PuzzleDuration = Duration(minutes: 10);
+
 // durations
 const kMS50 = Duration(milliseconds: 50);
 const kMS100 = Duration(milliseconds: 100);

@@ -1,14 +1,168 @@
-import 'package:flutter/painting.dart';
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+// import 'dart:html' as html;
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:gallery_saver/gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:planets/utils/app_logger.dart';
+import 'package:planets/utils/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:uuid/uuid.dart';
 import '../models/planet.dart';
 import '../resource/app_assets.dart';
 
 import '../models/position.dart';
+import 'dart:math' as math;
 
 const _paddingOffset = 5.0;
 const _roundOffset = 15.0;
 const _radius = Radius.circular(_roundOffset);
 
 abstract class Utils {
+  static String getSuccessExtraText({
+    required int totalSteps,
+    required int autoSolverSteps,
+  }) {
+    final f = autoSolverSteps / totalSteps;
+
+    if (f > 0.85) {
+      return '(though we helped a lot)';
+    }
+
+    if (f > 0.30) {
+      return 'with a fair bit of help';
+    }
+
+    if (f > 0) {
+      return 'without much aid';
+    }
+
+    // haven't used auto solver
+    return 'without any aid';
+  }
+
+  static Future<Uint8List?> capturePng(GlobalKey key) async {
+    final boundary =
+        key.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+    if (boundary == null) return null;
+    final ui.Image image =
+        await boundary.toImage(pixelRatio: kIsWeb ? 1.2 : 2.0);
+    final ByteData? byteData =
+        await image.toByteData(format: ui.ImageByteFormat.png);
+    return byteData!.buffer.asUint8List();
+  }
+
+  static String sharableText(String planetName) {
+    return 'I just assembled $planetName, It\'s a fun challenge, join the #FlutterPuzzleHack! Check it out here ↓';
+  }
+
+  static Future<void> openLink(String url, {VoidCallback? onError}) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else if (onError != null) {
+      AppLogger.log('cannot open link for url $url');
+      onError();
+    }
+  }
+
+  static void onFacebookTap(final String planetName) {
+    final shareText = sharableText(planetName);
+    final encodedShareText = Uri.encodeComponent(shareText);
+    final facebookUrl =
+        'https://www.facebook.com/sharer.php?u=$kUrl&quote=$encodedShareText';
+    openLink(facebookUrl);
+  }
+
+  static void onTwitterTap(final String planetName) {
+    final shareText = sharableText(planetName);
+    final encodedShareText = Uri.encodeComponent(shareText);
+    final twitterUrl =
+        'https://twitter.com/intent/tweet?url=$kUrl&text=$encodedShareText';
+    openLink(twitterUrl);
+  }
+
+  static void onDownloadTap(Uint8List? imageData) async {
+    if (imageData == null) return;
+
+    try {
+      if (kIsWeb) {
+        // todo: uncomment the following, when building for web
+        // // download the image
+        // final blob = html.Blob(
+        //   <dynamic>[imageData],
+        //   'application/octet-stream',
+        // );
+        // final url = html.Url.createObjectUrlFromBlob(blob);
+        // final anchor = html.document.createElement('a') as html.AnchorElement
+        //   ..href = url
+        //   ..style.display = 'none'
+        //   ..download = '${const Uuid().v1()}.png';
+        // html.document.body?.children.add(anchor);
+        // anchor.click();
+        // html.document.body?.children.remove(anchor);
+        // html.Url.revokeObjectUrl(url);
+      } else {
+        // save the image
+        final applicationDir = await getApplicationDocumentsDirectory();
+        final file =
+            await File(applicationDir.path + '/${const Uuid().v1()}.png')
+                .writeAsBytes(imageData);
+
+        final success = await GallerySaver.saveImage(file.path);
+
+        if (success == true) {
+          // todo: show toast
+        } else {
+          AppLogger.log('Utils :: onDownloadTap :: could not save image');
+        }
+      }
+    } catch (e) {
+      AppLogger.log('onDownloadTap: error: $e');
+    }
+  }
+
+  static int getScore({
+    required int secondsTaken,
+    required int totalSteps,
+    required int autoSolverSteps,
+    required int puzzleSize,
+  }) {
+    int totalScore = 5;
+
+    switch (puzzleSize) {
+      case 3:
+        if (secondsTaken > k3PuzzleDuration.inSeconds) totalScore--;
+        break;
+
+      case 4:
+        if (secondsTaken > k4PuzzleDuration.inSeconds) totalScore--;
+        break;
+
+      case 5:
+        if (secondsTaken > k5PuzzleDuration.inSeconds) totalScore--;
+        break;
+    }
+
+    // if used autosolver, decrease points
+    if (autoSolverSteps != 0) {
+      if (totalScore >= 4) {
+        totalScore -= 2;
+      } else {
+        totalScore--;
+      }
+    }
+
+    // penalty for too many steps
+    if (totalSteps > 500) totalScore--;
+
+    // min score a user can get is 1, for worst case scenario
+    return math.max(1, totalScore);
+  }
+
   static Color darkenColor(Color color, [double amount = 0.30]) {
     assert(amount >= 0 && amount <= 1);
     final hsl = HSLColor.fromColor(color);
@@ -18,6 +172,36 @@ abstract class Utils {
 
   static String get planetRotationAnimationName => 'revolution';
 
+  static String getPlanetImageFor(PlanetType type) {
+    switch (type) {
+      case PlanetType.mercury:
+        return AppAssets.mercuryImage;
+
+      case PlanetType.venus:
+        return AppAssets.venusImage;
+
+      case PlanetType.earth:
+        return AppAssets.earthImage;
+
+      case PlanetType.mars:
+        return AppAssets.marsImage;
+
+      case PlanetType.jupiter:
+        return AppAssets.jupiterImage;
+
+      case PlanetType.saturn:
+        return AppAssets.saturnImage;
+
+      case PlanetType.uranus:
+        return AppAssets.uranusImage;
+
+      case PlanetType.neptune:
+        return AppAssets.neptuneImage;
+
+      case PlanetType.pluto:
+        return AppAssets.plutoImage;
+    }
+  }
 
   static String getPlanetThumbFor(PlanetType type) {
     switch (type) {
