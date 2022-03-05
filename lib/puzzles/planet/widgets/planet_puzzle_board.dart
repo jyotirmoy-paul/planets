@@ -46,7 +46,7 @@ class _PlanetPuzzleBoardState extends State<PlanetPuzzleBoard> {
           BlocProvider.value(value: context.read<TimerBloc>()),
           BlocProvider.value(value: context.read<PuzzleBloc>()),
         ],
-        child: const PlanetPuzzleCompletionDialog(),
+        child: PlanetPuzzleCompletionDialog(),
       ),
     );
 

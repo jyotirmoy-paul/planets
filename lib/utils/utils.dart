@@ -1,5 +1,18 @@
+import 'dart:convert';
+import 'dart:html' as html;
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:planets/utils/app_logger.dart';
 import 'package:planets/utils/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:uuid/uuid.dart';
 import '../models/planet.dart';
 import '../resource/app_assets.dart';
 
@@ -11,11 +24,74 @@ const _roundOffset = 15.0;
 const _radius = Radius.circular(_roundOffset);
 
 abstract class Utils {
-  static void onFacebookTap() {}
+  static Future<Uint8List?> capturePng(GlobalKey key) async {
+    final boundary =
+        key.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+    if (boundary == null) return null;
+    final ui.Image image = await boundary.toImage(pixelRatio: 1.2);
+    final ByteData? byteData =
+        await image.toByteData(format: ui.ImageByteFormat.png);
+    return byteData!.buffer.asUint8List();
+  }
 
-  static void onTwitterTap() {}
+  static String sharableText(String planetName) {
+    return 'I just assembled $planetName, It\'s a fun challenge, join the #FlutterPuzzleHack! Check it out here ↓';
+  }
 
-  static void onDownloadTap() {}
+  static Future<void> openLink(String url, {VoidCallback? onError}) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else if (onError != null) {
+      AppLogger.log('cannot open link for url $url');
+      onError();
+    }
+  }
+
+  static void onFacebookTap(final String planetName) {
+    final shareText = sharableText(planetName);
+    final encodedShareText = Uri.encodeComponent(shareText);
+    final facebookUrl =
+        'https://www.facebook.com/sharer.php?u=$kUrl&quote=$encodedShareText';
+    openLink(facebookUrl);
+  }
+
+  static void onTwitterTap(final String planetName) {
+    final shareText = sharableText(planetName);
+    final encodedShareText = Uri.encodeComponent(shareText);
+    final twitterUrl =
+        'https://twitter.com/intent/tweet?url=$kUrl&text=$encodedShareText';
+    openLink(twitterUrl);
+  }
+
+  static void onDownloadTap(Uint8List? imageData) async {
+    if (imageData == null) return;
+
+    try {
+      if (kIsWeb) {
+        // download the image
+        final blob = html.Blob(
+          <dynamic>[imageData],
+          'application/octet-stream',
+        );
+        final url = html.Url.createObjectUrlFromBlob(blob);
+        final anchor = html.document.createElement('a') as html.AnchorElement
+          ..href = url
+          ..style.display = 'none'
+          ..download = '${const Uuid().v1()}.png';
+        html.document.body?.children.add(anchor);
+        anchor.click();
+        html.document.body?.children.remove(anchor);
+        html.Url.revokeObjectUrl(url);
+      } else {
+        // save the image
+        final applicationDir = await getApplicationDocumentsDirectory();
+        File(applicationDir.path + '/${const Uuid().v1()}.png')
+            .writeAsBytes(imageData);
+      }
+    } catch (e) {
+      AppLogger.log('onDownloadTap: error: $e');
+    }
+  }
 
   static int getScore({
     required int secondsTaken,

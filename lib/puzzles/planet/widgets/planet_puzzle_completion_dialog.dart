@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:planets/dashboard/cubit/planet_selection_cubit.dart';
 import 'package:planets/global/stylized_icon.dart';
 import 'package:planets/puzzle/cubit/puzzle_helper_cubit.dart';
+import 'package:planets/utils/app_logger.dart';
 import 'package:planets/utils/utils.dart';
 import '../../../dashboard/cubit/level_selection_cubit.dart';
 import '../../../global/stylized_button.dart';
@@ -15,29 +17,36 @@ import '../../../puzzle/puzzle.dart';
 import '../../../timer/timer.dart';
 
 class PlanetPuzzleCompletionDialog extends StatelessWidget {
-  const PlanetPuzzleCompletionDialog({Key? key}) : super(key: key);
+  PlanetPuzzleCompletionDialog({Key? key}) : super(key: key);
+
+  final globalKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.50),
-        borderRadius: BorderRadius.circular(12.0),
-        border: Border.all(
-          width: 2.0,
-          color: Colors.amber,
-        ),
-      ),
-      child: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        child: ResponsiveLayoutBuilder(
-          small: (_, __) => const _PlanetPuzzleCompletionDialogSmall(
-            key: Key('PlanetPuzzleCompletionDialogSmall'),
+    return RepaintBoundary(
+      key: globalKey,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.50),
+          borderRadius: BorderRadius.circular(12.0),
+          border: Border.all(
+            width: 2.0,
+            color: Colors.amber,
           ),
-          medium: (_, Widget? child) => child!,
-          large: (_, Widget? child) => child!,
-          child: (_) => const _PlanetPuzzleCompletionDialogLarge(
-            key: Key('PlanetPuzzleCompletionDialogLarge'),
+        ),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+          child: ResponsiveLayoutBuilder(
+            small: (_, __) => _PlanetPuzzleCompletionDialogSmall(
+              key: const Key('PlanetPuzzleCompletionDialogSmall'),
+              globalKey: globalKey,
+            ),
+            medium: (_, Widget? child) => child!,
+            large: (_, Widget? child) => child!,
+            child: (_) => _PlanetPuzzleCompletionDialogLarge(
+              key: const Key('PlanetPuzzleCompletionDialogLarge'),
+              globalKey: globalKey,
+            ),
           ),
         ),
       ),
@@ -46,7 +55,12 @@ class PlanetPuzzleCompletionDialog extends StatelessWidget {
 }
 
 class _PlanetPuzzleCompletionDialogSmall extends StatelessWidget {
-  const _PlanetPuzzleCompletionDialogSmall({Key? key}) : super(key: key);
+  final GlobalKey globalKey;
+
+  const _PlanetPuzzleCompletionDialogSmall({
+    Key? key,
+    required this.globalKey,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +95,7 @@ class _PlanetPuzzleCompletionDialogSmall extends StatelessWidget {
 
         // main body
         Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(32.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -163,10 +177,14 @@ class _PlanetPuzzleCompletionDialogSmall extends StatelessWidget {
               const Gap(48.0),
 
               // buttons
-              const ScoreButtons(
-                facebookTap: Utils.onFacebookTap,
-                twitterTap: Utils.onTwitterTap,
-                downloadTap: Utils.onDownloadTap,
+              ScoreButtons(
+                facebookTap: () => Utils.onFacebookTap(planet.name),
+                twitterTap: () => Utils.onTwitterTap(planet.name),
+                downloadTap: () async {
+                  final bytes = await Utils.capturePng(globalKey);
+                  AppLogger.log('bytes: $bytes');
+                  Utils.onDownloadTap(bytes);
+                },
               ),
             ],
           ),
@@ -194,6 +212,7 @@ class ScoreButtons extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         StylizedButton(
+          onPressed: facebookTap,
           child: const StylizedContainer(
             color: Color(0xffF0F0F0),
             child: Icon(
@@ -206,6 +225,7 @@ class ScoreButtons extends StatelessWidget {
 
         // twitter
         StylizedButton(
+          onPressed: twitterTap,
           child: const StylizedContainer(
             color: Color(0xffF0F0F0),
             child: Icon(
@@ -218,6 +238,7 @@ class ScoreButtons extends StatelessWidget {
 
         // download
         StylizedButton(
+          onPressed: downloadTap,
           child: const StylizedContainer(
             color: Color(0xffF0F0F0),
             child: Icon(
@@ -272,7 +293,12 @@ class ScoreTile extends StatelessWidget {
 }
 
 class _PlanetPuzzleCompletionDialogLarge extends StatelessWidget {
-  const _PlanetPuzzleCompletionDialogLarge({Key? key}) : super(key: key);
+  final GlobalKey globalKey;
+
+  const _PlanetPuzzleCompletionDialogLarge({
+    Key? key,
+    required this.globalKey,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
