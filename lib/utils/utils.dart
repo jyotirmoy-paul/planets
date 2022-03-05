@@ -1,13 +1,13 @@
 import 'dart:convert';
-import 'dart:html' as html;
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+// import 'dart:html' as html;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:planets/utils/app_logger.dart';
 import 'package:planets/utils/constants.dart';
@@ -24,11 +24,34 @@ const _roundOffset = 15.0;
 const _radius = Radius.circular(_roundOffset);
 
 abstract class Utils {
+  static String getSuccessExtraText({
+    required int totalSteps,
+    required int autoSolverSteps,
+  }) {
+    final f = autoSolverSteps / totalSteps;
+
+    if (f > 0.85) {
+      return '(though we helped a lot)';
+    }
+
+    if (f > 0.30) {
+      return 'with a fair bit of help';
+    }
+
+    if (f > 0) {
+      return 'without much aid';
+    }
+
+    // haven't used auto solver
+    return 'without any aid';
+  }
+
   static Future<Uint8List?> capturePng(GlobalKey key) async {
     final boundary =
         key.currentContext?.findRenderObject() as RenderRepaintBoundary?;
     if (boundary == null) return null;
-    final ui.Image image = await boundary.toImage(pixelRatio: 1.2);
+    final ui.Image image =
+        await boundary.toImage(pixelRatio: kIsWeb ? 1.2 : 2.0);
     final ByteData? byteData =
         await image.toByteData(format: ui.ImageByteFormat.png);
     return byteData!.buffer.asUint8List();
@@ -68,25 +91,36 @@ abstract class Utils {
 
     try {
       if (kIsWeb) {
-        // download the image
-        final blob = html.Blob(
-          <dynamic>[imageData],
-          'application/octet-stream',
-        );
-        final url = html.Url.createObjectUrlFromBlob(blob);
-        final anchor = html.document.createElement('a') as html.AnchorElement
-          ..href = url
-          ..style.display = 'none'
-          ..download = '${const Uuid().v1()}.png';
-        html.document.body?.children.add(anchor);
-        anchor.click();
-        html.document.body?.children.remove(anchor);
-        html.Url.revokeObjectUrl(url);
+        launch(
+            "data:application/octet-stream;base64,${base64Encode(imageData)}");
+        // // download the image
+        // final blob = html.Blob(
+        //   <dynamic>[imageData],
+        //   'application/octet-stream',
+        // );
+        // final url = html.Url.createObjectUrlFromBlob(blob);
+        // final anchor = html.document.createElement('a') as html.AnchorElement
+        //   ..href = url
+        //   ..style.display = 'none'
+        //   ..download = '${const Uuid().v1()}.png';
+        // html.document.body?.children.add(anchor);
+        // anchor.click();
+        // html.document.body?.children.remove(anchor);
+        // html.Url.revokeObjectUrl(url);
       } else {
         // save the image
         final applicationDir = await getApplicationDocumentsDirectory();
-        File(applicationDir.path + '/${const Uuid().v1()}.png')
-            .writeAsBytes(imageData);
+        final file =
+            await File(applicationDir.path + '/${const Uuid().v1()}.png')
+                .writeAsBytes(imageData);
+
+        final success = await GallerySaver.saveImage(file.path);
+
+        if (success == true) {
+          // todo: show toast
+        } else {
+          AppLogger.log('Utils :: onDownloadTap :: could not save image');
+        }
       }
     } catch (e) {
       AppLogger.log('onDownloadTap: error: $e');

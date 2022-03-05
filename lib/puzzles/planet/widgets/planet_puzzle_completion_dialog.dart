@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:planets/dashboard/cubit/planet_selection_cubit.dart';
 import 'package:planets/global/stylized_icon.dart';
 import 'package:planets/puzzle/cubit/puzzle_helper_cubit.dart';
-import 'package:planets/utils/app_logger.dart';
 import 'package:planets/utils/utils.dart';
 import '../../../dashboard/cubit/level_selection_cubit.dart';
 import '../../../global/stylized_button.dart';
 import '../../../global/stylized_container.dart';
 import '../../../global/stylized_text.dart';
 import '../../../layout/utils/responsive_layout_builder.dart';
+import '../../../models/planet.dart';
 import '../../../puzzle/puzzle.dart';
 import '../../../timer/timer.dart';
 
@@ -27,7 +26,7 @@ class PlanetPuzzleCompletionDialog extends StatelessWidget {
       key: globalKey,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.50),
+          color: Colors.black.withOpacity(0.80),
           borderRadius: BorderRadius.circular(12.0),
           border: Border.all(
             width: 2.0,
@@ -122,7 +121,10 @@ class _PlanetPuzzleCompletionDialogSmall extends StatelessWidget {
               const Gap(32.0),
 
               Text(
-                'You have successfully put together ${planet.name} without any aid',
+                'You have successfully put together our ${planet.name} ${Utils.getSuccessExtraText(
+                  totalSteps: totalMoves,
+                  autoSolverSteps: autoSolverSteps,
+                )}',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18.0,
@@ -177,15 +179,7 @@ class _PlanetPuzzleCompletionDialogSmall extends StatelessWidget {
               const Gap(48.0),
 
               // buttons
-              ScoreButtons(
-                facebookTap: () => Utils.onFacebookTap(planet.name),
-                twitterTap: () => Utils.onTwitterTap(planet.name),
-                downloadTap: () async {
-                  final bytes = await Utils.capturePng(globalKey);
-                  AppLogger.log('bytes: $bytes');
-                  Utils.onDownloadTap(bytes);
-                },
-              ),
+              ShareButtons(planet: planet, globalKey: globalKey),
             ],
           ),
         ),
@@ -194,16 +188,14 @@ class _PlanetPuzzleCompletionDialogSmall extends StatelessWidget {
   }
 }
 
-class ScoreButtons extends StatelessWidget {
-  final VoidCallback facebookTap;
-  final VoidCallback twitterTap;
-  final VoidCallback downloadTap;
+class ShareButtons extends StatelessWidget {
+  final Planet planet;
+  final GlobalKey globalKey;
 
-  const ScoreButtons({
+  const ShareButtons({
     Key? key,
-    required this.facebookTap,
-    required this.twitterTap,
-    required this.downloadTap,
+    required this.planet,
+    required this.globalKey,
   }) : super(key: key);
 
   @override
@@ -212,7 +204,9 @@ class ScoreButtons extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         StylizedButton(
-          onPressed: facebookTap,
+          onPressed: () {
+            Utils.onFacebookTap(planet.name);
+          },
           child: const StylizedContainer(
             color: Color(0xffF0F0F0),
             child: Icon(
@@ -225,7 +219,9 @@ class ScoreButtons extends StatelessWidget {
 
         // twitter
         StylizedButton(
-          onPressed: twitterTap,
+          onPressed: () {
+            Utils.onTwitterTap(planet.name);
+          },
           child: const StylizedContainer(
             color: Color(0xffF0F0F0),
             child: Icon(
@@ -238,7 +234,10 @@ class ScoreButtons extends StatelessWidget {
 
         // download
         StylizedButton(
-          onPressed: downloadTap,
+          onPressed: () async {
+            final bytes = await Utils.capturePng(globalKey);
+            Utils.onDownloadTap(bytes);
+          },
           child: const StylizedContainer(
             color: Color(0xffF0F0F0),
             child: Icon(
@@ -292,30 +291,6 @@ class ScoreTile extends StatelessWidget {
   }
 }
 
-class _PlanetPuzzleCompletionDialogLarge extends StatelessWidget {
-  final GlobalKey globalKey;
-
-  const _PlanetPuzzleCompletionDialogLarge({
-    Key? key,
-    required this.globalKey,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final secondsElapsed = context.read<TimerBloc>().state.secondsElapsed;
-    final moves = context.read<PuzzleBloc>().state.numberOfMoves;
-
-    return StylizedContainer(
-      color: Colors.lightBlueAccent,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [],
-      ),
-    );
-  }
-}
-
 class WinStarWidget extends StatelessWidget {
   static const maxStar = 5;
   final int star;
@@ -330,9 +305,165 @@ class WinStarWidget extends StatelessWidget {
         return StylizedIcon(
           size: 32.0,
           icon: FontAwesomeIcons.star,
-          color: index >= star ? Colors.grey : Colors.white,
+          color: index >= star ? Colors.white.withOpacity(0.20) : Colors.white,
         );
       }).toList(),
+    );
+  }
+}
+
+class _PlanetPuzzleCompletionDialogLarge extends StatelessWidget {
+  final GlobalKey globalKey;
+
+  const _PlanetPuzzleCompletionDialogLarge({
+    Key? key,
+    required this.globalKey,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final secondsElapsed = context.read<TimerBloc>().state.secondsElapsed;
+    final totalMoves = context.read<PuzzleBloc>().state.numberOfMoves;
+    final planet = context.read<PlanetSelectionCubit>().planet;
+    final autoSolverSteps = context.read<PuzzleHelperCubit>().autoSolverSteps;
+    final level = context.read<LevelSelectionCubit>().puzzleSize;
+    final isAutoSolverUsed = autoSolverSteps != 0;
+
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: IntrinsicHeight(
+              child: Container(
+                padding: const EdgeInsets.all(12.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Image.asset(
+                      Utils.getPlanetImageFor(planet.type),
+                    ),
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.black.withOpacity(0.60),
+                        ),
+                      ),
+                    ),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const StylizedText(
+                          text: 'Congracts!',
+                          fontSize: 48.0,
+                        ),
+
+                        const Text(
+                          "You're an intergalactic champ!",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.0,
+                            letterSpacing: 2.0,
+                          ),
+                        ),
+
+                        const Gap(32.0),
+
+                        Text(
+                          'You have successfully put together our ${planet.name} ${Utils.getSuccessExtraText(
+                            totalSteps: totalMoves,
+                            autoSolverSteps: autoSolverSteps,
+                          )}',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0,
+                            letterSpacing: 1.5,
+                            wordSpacing: 1.5,
+                          ),
+                        ),
+
+                        const Gap(32.0),
+
+                        // star
+                        WinStarWidget(
+                          star: Utils.getScore(
+                            secondsTaken: secondsElapsed,
+                            totalSteps: totalMoves,
+                            autoSolverSteps: autoSolverSteps,
+                            puzzleSize: level,
+                          ),
+                        ),
+
+                        const Gap(32.0),
+
+                        const StylizedText(
+                          textAlign: TextAlign.center,
+                          text: 'Score Board',
+                          fontSize: 24.0,
+                          strokeWidth: 5.0,
+                          offset: 2.0,
+                        ),
+
+                        const Gap(16.0),
+
+                        ScoreTile(
+                          icon: FontAwesomeIcons.hashtag,
+                          text: '$totalMoves moves',
+                        ),
+
+                        const Gap(8.0),
+
+                        ScoreTile(
+                          icon: FontAwesomeIcons.stopwatch,
+                          text:
+                              Utils.getFormattedElapsedSeconds(secondsElapsed),
+                        ),
+
+                        const Gap(8.0),
+
+                        ScoreTile(
+                          icon: FontAwesomeIcons.laptopCode,
+                          text: isAutoSolverUsed
+                              ? 'Used Autosolve'
+                              : 'No Autosolve',
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          const Gap(24.0),
+
+          // share
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // share title text
+                const StylizedText(
+                  text: 'Share!',
+                  fontSize: 32.0,
+                ),
+
+                const Gap(32.0),
+
+                // buttons
+                ShareButtons(planet: planet, globalKey: globalKey),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
