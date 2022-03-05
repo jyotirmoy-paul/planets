@@ -21,9 +21,9 @@ const kS1 = Duration(seconds: 1);
 const kFOTopLeft = FractionalOffset(0.05, 0.05);
 const kFOTopRight = FractionalOffset(0.95, 0.05);
 const kFOTopCenter = FractionalOffset(0.5, 0.05);
-const kFOBottomLeft = FractionalOffset(0.05, 0.95);
-const kFOBottomRight = FractionalOffset(0.95, 0.95);
-const kFOBottomCenter = FractionalOffset(0.50, 0.95);
+const kFOBottomLeft = FractionalOffset(0.05, 0.98);
+const kFOBottomRight = FractionalOffset(0.95, 0.98);
+const kFOBottomCenter = FractionalOffset(0.50, 0.98);
 
 // background
 const kStarsDrawingCanvasSize = Size(1800, 1000);

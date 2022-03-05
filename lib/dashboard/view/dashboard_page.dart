@@ -133,9 +133,19 @@ class _DashboardViewState extends State<_DashboardView>
               ),
 
               // info button
-              const Align(
-                alignment: kFOTopLeft,
-                child: _InfoButton(),
+              ResponsiveLayoutBuilder(
+                small: (_, __) => const Align(
+                  alignment: kFOBottomLeft,
+                  child: _InfoButton(),
+                ),
+                medium: (_, __) => const Align(
+                  alignment: kFOTopLeft,
+                  child: _InfoButton(),
+                ),
+                large: (_, __) => const Align(
+                  alignment: kFOTopLeft,
+                  child: _InfoButton(),
+                ),
               ),
             ],
           ),
@@ -184,8 +194,12 @@ class _PlanetAnimationToggleButton extends StatelessWidget {
       },
       child: StylizedContainer(
         color: isPaused ? Colors.grey : Colors.blueAccent,
+        padding: const EdgeInsets.all(12.0),
         child: StylizedIcon(
           icon: isPaused ? FontAwesomeIcons.pause : FontAwesomeIcons.play,
+          size: 15.0,
+          offset: 1.0,
+          strokeWidth: 5.0,
         ),
       ),
     );
@@ -314,7 +328,9 @@ class _DashboardPageLarge extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         // sun
-        const SunWidget(key: Key('Sun'),),
+        const SunWidget(
+          key: Key('Sun'),
+        ),
 
         // orbits
         ...state.orbits.map<Widget>((orbit) => orbit.widget).toList(),
