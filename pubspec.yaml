@@ -1,9 +1,9 @@
 name: planets
-description: A new Flutter project.
+description: A Slide Puzzle, made with Flutter <3
 
 publish_to: "none"
 
-version: 1.0.0+1
+version: 1.0.2
 
 environment:
   sdk: ">=2.16.0 <3.0.0"
