@@ -1,14 +1,60 @@
 import 'package:flutter/painting.dart';
+import 'package:planets/utils/constants.dart';
 import '../models/planet.dart';
 import '../resource/app_assets.dart';
 
 import '../models/position.dart';
+import 'dart:math' as math;
 
 const _paddingOffset = 5.0;
 const _roundOffset = 15.0;
 const _radius = Radius.circular(_roundOffset);
 
 abstract class Utils {
+  static void onFacebookTap() {}
+
+  static void onTwitterTap() {}
+
+  static void onDownloadTap() {}
+
+  static int getScore({
+    required int secondsTaken,
+    required int totalSteps,
+    required int autoSolverSteps,
+    required int puzzleSize,
+  }) {
+    int totalScore = 5;
+
+    switch (puzzleSize) {
+      case 3:
+        if (secondsTaken > k3PuzzleDuration.inSeconds) totalScore--;
+        break;
+
+      case 4:
+        if (secondsTaken > k4PuzzleDuration.inSeconds) totalScore--;
+        break;
+
+      case 5:
+        if (secondsTaken > k5PuzzleDuration.inSeconds) totalScore--;
+        break;
+    }
+
+    // if used autosolver, decrease points
+    if (autoSolverSteps != 0) {
+      if (totalScore >= 4) {
+        totalScore -= 2;
+      } else {
+        totalScore--;
+      }
+    }
+
+    // penalty for too many steps
+    if (totalSteps > 500) totalScore--;
+
+    // min score a user can get is 1, for worst case scenario
+    return math.max(1, totalScore);
+  }
+
   static Color darkenColor(Color color, [double amount = 0.30]) {
     assert(amount >= 0 && amount <= 1);
     final hsl = HSLColor.fromColor(color);
@@ -18,6 +64,36 @@ abstract class Utils {
 
   static String get planetRotationAnimationName => 'revolution';
 
+  static String getPlanetImageFor(PlanetType type) {
+    switch (type) {
+      case PlanetType.mercury:
+        return AppAssets.mercuryImage;
+
+      case PlanetType.venus:
+        return AppAssets.venusImage;
+
+      case PlanetType.earth:
+        return AppAssets.earthImage;
+
+      case PlanetType.mars:
+        return AppAssets.marsImage;
+
+      case PlanetType.jupiter:
+        return AppAssets.jupiterImage;
+
+      case PlanetType.saturn:
+        return AppAssets.saturnImage;
+
+      case PlanetType.uranus:
+        return AppAssets.uranusImage;
+
+      case PlanetType.neptune:
+        return AppAssets.neptuneImage;
+
+      case PlanetType.pluto:
+        return AppAssets.plutoImage;
+    }
+  }
 
   static String getPlanetThumbFor(PlanetType type) {
     switch (type) {

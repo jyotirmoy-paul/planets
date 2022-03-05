@@ -41,6 +41,8 @@ class Planet extends Equatable {
 
   Widget get widget => PlanetWidget(key: ValueKey(type), planet: this);
 
+  String get name => type.name;
+
   @override
   List<Object?> get props => [type, key, origin, r1, r2, planetSize];
 
