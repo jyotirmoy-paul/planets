@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
@@ -91,8 +90,7 @@ abstract class Utils {
 
     try {
       if (kIsWeb) {
-        launch(
-            "data:application/octet-stream;base64,${base64Encode(imageData)}");
+        // todo: uncomment the following, when building for web
         // // download the image
         // final blob = html.Blob(
         //   <dynamic>[imageData],
