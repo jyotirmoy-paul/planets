@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:planets/resource/app_assets.dart';
-import 'package:planets/utils/constants.dart';
+import '../../resource/app_assets.dart';
+import '../../utils/constants.dart';
 import '../../app/cubit/audio_player_cubit.dart';
 import '../../dashboard/dashboard.dart';
 import '../../global/background/background.dart';
@@ -18,11 +18,16 @@ import '../../utils/utils.dart';
 class LoadingPage extends StatelessWidget {
   const LoadingPage({Key? key}) : super(key: key);
 
-  void _move(BuildContext context) {
+  void _move(BuildContext context) async {
+    final page = await Utils.buildPageAsync(const DashboardPage());
+
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(
-        builder: (_) => const DashboardPage(),
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => page,
+        transitionsBuilder: (_, anim, __, child) =>
+            FadeTransition(opacity: anim, child: child),
+        transitionDuration: kMS800,
       ),
     );
   }

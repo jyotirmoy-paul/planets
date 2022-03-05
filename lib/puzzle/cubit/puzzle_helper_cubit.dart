@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:planets/app/cubit/audio_player_cubit.dart';
+import '../../app/cubit/audio_player_cubit.dart';
 import '../puzzle.dart';
 import '../../puzzle_solver/puzzle_solver.dart';
 

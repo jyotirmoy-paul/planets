@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import '../widgets/planet_whitespace_tile.dart';
+
 import '../../../global/controls/puzzle_control.dart';
 import '../../../layout/layout.dart';
 import '../../../models/tile.dart';
+import '../../../theme/themes/puzzle_theme.dart';
 import '../widgets/planet_puzzle_board.dart';
 import '../widgets/planet_puzzle_info.dart';
 import '../widgets/planet_puzzle_stats.dart';
 import '../widgets/planet_puzzle_tile.dart';
-import '../../../theme/themes/puzzle_theme.dart';
+import '../widgets/planet_whitespace_tile.dart';
 
 abstract class BoardSize {
   static double small = 312;

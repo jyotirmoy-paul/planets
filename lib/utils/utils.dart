@@ -23,6 +23,12 @@ const _roundOffset = 15.0;
 const _radius = Radius.circular(_roundOffset);
 
 abstract class Utils {
+  static Future<Widget> buildPageAsync(Widget page) {
+    return Future.microtask(() {
+      return page;
+    });
+  }
+
   static String getSuccessExtraText({
     required int totalSteps,
     required int autoSolverSteps,

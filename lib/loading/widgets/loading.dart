@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:planets/utils/constants.dart';
+import '../../utils/constants.dart';
 
 import '../../models/position.dart';
 import '../../utils/utils.dart';

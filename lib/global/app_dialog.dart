@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:planets/global/stylized_button.dart';
-import 'package:planets/global/stylized_container.dart';
-import 'package:planets/global/stylized_icon.dart';
+import 'stylized_button.dart';
+import 'stylized_container.dart';
+import 'stylized_icon.dart';
 
 import '../layout/layout.dart';
 

@@ -1,15 +1,14 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../app/cubit/audio_player_cubit.dart';
 import '../../../global/stylized_text.dart';
-import '../../../utils/constants.dart';
-import '../../../utils/utils.dart';
-import '../planet.dart';
 import '../../../layout/utils/responsive_layout_builder.dart';
 import '../../../puzzle/puzzle.dart';
 import '../../../timer/timer.dart';
+import '../../../utils/constants.dart';
+import '../../../utils/utils.dart';
+import '../planet.dart';
 
 class PlanetPuzzleStats extends StatelessWidget {
   const PlanetPuzzleStats({Key? key}) : super(key: key);

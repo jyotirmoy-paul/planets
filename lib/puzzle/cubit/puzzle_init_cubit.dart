@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:planets/utils/constants.dart';
+import '../../utils/constants.dart';
 import '../../utils/utils.dart';
 import '../../puzzles/planet/planet.dart';
 import '../../utils/app_logger.dart';

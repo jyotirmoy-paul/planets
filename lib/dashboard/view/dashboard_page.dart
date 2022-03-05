@@ -3,8 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../utils/constants.dart';
-import '../cubit/planet_selection_helper_cubit.dart';
+
 import '../../global/background/background.dart';
 import '../../global/controls/audio_control.dart';
 import '../../global/info_card/info_card.dart';
@@ -12,11 +11,12 @@ import '../../global/keyboard_handlers/dashboard_keyboard_handler.dart';
 import '../../global/stylized_button.dart';
 import '../../global/stylized_container.dart';
 import '../../global/stylized_icon.dart';
-
 import '../../layout/utils/app_breakpoints.dart';
 import '../../layout/utils/responsive_layout_builder.dart';
+import '../../utils/constants.dart';
 import '../cubit/level_selection_cubit.dart';
 import '../cubit/planet_selection_cubit.dart';
+import '../cubit/planet_selection_helper_cubit.dart';
 import '../dashboard.dart';
 import '../widgets/header_widget.dart';
 import '../widgets/scroll_buttons.dart';

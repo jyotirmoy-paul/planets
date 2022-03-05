@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../global/keyboard_handlers/puzzle_keyboard_handler.dart';
-import '../../utils/app_logger.dart';
 
+import '../../global/keyboard_handlers/puzzle_keyboard_handler.dart';
 import '../../models/tile.dart';
 import '../../theme/bloc/theme_bloc.dart';
 import '../../timer/timer.dart';
+import '../../utils/app_logger.dart';
 import '../puzzle.dart';
 
 class PuzzleBoard extends StatelessWidget {
