@@ -649,9 +649,12 @@ class PuzzleSolver {
       await Future.delayed(_stepDuration);
     }
 
-    // stopped due to puzzle completion
-    _onAutoSolvingStopped();
     _takeStep(_lastStep);
+
+    Timer(kMS50, () {
+      // stopped due to puzzle completion
+      _onAutoSolvingStopped();
+    });
 
     return _stepsTakenBySolver;
   }

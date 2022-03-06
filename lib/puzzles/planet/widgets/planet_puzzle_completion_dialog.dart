@@ -300,6 +300,7 @@ class ScoreTile extends StatelessWidget {
             style: const TextStyle(
               fontSize: 24.0,
               color: Colors.white,
+              letterSpacing: 1.5,
             ),
           ),
         ),
