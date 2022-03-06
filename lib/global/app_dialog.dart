@@ -6,8 +6,13 @@ import 'stylized_container.dart';
 import 'stylized_icon.dart';
 
 class AppDialog extends StatelessWidget {
-  const AppDialog({Key? key, required this.child}) : super(key: key);
+  const AppDialog({
+    Key? key,
+    required this.child,
+    this.sameSize = false,
+  }) : super(key: key);
 
+  final bool sameSize;
   final Widget child;
 
   @override
@@ -51,8 +56,11 @@ class AppDialog extends StatelessWidget {
       medium: (_, child) => child!,
       large: (_, child) => child!,
       child: (layoutSize) {
-        final dialogWidth =
-            layoutSize == ResponsiveLayoutSize.large ? 1200.0 : 900.0;
+        final dialogWidth = sameSize
+            ? 900.0
+            : layoutSize == ResponsiveLayoutSize.large
+                ? 1200.0
+                : 900.0;
 
         return Dialog(
           backgroundColor: Colors.transparent,

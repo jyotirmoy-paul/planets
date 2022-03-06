@@ -14,8 +14,11 @@ class PuzzleHelperCubit extends Cubit<PuzzleHelperState> {
 
   final AudioPlayerCubit audioPlayerCubit;
 
-  PuzzleHelperCubit(PuzzleBloc puzzleBloc, this.audioPlayerCubit)
-      : super(const PuzzleHelperState()) {
+  PuzzleHelperCubit(
+    PuzzleBloc puzzleBloc,
+    this.audioPlayerCubit, {
+    final bool optimized = false,
+  }) : super(PuzzleHelperState(optimized: optimized)) {
     _puzzleSolver = PuzzleSolver(
       puzzleBloc: puzzleBloc,
       puzzleHelperCubit: this,
@@ -51,12 +54,12 @@ class PuzzleHelperCubit extends Cubit<PuzzleHelperState> {
   }
 
   void onAutoSolvingEnded() {
-    _puzzleSolver.puzzleBloc.onAutoSolvingStopped();
-
     // emit state
     emit(state.copyWith(
       isAutoSolving: false,
     ));
+
+    _puzzleSolver.puzzleBloc.onAutoSolvingStopped();
   }
 
   void onHelpToggle() {

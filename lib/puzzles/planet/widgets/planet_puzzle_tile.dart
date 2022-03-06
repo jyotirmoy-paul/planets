@@ -55,13 +55,20 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
     final puzzleInit = context.read<PuzzleInitCubit>();
     final theme = themeBloc.state.theme;
 
-    child = RiveAnimation.asset(
-      theme.assetForTile,
-      controllers: [puzzleInit.getRiveControllerFor(widget.tile.value)],
-      onInit: (_) => puzzleInit.onInit(widget.tile.value),
-      fit: BoxFit.cover,
-      placeHolder: Image.asset(theme.placeholderAssetForTile),
-    );
+    if (context.read<PuzzleHelperCubit>().state.optimized) {
+      // if we need to play optimized puzzle, just show images, instead of animations
+      child = Image.asset(theme.placeholderAssetForTile);
+      puzzleInit.onInit(widget.tile.value);
+    } else {
+      // show animations if we don't wanna play optimized puzzle
+      child = RiveAnimation.asset(
+        theme.assetForTile,
+        controllers: [puzzleInit.getRiveControllerFor(widget.tile.value)],
+        onInit: (_) => puzzleInit.onInit(widget.tile.value),
+        fit: BoxFit.cover,
+        placeHolder: Image.asset(theme.placeholderAssetForTile),
+      );
+    }
   }
 
   @override

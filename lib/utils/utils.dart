@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
-// import 'dart:html' as html;
+import 'package:universal_html/html.dart' as html;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +25,22 @@ const _roundOffset = 15.0;
 const _radius = Radius.circular(_roundOffset);
 
 abstract class Utils {
+  static bool isOptimizedPuzzle() {
+    /// if in web, run optimized puzzle for mobile browsers
+    if (kIsWeb) {
+      final userAgent =
+          html.window.navigator.userAgent.toString().toLowerCase();
+
+      AppLogger.log('Utils :: isOptimizedPuzzle: userAgent: $userAgent');
+
+      if (userAgent.contains("iphone") || userAgent.contains("android")) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   static String planetName(PlanetType type, BuildContext context) {
     switch (type) {
       case PlanetType.mercury:
@@ -160,21 +176,20 @@ abstract class Utils {
 
     try {
       if (kIsWeb) {
-        // todo: uncomment the following, when building for web
-        // // download the image
-        // final blob = html.Blob(
-        //   <dynamic>[imageData],
-        //   'application/octet-stream',
-        // );
-        // final url = html.Url.createObjectUrlFromBlob(blob);
-        // final anchor = html.document.createElement('a') as html.AnchorElement
-        //   ..href = url
-        //   ..style.display = 'none'
-        //   ..download = '${const Uuid().v1()}.png';
-        // html.document.body?.children.add(anchor);
-        // anchor.click();
-        // html.document.body?.children.remove(anchor);
-        // html.Url.revokeObjectUrl(url);
+        // download the image
+        final blob = html.Blob(
+          <dynamic>[imageData],
+          'application/octet-stream',
+        );
+        final url = html.Url.createObjectUrlFromBlob(blob);
+        final anchor = html.document.createElement('a') as html.AnchorElement
+          ..href = url
+          ..style.display = 'none'
+          ..download = '${const Uuid().v1()}.png';
+        html.document.body?.children.add(anchor);
+        anchor.click();
+        html.document.body?.children.remove(anchor);
+        html.Url.revokeObjectUrl(url);
       } else {
         // save the image
         final applicationDir = await getApplicationDocumentsDirectory();

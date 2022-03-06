@@ -24,6 +24,7 @@ dependencies:
   just_audio: ^0.9.20
   path_provider: ^2.0.9
   rive: ^0.8.1
+  universal_html: ^2.0.8
   url_launcher: ^6.0.20
   uuid: ^3.0.6
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:planets/utils/utils.dart';
 import '../../l10n/l10n.dart';
 
 import '../../global/controls/audio_control.dart';
@@ -15,6 +16,20 @@ import '../cubit/level_selection_cubit.dart';
 
 class HeaderWidget extends StatelessWidget {
   const HeaderWidget({Key? key}) : super(key: key);
+
+  Map<PuzzleLevel, String> _getLevelWidgets(BuildContext context) {
+    final map = {
+      PuzzleLevel.easy: context.l10n.easy,
+      PuzzleLevel.medium: context.l10n.medium,
+    };
+
+    /// add hard level, only for non optimized puzzle
+    if (!Utils.isOptimizedPuzzle()) {
+      map[PuzzleLevel.hard] = context.l10n.hard;
+    }
+
+    return map;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +68,7 @@ class HeaderWidget extends StatelessWidget {
             builder: (context, state) {
               return _SegmentedControl(
                 groupValue: state.level,
-                children: {
-                  PuzzleLevel.easy: context.l10n.easy,
-                  PuzzleLevel.medium: context.l10n.medium,
-                  PuzzleLevel.hard: context.l10n.hard,
-                },
+                children: _getLevelWidgets(context),
                 onValueChanged:
                     context.read<LevelSelectionCubit>().onNewLevelSelected,
               );

@@ -112,6 +112,7 @@ class _PlanetPuzzleCompletionDialogSmall extends StatelessWidget {
 
               Text(
                 context.l10n.congractsSubTitle,
+                textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 14.0,
@@ -137,7 +138,7 @@ class _PlanetPuzzleCompletionDialogSmall extends StatelessWidget {
                 ),
               ),
 
-              const Gap(48.0),
+              const Gap(38.0),
 
               // star
               WinStarWidget(
@@ -149,7 +150,7 @@ class _PlanetPuzzleCompletionDialogSmall extends StatelessWidget {
                 ),
               ),
 
-              const Gap(48.0),
+              const Gap(38.0),
 
               StylizedText(
                 textAlign: TextAlign.center,
@@ -182,7 +183,14 @@ class _PlanetPuzzleCompletionDialogSmall extends StatelessWidget {
                     : context.l10n.noAutosolve,
               ),
 
-              const Gap(48.0),
+              const Gap(38.0),
+
+              StylizedText(
+                text: context.l10n.share,
+                fontSize: 24.0,
+              ),
+
+              const Gap(32),
 
               // buttons
               ShareButtons(planet: planet, globalKey: globalKey),
@@ -214,10 +222,11 @@ class ShareButtons extends StatelessWidget {
             Utils.onFacebookTap(planet.name, context);
           },
           child: const StylizedContainer(
+            padding: EdgeInsets.all(8.0),
             color: Color(0xffF0F0F0),
             child: Icon(
               FontAwesomeIcons.facebook,
-              size: 24.0,
+              size: 22.0,
               color: Color(0xff3b5998),
             ),
           ),
@@ -229,10 +238,11 @@ class ShareButtons extends StatelessWidget {
             Utils.onTwitterTap(planet.name, context);
           },
           child: const StylizedContainer(
+            padding: EdgeInsets.all(8.0),
             color: Color(0xffF0F0F0),
             child: Icon(
               FontAwesomeIcons.twitter,
-              size: 24.0,
+              size: 22.0,
               color: Color(0xff00acee),
             ),
           ),
@@ -245,10 +255,11 @@ class ShareButtons extends StatelessWidget {
             Utils.onDownloadTap(bytes);
           },
           child: const StylizedContainer(
+            padding: EdgeInsets.all(8.0),
             color: Color(0xffF0F0F0),
             child: Icon(
               FontAwesomeIcons.download,
-              size: 24.0,
+              size: 22.0,
             ),
           ),
         ),

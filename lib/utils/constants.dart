@@ -21,6 +21,7 @@ const kMS250 = Duration(milliseconds: 250);
 const kMS300 = Duration(milliseconds: 300);
 const kMS350 = Duration(milliseconds: 350);
 const kMS400 = Duration(milliseconds: 400);
+const kMS500 = Duration(milliseconds: 500);
 const kMS800 = Duration(milliseconds: 800);
 const kS1 = Duration(seconds: 1);
 

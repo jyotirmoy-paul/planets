@@ -7,6 +7,7 @@ import '../utils/constants.dart';
 Future<T?> showAppDialog<T>({
   required BuildContext context,
   required Widget child,
+    bool sameSize = false,
   bool barrierDismissible = true,
   String barrierLabel = '',
 }) =>
@@ -31,5 +32,6 @@ Future<T?> showAppDialog<T>({
       context: context,
       pageBuilder: (context, animation, secondaryAnimation) => AppDialog(
         child: child,
+        sameSize: sameSize,
       ),
     );

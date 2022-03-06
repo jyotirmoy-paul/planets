@@ -39,7 +39,7 @@ class PuzzleInitCubit extends Cubit<PuzzleInitState> {
 
   void _startAnimating() async {
     // for performance reasons
-    await Future.delayed(kMS50);
+    await Future.delayed(kMS250);
 
     _riveController.forEach((_, controller) {
       controller.reset();

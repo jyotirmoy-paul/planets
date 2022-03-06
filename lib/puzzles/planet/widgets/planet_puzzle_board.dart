@@ -34,9 +34,17 @@ class _PlanetPuzzleBoardState extends State<PlanetPuzzleBoard> {
     // play completion audio
     context.read<AudioPlayerCubit>().completion();
 
+    Timer(kMS300, () {
+      // after dialog finishes, reset the puzzle to initial state
+      context.read<PlanetPuzzleBloc>().add(const PlanetPuzzleResetEvent());
+    });
+
     // show dialog
-    await showAppDialog(
+    showAppDialog(
       context: context,
+
+      /// for medium and large screen, same size
+      sameSize: true,
       child: MultiBlocProvider(
         providers: [
           BlocProvider.value(value: context.read<LevelSelectionCubit>()),
@@ -48,9 +56,6 @@ class _PlanetPuzzleBoardState extends State<PlanetPuzzleBoard> {
         child: PlanetPuzzleCompletionDialog(),
       ),
     );
-
-    // after dialog finishes, reset the puzzle to initial state
-    context.read<PlanetPuzzleBloc>().add(const PlanetPuzzleResetEvent());
   }
 
   @override
@@ -64,7 +69,7 @@ class _PlanetPuzzleBoardState extends State<PlanetPuzzleBoard> {
     return BlocListener<PuzzleBloc, PuzzleState>(
       listener: (BuildContext context, PuzzleState state) {
         if (state.puzzleStatus == PuzzleStatus.complete) {
-          _completePuzzleTimer = Timer(kMS350, () {
+          _completePuzzleTimer = Timer(kMS500, () {
             _onPuzzleCompletionDialog(context);
           });
         }
