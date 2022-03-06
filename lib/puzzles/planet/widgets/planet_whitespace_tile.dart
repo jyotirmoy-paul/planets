@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../puzzle/puzzle.dart';
-import '../../../utils/app_logger.dart';
 
 import '../../../models/tile.dart';
+import '../../../utils/app_logger.dart';
 import '../planet.dart';
 
 class PlanetWhitespaceTile extends StatelessWidget {

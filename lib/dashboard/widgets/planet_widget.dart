@@ -2,9 +2,9 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../utils/utils.dart';
 
 import '../../models/planet.dart';
+import '../../utils/utils.dart';
 import '../cubit/planet_selection_cubit.dart';
 import '../dashboard.dart';
 

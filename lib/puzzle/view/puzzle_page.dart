@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../app/cubit/audio_player_cubit.dart';
-import '../../global/background/background.dart';
-import '../cubit/puzzle_helper_cubit.dart';
-import '../../puzzles/planet/bloc/planet_puzzle_bloc.dart';
 import '../../dashboard/cubit/level_selection_cubit.dart';
 import '../../dashboard/cubit/planet_selection_cubit.dart';
+import '../../global/background/background.dart';
 import '../../models/ticker.dart';
+import '../../puzzles/planet/bloc/planet_puzzle_bloc.dart';
+import '../../theme/bloc/theme_bloc.dart';
+import '../../timer/bloc/timer_bloc.dart';
+import '../cubit/puzzle_helper_cubit.dart';
 import '../cubit/puzzle_init_cubit.dart';
 import '../puzzle.dart';
 import '../widgets/puzzle_header.dart';
 import '../widgets/puzzle_sections.dart';
-import '../../theme/bloc/theme_bloc.dart';
-import '../../timer/bloc/timer_bloc.dart';
 
 class PuzzlePage extends StatelessWidget {
   const PuzzlePage({Key? key}) : super(key: key);

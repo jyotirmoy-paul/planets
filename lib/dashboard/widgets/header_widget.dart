@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import '../../l10n/l10n.dart';
+
 import '../../global/controls/audio_control.dart';
 import '../../global/stylized_button.dart';
+import '../../global/stylized_container.dart';
 import '../../global/stylized_text.dart';
 import '../../layout/layout.dart';
 import '../../layout/utils/responsive_layout_builder.dart';
+import '../../models/puzzle.dart';
 import '../../utils/constants.dart';
 import '../cubit/level_selection_cubit.dart';
-import '../../global/stylized_container.dart';
-import '../../models/puzzle.dart';
-import '../../resource/app_string.dart';
 
 class HeaderWidget extends StatelessWidget {
   const HeaderWidget({Key? key}) : super(key: key);
@@ -36,7 +37,7 @@ class HeaderWidget extends StatelessWidget {
                     : const Key('header_widget_normal'),
                 color: const Color(0xffffcc33),
                 child: StylizedText(
-                  text: AppString.dashboardHeading,
+                  text: context.l10n.dashboardHeading,
                   fontSize: isSmall ? 24.0 : 32.0,
                   strokeWidth: isSmall ? 5.0 : 6.0,
                 ),
@@ -52,10 +53,10 @@ class HeaderWidget extends StatelessWidget {
             builder: (context, state) {
               return _SegmentedControl(
                 groupValue: state.level,
-                children: const {
-                  PuzzleLevel.easy: 'Easy',
-                  PuzzleLevel.medium: 'Medium',
-                  PuzzleLevel.hard: 'Hard',
+                children: {
+                  PuzzleLevel.easy: context.l10n.easy,
+                  PuzzleLevel.medium: context.l10n.medium,
+                  PuzzleLevel.hard: context.l10n.hard,
                 },
                 onValueChanged:
                     context.read<LevelSelectionCubit>().onNewLevelSelected,

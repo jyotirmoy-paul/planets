@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+
+import '../layout/layout.dart';
 import 'stylized_button.dart';
 import 'stylized_container.dart';
 import 'stylized_icon.dart';
-
-import '../layout/layout.dart';
 
 class AppDialog extends StatelessWidget {
   const AppDialog({Key? key, required this.child}) : super(key: key);

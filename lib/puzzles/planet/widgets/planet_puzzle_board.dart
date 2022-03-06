@@ -11,7 +11,6 @@ import '../../../puzzle/puzzle.dart';
 import 'planet_puzzle_completion_dialog.dart';
 import '../../../utils/app_logger.dart';
 import '../../../dashboard/cubit/planet_selection_cubit.dart';
-import '../../../puzzle/cubit/puzzle_init_cubit.dart';
 
 import '../../../layout/layout.dart';
 import '../../../timer/timer.dart';

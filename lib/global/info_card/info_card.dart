@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'info_data.dart';
-import 'info_pair.dart';
-import '../stylized_icon.dart';
-import '../stylized_text.dart';
+
 import '../../helpers/modal_helpers.dart';
 import '../../layout/utils/responsive_layout_builder.dart';
+import '../stylized_icon.dart';
+import '../stylized_text.dart';
+import 'info_data.dart';
+import 'info_pair.dart';
 
 abstract class InfoCard {
   static Future<void> show({required BuildContext context}) {
     return showAppDialog(
       context: context,
-      child: const _InfoCard(AppShortcutData.data),
+      child: _InfoCard(AppShortcutData.data(context)),
     );
   }
 }

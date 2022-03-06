@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import '../../../l10n/l10n.dart';
 import '../../../dashboard/cubit/planet_selection_cubit.dart';
 import '../../../global/stylized_icon.dart';
 import '../../../puzzle/cubit/puzzle_helper_cubit.dart';
@@ -100,18 +101,18 @@ class _PlanetPuzzleCompletionDialogSmall extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // heading
-              const FittedBox(
+              FittedBox(
                 fit: BoxFit.fitWidth,
                 child: StylizedText(
-                  text: 'Congracts!',
+                  text: context.l10n.congracts,
                   strokeWidth: 4.0,
                   offset: 1.0,
                 ),
               ),
 
-              const Text(
-                "You're an intergalactic champ!",
-                style: TextStyle(
+              Text(
+                context.l10n.congractsSubTitle,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 14.0,
                   letterSpacing: 2.0,
@@ -121,10 +122,13 @@ class _PlanetPuzzleCompletionDialogSmall extends StatelessWidget {
               const Gap(32.0),
 
               Text(
-                'You have successfully put together our ${planet.name} ${Utils.getSuccessExtraText(
-                  totalSteps: totalMoves,
-                  autoSolverSteps: autoSolverSteps,
-                )}',
+                context.l10n.successMessage(
+                  planet.name,
+                  Utils.getSuccessExtraText(
+                    totalSteps: totalMoves,
+                    autoSolverSteps: autoSolverSteps,
+                  ),
+                ),
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18.0,
@@ -147,9 +151,9 @@ class _PlanetPuzzleCompletionDialogSmall extends StatelessWidget {
 
               const Gap(48.0),
 
-              const StylizedText(
+              StylizedText(
                 textAlign: TextAlign.center,
-                text: 'Score Board',
+                text: context.l10n.scoreBoard,
                 fontSize: 24.0,
                 strokeWidth: 5.0,
                 offset: 2.0,
@@ -159,7 +163,7 @@ class _PlanetPuzzleCompletionDialogSmall extends StatelessWidget {
 
               ScoreTile(
                 icon: FontAwesomeIcons.hashtag,
-                text: '$totalMoves moves',
+                text: context.l10n.totalMoves(totalMoves),
               ),
 
               const Gap(8.0),
@@ -173,7 +177,9 @@ class _PlanetPuzzleCompletionDialogSmall extends StatelessWidget {
 
               ScoreTile(
                 icon: FontAwesomeIcons.laptopCode,
-                text: isAutoSolverUsed ? 'Used Autosolve' : 'No Autosolve',
+                text: isAutoSolverUsed
+                    ? context.l10n.usedAutosolve
+                    : context.l10n.noAutosolve,
               ),
 
               const Gap(48.0),
@@ -205,7 +211,7 @@ class ShareButtons extends StatelessWidget {
       children: [
         StylizedButton(
           onPressed: () {
-            Utils.onFacebookTap(planet.name);
+            Utils.onFacebookTap(planet.name, context);
           },
           child: const StylizedContainer(
             color: Color(0xffF0F0F0),
@@ -220,7 +226,7 @@ class ShareButtons extends StatelessWidget {
         // twitter
         StylizedButton(
           onPressed: () {
-            Utils.onTwitterTap(planet.name);
+            Utils.onTwitterTap(planet.name, context);
           },
           child: const StylizedContainer(
             color: Color(0xffF0F0F0),
@@ -359,14 +365,14 @@ class _PlanetPuzzleCompletionDialogLarge extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const StylizedText(
-                          text: 'Congracts!',
+                        StylizedText(
+                          text: context.l10n.congracts,
                           fontSize: 48.0,
                         ),
 
-                        const Text(
-                          "You're an intergalactic champ!",
-                          style: TextStyle(
+                        Text(
+                          context.l10n.congractsSubTitle,
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 14.0,
                             letterSpacing: 2.0,
@@ -376,10 +382,13 @@ class _PlanetPuzzleCompletionDialogLarge extends StatelessWidget {
                         const Gap(32.0),
 
                         Text(
-                          'You have successfully put together our ${planet.name} ${Utils.getSuccessExtraText(
-                            totalSteps: totalMoves,
-                            autoSolverSteps: autoSolverSteps,
-                          )}',
+                          context.l10n.successMessage(
+                            planet.name,
+                            Utils.getSuccessExtraText(
+                              totalSteps: totalMoves,
+                              autoSolverSteps: autoSolverSteps,
+                            ),
+                          ),
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             color: Colors.white,
@@ -403,9 +412,9 @@ class _PlanetPuzzleCompletionDialogLarge extends StatelessWidget {
 
                         const Gap(32.0),
 
-                        const StylizedText(
+                        StylizedText(
                           textAlign: TextAlign.center,
-                          text: 'Score Board',
+                          text: context.l10n.scoreBoard,
                           fontSize: 24.0,
                           strokeWidth: 5.0,
                           offset: 2.0,
@@ -415,15 +424,16 @@ class _PlanetPuzzleCompletionDialogLarge extends StatelessWidget {
 
                         ScoreTile(
                           icon: FontAwesomeIcons.hashtag,
-                          text: '$totalMoves moves',
+                          text: context.l10n.totalMoves(totalMoves),
                         ),
 
                         const Gap(8.0),
 
                         ScoreTile(
                           icon: FontAwesomeIcons.stopwatch,
-                          text:
-                              Utils.getFormattedElapsedSeconds(secondsElapsed),
+                          text: Utils.getFormattedElapsedSeconds(
+                            secondsElapsed,
+                          ),
                         ),
 
                         const Gap(8.0),
@@ -431,8 +441,8 @@ class _PlanetPuzzleCompletionDialogLarge extends StatelessWidget {
                         ScoreTile(
                           icon: FontAwesomeIcons.laptopCode,
                           text: isAutoSolverUsed
-                              ? 'Used Autosolve'
-                              : 'No Autosolve',
+                              ? context.l10n.usedAutosolve
+                              : context.l10n.noAutosolve,
                         ),
                       ],
                     ),
@@ -450,8 +460,8 @@ class _PlanetPuzzleCompletionDialogLarge extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 // share title text
-                const StylizedText(
-                  text: 'Share!',
+                StylizedText(
+                  text: context.l10n.share,
                   fontSize: 32.0,
                 ),
 
