@@ -105,33 +105,36 @@ abstract class AppAssets {
     venusThumb,
   ];
 
-  static const assetsToPrefetchWithoutAwaiting = [
-    earthImage,
+  static const animationAssetsToPrefetch = [
     earthAnimation,
+    jupiterAnimation,
+    marsAnimation,
+    mercuryAnimation,
+    neptuneAnimation,
+    plutoAnimation,
+    saturnAnimation,
+    uranusAnimation,
+    venusAnimation,
+  ];
+
+  static const extraAssetsToPrefetch = [
+    earthImage,
     earthLandscape,
     jupiterImage,
-    jupiterAnimation,
     jupiterLandscape,
     marsImage,
-    marsAnimation,
     marsLandscape,
     mercuryImage,
-    mercuryAnimation,
     mercuryLandscape,
     neptuneImage,
-    neptuneAnimation,
     neptuneLandscape,
     plutoImage,
-    plutoAnimation,
     plutoLandscape,
     saturnImage,
-    saturnAnimation,
     saturnLandscape,
     uranusImage,
-    uranusAnimation,
     uranusLandscape,
     venusImage,
-    venusAnimation,
     venusLandscape,
   ];
 }

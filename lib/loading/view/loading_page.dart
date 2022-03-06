@@ -39,7 +39,7 @@ class LoadingPage extends StatelessWidget {
       listener: (context, state) {
         final bool isReady = state is AudioPlayerReady;
         if (isReady) {
-          context.read<AssetcacheCubit>().startCache();
+          context.read<AssetcacheCubit>().startCache(context);
         }
       },
       builder: (context, state) {
