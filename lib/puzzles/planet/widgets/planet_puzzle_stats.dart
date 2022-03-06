@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/l10n/l10n.dart';
+import '../../../l10n/l10n.dart';
 
 import '../../../app/cubit/audio_player_cubit.dart';
 import '../../../global/stylized_text.dart';

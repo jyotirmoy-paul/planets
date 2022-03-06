@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../app/cubit/audio_player_cubit.dart';
 import '../utils/constants.dart';
 

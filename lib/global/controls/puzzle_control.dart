@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:planets/l10n/l10n.dart';
+import '../../l10n/l10n.dart';
 import '../../puzzle/cubit/puzzle_helper_cubit.dart';
 import '../stylized_button.dart';
 import '../stylized_text.dart';

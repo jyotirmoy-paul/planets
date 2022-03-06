@@ -1,14 +1,13 @@
 import 'dart:async';
-
-import '../models/position.dart';
-import '../puzzle/cubit/puzzle_helper_cubit.dart';
-import '../puzzle/puzzle.dart';
-import '../utils/constants.dart';
-import 'solver_tile.dart';
-import '../utils/app_logger.dart';
 import 'dart:math' as math;
 
+import '../models/position.dart';
 import '../models/tile.dart';
+import '../puzzle/cubit/puzzle_helper_cubit.dart';
+import '../puzzle/puzzle.dart';
+import '../utils/app_logger.dart';
+import '../utils/constants.dart';
+import 'solver_tile.dart';
 
 enum Direction { left, right, up, down }
 

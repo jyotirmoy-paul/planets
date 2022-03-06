@@ -2,13 +2,13 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+
 import '../../app/cubit/audio_player_cubit.dart';
 import '../../global/shake_animator.dart';
-import '../../utils/app_logger.dart';
-
 import '../../models/position.dart';
 import '../../models/puzzle.dart';
 import '../../models/tile.dart';
+import '../../utils/app_logger.dart';
 
 part 'puzzle_event.dart';
 part 'puzzle_state.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:planets/l10n/l10n.dart';
+import '../../../l10n/l10n.dart';
 import '../../../dashboard/cubit/planet_selection_cubit.dart';
 import '../../../global/stylized_icon.dart';
 import '../../../puzzle/cubit/puzzle_helper_cubit.dart';
