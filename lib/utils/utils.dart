@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:planets/l10n/l10n.dart';
 import 'package:planets/utils/app_logger.dart';
 import 'package:planets/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -23,6 +24,68 @@ const _roundOffset = 15.0;
 const _radius = Radius.circular(_roundOffset);
 
 abstract class Utils {
+  static String planetName(PlanetType type, BuildContext context) {
+    switch (type) {
+      case PlanetType.mercury:
+        return context.l10n.mercury;
+
+      case PlanetType.venus:
+        return context.l10n.venus;
+
+      case PlanetType.earth:
+        return context.l10n.earth;
+
+      case PlanetType.mars:
+        return context.l10n.mars;
+
+      case PlanetType.jupiter:
+        return context.l10n.jupiter;
+
+      case PlanetType.saturn:
+        return context.l10n.saturn;
+
+      case PlanetType.uranus:
+        return context.l10n.uranus;
+
+      case PlanetType.neptune:
+        return context.l10n.neptune;
+
+      case PlanetType.pluto:
+        return context.l10n.pluto;
+    }
+  }
+
+  static String planetDescription(PlanetType type, BuildContext context) {
+    switch (type) {
+      case PlanetType.mercury:
+        return context.l10n.mercuryFact;
+
+      case PlanetType.venus:
+        return context.l10n.venusFact;
+
+      case PlanetType.earth:
+        return context.l10n.earthFact;
+
+      case PlanetType.mars:
+        return context.l10n.marsFact;
+
+      case PlanetType.jupiter:
+        return context.l10n.jupiterFact;
+
+      case PlanetType.saturn:
+        return context.l10n.saturnFact;
+
+      case PlanetType.uranus:
+        return context.l10n.uranusFact;
+
+      case PlanetType.neptune:
+        return context.l10n.neptuneFact;
+
+      case PlanetType.pluto:
+        return context.l10n.plutoFact;
+    }
+  }
+
   static Future<Widget> buildPageAsync(Widget page) {
     return Future.microtask(() {
       return page;
@@ -62,8 +125,8 @@ abstract class Utils {
     return byteData!.buffer.asUint8List();
   }
 
-  static String sharableText(String planetName) {
-    return 'I just assembled $planetName, It\'s a fun challenge, join the #FlutterPuzzleHack! Check it out here ↓';
+  static String sharableText(String planetName, BuildContext context) {
+    return context.l10n.sharableText(planetName);
   }
 
   static Future<void> openLink(String url, {VoidCallback? onError}) async {
@@ -75,16 +138,16 @@ abstract class Utils {
     }
   }
 
-  static void onFacebookTap(final String planetName) {
-    final shareText = sharableText(planetName);
+  static void onFacebookTap(final String planetName, BuildContext context) {
+    final shareText = sharableText(planetName, context);
     final encodedShareText = Uri.encodeComponent(shareText);
     final facebookUrl =
         'https://www.facebook.com/sharer.php?u=$kUrl&quote=$encodedShareText';
     openLink(facebookUrl);
   }
 
-  static void onTwitterTap(final String planetName) {
-    final shareText = sharableText(planetName);
+  static void onTwitterTap(final String planetName, BuildContext context) {
+    final shareText = sharableText(planetName, context);
     final encodedShareText = Uri.encodeComponent(shareText);
     final twitterUrl =
         'https://twitter.com/intent/tweet?url=$kUrl&text=$encodedShareText';

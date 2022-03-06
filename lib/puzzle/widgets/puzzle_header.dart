@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:planets/l10n/l10n.dart';
 import '../../global/controls/audio_control.dart';
 import '../../global/stylized_icon.dart';
 import '../cubit/puzzle_helper_cubit.dart';
@@ -9,7 +10,6 @@ import '../../global/stylized_button.dart';
 import '../../global/stylized_text.dart';
 import '../../global/stylized_container.dart';
 import '../../layout/utils/responsive_layout_builder.dart';
-import '../../resource/app_string.dart';
 
 class PuzzleHeader extends StatelessWidget {
   const PuzzleHeader({Key? key}) : super(key: key);
@@ -46,7 +46,7 @@ class PuzzleHeader extends StatelessWidget {
                       ),
                       isSmall ? const Gap(12.0) : const Gap(24.0),
                       StylizedText(
-                        text: AppString.solarSystem,
+                        text: context.l10n.solarSystem,
                         strokeWidth: isSmall ? 5.0 : 6.0,
                         offset: isSmall ? 1.0 : 2.0,
                         fontSize: isSmall ? 16.0 : 22.0,

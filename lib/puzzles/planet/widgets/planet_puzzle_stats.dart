@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/l10n/l10n.dart';
 
 import '../../../app/cubit/audio_player_cubit.dart';
 import '../../../global/stylized_text.dart';
@@ -66,7 +67,6 @@ class _PuzzleStats extends StatelessWidget {
       (TimerBloc bloc) => bloc.state.secondsElapsed,
     );
 
-    final isSmall = layoutSize == ResponsiveLayoutSize.small;
     final isLarge = layoutSize == ResponsiveLayoutSize.large;
 
     String textToShow = '';
@@ -75,19 +75,19 @@ class _PuzzleStats extends StatelessWidget {
     if (!state.isCountdownRunning || state.secondsToBegin > 3) {
       // show: '00:00:00 | 0 Moves',
       final timeText = Utils.getFormattedElapsedSeconds(secondsElapsed);
-      textToShow = '$timeText | ${puzzleState.numberOfMoves} Moves';
+      textToShow = context.l10n.puzzleStats(timeText, puzzleState.numberOfMoves);
     } else {
       // show: ticking 3..2..1..Go!
       isTicking = true;
       if (state.secondsToBegin > 0) {
         textToShow = '${state.secondsToBegin}';
       } else {
-        textToShow = 'Go!';
+        textToShow = context.l10n.go;
       }
     }
 
     if (state.status == PlanetPuzzleStatus.notStarted) {
-      textToShow = 'Not Started';
+      textToShow = context.l10n.notStarted;
     }
 
     final child = StylizedText(

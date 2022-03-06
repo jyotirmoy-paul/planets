@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:planets/l10n/l10n.dart';
 import '../../puzzle/cubit/puzzle_helper_cubit.dart';
 import '../stylized_button.dart';
 import '../stylized_text.dart';
 import '../../layout/utils/responsive_layout_builder.dart';
 import '../../puzzle/cubit/puzzle_init_cubit.dart';
-import '../../resource/app_string.dart';
 import '../../puzzle/puzzle.dart';
 import '../../puzzles/planet/planet.dart';
 import '../../timer/timer.dart';
@@ -27,7 +27,7 @@ class PuzzleControl extends StatelessWidget {
       context.read<PuzzleHelperCubit>().startAutoSolver();
     } else {
       context.read<PuzzleHelperCubit>().stopAutoSolver();
-    }  
+    }
   }
 
   void _onRestart(BuildContext context) {
@@ -52,14 +52,14 @@ class PuzzleControl extends StatelessWidget {
     final isAutoSolving = puzzleHelperState.isAutoSolving;
 
     final text = isAutoSolving
-        ? AppString.stop
+        ? context.l10n.stop
         : !isReady
-            ? AppString.pleaseWait
+            ? context.l10n.pleaseWait
             : isLoading
-                ? AppString.getReady
+                ? context.l10n.getReady
                 : hasStarted
-                    ? AppString.autoSolve
-                    : AppString.start;
+                    ? context.l10n.autoSolve
+                    : context.l10n.start;
 
     return ResponsiveLayoutBuilder(
       small: (_, Widget? child) => child!,
@@ -115,7 +115,7 @@ class PuzzleControl extends StatelessWidget {
                     ? Colors.grey
                     : Colors.greenAccent,
                 child: StylizedText(
-                  text: AppString.restart,
+                  text: context.l10n.restart,
                   fontSize: isLarge ? 24.0 : 20.0,
                 ),
               ),

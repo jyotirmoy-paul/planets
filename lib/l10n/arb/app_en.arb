@@ -114,6 +114,181 @@
     "backToSolarSystem": "Go back to solar system",
     "@whitespaceRight": {
         "description": "Quit puzzle screen and go back to dashboard"
+    },
+    "solarSystem": "Solar System",
+    "@solarSystem": {
+        "description": "Solar System"
+    },
+    "stop": "Stop",
+    "@stop": {
+        "description": "Stop puzzle"
+    },
+    "restart": "Restart",
+    "@restart": {
+        "description": "Restart puzzle"
+    },
+    "autoSolve": "Auto Solve",
+    "@autoSolve": {
+        "description": "Auto solve puzzle"
+    },
+    "getReady": "Get Ready",
+    "@getReady": {
+        "description": "Get Ready puzzle"
+    },
+    "pleaseWait": "Please Wait",
+    "@pleaseWait": {
+        "description": "Please wait puzzle"
+    },
+    "go": "Go!",
+    "@go": {
+        "description": "Go - stats"
+    },
+    "notStarted": "Not Started",
+    "@notStarted": {
+        "description": "Not Started - puzzle stats"
+    },
+    "puzzleStats": "{timeText} | {numberOfMoves} Moves",
+    "@puzzleStats": {
+        "description": "Puzzle Stats",
+        "placeholders": {
+            "timeText": {
+                "type": "String",
+                "example": "00:14:09"
+            },
+            "numberOfMoves": {
+                "type": "int",
+                "example": "178"
+            }
+        }
+    },
+    "sharableText": "I just assembled {planetName}, it's a fun challenge, join the #FlutterPuzzleHack! Check it out here ↓",
+    "@sharableText": {
+        "description": "Text that can be shared on social media",
+        "placeholders": {
+            "planetName": {
+                "type": "String",
+                "example": "Earth"
+            }
+        }
+    },
+    "mercury": "Mercury",
+    "@mercury": {
+        "description": "Planet name - mercury"
+    },
+    "mercuryFact": "This is a mercury fact space",
+    "@mercuryFact": {
+        "description": "Fact for the planet - mercury"
+    },
+    "venus": "Venus",
+    "@venus": {
+        "description": "Planet name - venus"
+    },
+    "venusFact": "This is a venus fact space",
+    "@venusFact": {
+        "description": "Fact for the planet - venus"
+    },
+    "earth": "Earth",
+    "@mercury": {
+        "description": "Planet name - earth"
+    },
+    "earthFact": "This is a earth fact space",
+    "@earthFact": {
+        "description": "Fact for the planet - earth"
+    },
+    "mars": "Mars",
+    "@mars": {
+        "description": "Planet name - mars"
+    },
+    "marsFact": "This is a mars fact space",
+    "@marsFact": {
+        "description": "Fact for the planet - mars"
+    },
+    "jupiter": "Jupiter",
+    "@jupiter": {
+        "description": "Planet name - jupiter"
+    },
+    "jupiterFact": "This is a jupiter fact space",
+    "@jupiterFact": {
+        "description": "Fact for the planet - jupiter"
+    },
+    "saturn": "Saturn",
+    "@saturn": {
+        "description": "Planet name - saturn"
+    },
+    "saturnFact": "This is a saturn fact space",
+    "@saturnFact": {
+        "description": "Fact for the planet - saturn"
+    },
+    "uranus": "Uranus",
+    "@uranus": {
+        "description": "Planet name - uranus"
+    },
+    "uranusFact": "This is a uranus fact space",
+    "@uranusFact": {
+        "description": "Fact for the planet - uranus"
+    },
+    "neptune": "Neptune",
+    "@neptune": {
+        "description": "Planet name - neptune"
+    },
+    "neptuneFact": "This is a neptune fact space",
+    "@neptuneFact": {
+        "description": "Fact for the planet - neptune"
+    },
+    "pluto": "Pluto",
+    "@pluto": {
+        "description": "Planet name - pluto"
+    },
+    "plutoFact": "This is a pluto fact space",
+    "@plutoFact": {
+        "description": "Fact for the planet - pluto"
+    },
+    "congracts": "Congracts!",
+    "@congracts": {
+        "description": "Puzzle completion congracts text"
+    },
+    "congractsSubTitle": "You're an intergalactic champ!",
+    "@congractsSubTitle": {
+        "description": "Puzzle completion sub title"
+    },
+    "successMessage": "You have successfully put together our {planetName} {extraText}",
+    "@successMessage": {
+        "description": "Puzzle completion success message",
+        "placeholders": {
+            "planetName": {
+                "type": "String",
+                "example": "Earth"
+            },
+            "extraText": {
+                "type": "String",
+                "example": "without any aid"
+            }
+        }
+    },
+    "scoreBoard": "Score Board",
+    "@scoreBoard": {
+        "description": "Score board title"
+    },
+    "totalMoves": "{totalMoves} moves",
+    "@totalMoves": {
+        "description": "total moves",
+         "placeholders": {
+            "totalMoves": {
+                "type": "int",
+                "example": "157"
+            }
+        }
+    },
+    "usedAutosolve": "Used Autosolve",
+    "@usedAutosolve": {
+        "description": "If user had used auto solve during gameplay"
+    },
+    "noAutosolve": "No Autosolve",
+    "@noAutosolve": {
+        "description": "If user had NOT used auto solve during gameplay"
+    },
+    "share": "Share!",
+    "@share": {
+        "description": "Share text"
     }
-
 }

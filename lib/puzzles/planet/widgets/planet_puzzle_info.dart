@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:planets/utils/utils.dart';
 import '../../../dashboard/cubit/planet_selection_cubit.dart';
 import '../../../layout/utils/responsive_layout_builder.dart';
-import '../../../models/planet.dart';
 
 class PlanetPuzzleInfo extends StatelessWidget {
   const PlanetPuzzleInfo({Key? key}) : super(key: key);
@@ -31,7 +31,7 @@ class PlanetPuzzleInfo extends StatelessWidget {
             children: [
               // title
               Text(
-                planet.type.value,
+                Utils.planetName(planet.type, context),
                 style: TextStyle(
                   fontSize: isLarge ? 48.0 : 32.0,
                   color: Colors.white,
@@ -44,7 +44,7 @@ class PlanetPuzzleInfo extends StatelessWidget {
 
               // description
               Text(
-                'This can be something interesting, but for now, leaving it black. I mean a long string blank.',
+                Utils.planetDescription(planet.type, context),
                 textAlign: isLarge ? TextAlign.start : TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
