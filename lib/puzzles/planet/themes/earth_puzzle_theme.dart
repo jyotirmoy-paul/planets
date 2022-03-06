@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../resource/app_assets.dart';
 
+import '../../../resource/app_assets.dart';
 import 'planet_puzzle_theme.dart';
 
 class EarthPuzzleTheme extends PlanetPuzzleTheme {

@@ -3,11 +3,12 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:just_audio/just_audio.dart';
-import '../../utils/constants.dart';
-import '../bloc/audio_control_bloc.dart';
+
 import '../../helpers/audio_player.dart';
 import '../../resource/app_assets.dart';
 import '../../utils/app_logger.dart';
+import '../../utils/constants.dart';
+import '../bloc/audio_control_bloc.dart';
 
 part 'audio_player_state.dart';
 

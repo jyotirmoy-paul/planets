@@ -1,10 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import '../../utils/constants.dart';
-import '../../utils/utils.dart';
+import 'package:rive/rive.dart';
+
 import '../../puzzles/planet/planet.dart';
 import '../../utils/app_logger.dart';
-import 'package:rive/rive.dart';
+import '../../utils/constants.dart';
+import '../../utils/utils.dart';
 
 part 'puzzle_init_state.dart';
 

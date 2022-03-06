@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+
 import '../../global/controls/audio_control.dart';
 import '../../global/stylized_button.dart';
+import '../../global/stylized_container.dart';
 import '../../global/stylized_text.dart';
 import '../../layout/layout.dart';
 import '../../layout/utils/responsive_layout_builder.dart';
-import '../../utils/constants.dart';
-import '../cubit/level_selection_cubit.dart';
-import '../../global/stylized_container.dart';
 import '../../models/puzzle.dart';
 import '../../resource/app_string.dart';
+import '../../utils/constants.dart';
+import '../cubit/level_selection_cubit.dart';
 
 class HeaderWidget extends StatelessWidget {
   const HeaderWidget({Key? key}) : super(key: key);
