@@ -1,13 +1,12 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../utils/utils.dart';
 
 import '../../models/planet.dart';
 import '../../puzzle/view/puzzle_page.dart';
 import '../../utils/app_logger.dart';
 import '../../utils/constants.dart';
+import '../../utils/utils.dart';
 import 'level_selection_cubit.dart';
 
 part 'planet_selection_state.dart';

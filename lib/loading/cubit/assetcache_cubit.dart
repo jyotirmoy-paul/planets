@@ -1,8 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import '../../resource/app_assets.dart';
 import 'package:flutter/services.dart' show rootBundle;
+
+import '../../resource/app_assets.dart';
 
 part 'assetcache_state.dart';
 

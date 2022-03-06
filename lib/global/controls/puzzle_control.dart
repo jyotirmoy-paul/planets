@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+
 import '../../l10n/l10n.dart';
-import '../../puzzle/cubit/puzzle_helper_cubit.dart';
-import '../stylized_button.dart';
-import '../stylized_text.dart';
 import '../../layout/utils/responsive_layout_builder.dart';
+import '../../puzzle/cubit/puzzle_helper_cubit.dart';
 import '../../puzzle/cubit/puzzle_init_cubit.dart';
 import '../../puzzle/puzzle.dart';
 import '../../puzzles/planet/planet.dart';
 import '../../timer/timer.dart';
+import '../stylized_button.dart';
 import '../stylized_container.dart';
+import '../stylized_text.dart';
 
 class PuzzleControl extends StatelessWidget {
   const PuzzleControl({Key? key}) : super(key: key);

@@ -1,9 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import '../../theme/themes/puzzle_theme.dart';
 
 import '../../models/tile.dart';
-import '../../puzzle/bloc/puzzle_bloc.dart';
+import '../../theme/themes/puzzle_theme.dart';
 
 abstract class PuzzleLayoutDelegate extends Equatable {
   const PuzzleLayoutDelegate();

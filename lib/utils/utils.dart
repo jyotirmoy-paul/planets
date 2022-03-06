@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+
 // import 'dart:html' as html;
 
 import 'package:flutter/foundation.dart';
@@ -13,11 +15,10 @@ import 'package:planets/utils/app_logger.dart';
 import 'package:planets/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
-import '../models/planet.dart';
-import '../resource/app_assets.dart';
 
+import '../models/planet.dart';
 import '../models/position.dart';
-import 'dart:math' as math;
+import '../resource/app_assets.dart';
 
 const _paddingOffset = 5.0;
 const _roundOffset = 15.0;
