@@ -1,0 +1,119 @@
+{
+    "language": "English",
+    "@language": {
+        "description": "The current language"
+    },
+    "appTitle": "Planets",
+    "@appTitle": {
+        "description": "The title of the app"
+    },
+    "loadingScreenReady": "Ready when you are, Captain!",
+    "@loadingScreenReady": {
+        "description": "Ready text shown in Loading screen, after important assets are cached"
+    },
+    "loadingScreenInitializing": "Please wait, initializing...",
+    "@loadingScreenInitializing": {
+        "description": "When caching, show initialzing text"
+    },
+    "loadingScreenSubTitle1": "Made with",
+    "@loadingScreenSubTitle1": {
+        "description": "Part of 'Made with <3 powered by Flutter'"
+    },
+    "loadingScreenSubTitle2": "powered by Flutter",
+    "@loadingScreenSubTitle2": {
+        "description": "Part of 'Made with <3 powered by Flutter'"
+    },
+    "start": "Start",
+    "@start": {
+        "description": "Start Button text"
+    },
+    "dashboardHeading": "Tap on a planet to begin",
+    "@dashboardHeading": {
+        "description": "Insturction to start the game"
+    },
+    "easy": "Easy",
+    "@easy": {
+        "description": "Level - easy, for the game"
+    },
+    "medium": "Medium",
+    "@medium": {
+        "description": "Level - medium, for the game"
+    },
+    "hard": "Hard",
+    "@hard": {
+        "description": "Level - hard, for the game"
+    },
+    "appShortcuts": "App Shortcuts",
+    "@appShortcuts": {
+        "description": "Heading for app shortcuts info"
+    },
+    "appShortcutMusic": "Mute/Unmute music",
+    "@appShortcutMusic": {
+        "description": "Music shortcut"
+    },
+    "appShortcutSoundEffect": "Mute/Unmute sound effect",
+    "@appShortcutSoundEffect": {
+        "description": "Sound effect shortcut"
+    },
+    "dashboardShortcuts": "Dashboard Shortcuts",
+    "@dashboardShortcuts": {
+        "description": "Heading for dashboard shortcuts info"
+    },
+    "dashboardShortcutOrbitalAnimation": "Play/Pause planet orbit animation",
+    "@dashboardShortcutOrbitalAnimation": {
+        "description": "Instruction for planet orbital animation"
+    },
+    "dashboardShortcutDiffDec": "Decrease difficulty level",
+    "@dashboardShortcutDiffDec": {
+        "description": "Decrease difficulty level"
+    },
+    "dashboardShortcutDiffInc": "Increase difficulty level",
+    "@dashboardShortcutDiffInc": {
+        "description": "Increase difficulty level"
+    },
+    "dashboardShortcutInfo": "Show this shortcut dialog",
+    "@dashboardShortcutDiffInc": {
+        "description": "Show shortcut dialog info"
+    },
+    "dashboardShortcutClose": "Close dialog",
+    "@dashboardShortcutDiffInc": {
+        "description": "Close dialog shortcut info"
+    },
+    "puzzleShortcuts": "Puzzle Shortcuts",
+    "@puzzleShortcuts": {
+        "description": "Heading for puzzle shortcuts info"
+    },
+    "puzzleShortcutControl": "Start / Auto Solve / Stop",
+    "@puzzleShortcutControl": {
+        "description": "To control the puzzle, i.e. start/stop or to start autosolver"
+    },
+    "puzzleShortcutRestart": "Restart puzzle",
+    "@puzzleShortcutRestart": {
+        "description": "Restart puzzle"
+    },
+    "puzzleShortcutHintVisibility": "Toggle number hint visibility",
+    "@puzzleShortcutHintVisibility": {
+        "description": "Toggling hint visibility"
+    },
+    "whitespaceUp": "Move whitespace up",
+    "@whitespaceUp": {
+        "description": "Move whitespace up"
+    },
+    "whitespaceDown": "Move whitespace down",
+    "@whitespaceDown": {
+        "description": "Move whitespace down"
+    },
+    "whitespaceLeft": "Move whitespace left",
+    "@whitespaceLeft": {
+        "description": "Move whitespace left"
+    },
+    "whitespaceRight": "Move whitespace right",
+    "@whitespaceRight": {
+        "description": "Move whitespace right"
+    },
+    "backToSolarSystem": "Go back to solar system",
+    "@whitespaceRight": {
+        "description": "Quit puzzle screen and go back to dashboard"
+    }
+
+}

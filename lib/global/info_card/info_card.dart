@@ -11,7 +11,7 @@ abstract class InfoCard {
   static Future<void> show({required BuildContext context}) {
     return showAppDialog(
       context: context,
-      child: const _InfoCard(AppShortcutData.data),
+      child: _InfoCard(AppShortcutData.data(context)),
     );
   }
 }

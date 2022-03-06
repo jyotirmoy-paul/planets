@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:planets/l10n/l10n.dart';
 import '../../resource/app_assets.dart';
 import '../../utils/constants.dart';
 import '../../app/cubit/audio_player_cubit.dart';
@@ -87,7 +88,7 @@ class _LoadingPageLarge extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Image.asset('assets/images/planets.png'),
+          child: Image.asset(AppAssets.planetsImage),
         ),
         Expanded(
           child: _MainBody(
@@ -165,7 +166,7 @@ class _MainBody extends StatelessWidget {
         Column(
           children: [
             StylizedText(
-              text: "Planets",
+              text: context.l10n.appTitle,
               fontSize: isLarge ? 68.0 : 48.0,
               textColor: Utils.darkenColor(Colors.blue),
               strokeColor: Colors.white,
@@ -174,7 +175,7 @@ class _MainBody extends StatelessWidget {
             Wrap(
               children: [
                 Text(
-                  'Made with',
+                  context.l10n.loadingScreenSubTitle1,
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.90),
                     letterSpacing: 1.4,
@@ -192,7 +193,7 @@ class _MainBody extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Powered by Flutter',
+                  context.l10n.loadingScreenSubTitle2,
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.90),
                     letterSpacing: 1.4,
@@ -213,7 +214,7 @@ class _MainBody extends StatelessWidget {
               switchOutCurve: Curves.easeInOut,
               child: !isInitialized
                   ? Text(
-                      'Please wait, initializing...',
+                      context.l10n.loadingScreenInitializing,
                       key: const Key('initializing'),
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -223,7 +224,7 @@ class _MainBody extends StatelessWidget {
                       ),
                     )
                   : Text(
-                      'Ready when you are, Captain!',
+                      context.l10n.loadingScreenReady,
                       key: const Key('ready'),
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -258,7 +259,7 @@ class _MainBody extends StatelessWidget {
           child: StylizedContainer(
             color: isReady && isInitialized ? Colors.greenAccent : Colors.grey,
             child: StylizedText(
-              text: 'Start',
+              text: context.l10n.start,
               fontSize: isLarge ? 32.0 : 24.0,
             ),
           ),
