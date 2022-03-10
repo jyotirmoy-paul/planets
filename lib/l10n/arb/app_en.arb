@@ -13,7 +13,7 @@
     },
     "loadingScreenInitializing": "Please wait, initializing...",
     "@loadingScreenInitializing": {
-        "description": "When caching, show initialzing text"
+        "description": "When caching, show initializing text"
     },
     "loadingScreenSubTitle1": "Made with",
     "@loadingScreenSubTitle1": {
@@ -29,7 +29,7 @@
     },
     "dashboardHeading": "Tap on a planet to begin",
     "@dashboardHeading": {
-        "description": "Insturction to start the game"
+        "description": "Instruction to start the game"
     },
     "easy": "Easy",
     "@easy": {
@@ -72,11 +72,11 @@
         "description": "Increase difficulty level"
     },
     "dashboardShortcutInfo": "Show this shortcut dialog",
-    "@dashboardShortcutDiffInc": {
+    "@dashboardShortcutInfo": {
         "description": "Show shortcut dialog info"
     },
     "dashboardShortcutClose": "Close dialog",
-    "@dashboardShortcutDiffInc": {
+    "@dashboardShortcutClose": {
         "description": "Close dialog shortcut info"
     },
     "puzzleShortcuts": "Puzzle Shortcuts",
@@ -85,7 +85,7 @@
     },
     "puzzleShortcutControl": "Start / Auto Solve / Stop",
     "@puzzleShortcutControl": {
-        "description": "To control the puzzle, i.e. start/stop or to start autosolver"
+        "description": "To control the puzzle, i.e. start/stop or to start auto solver"
     },
     "puzzleShortcutRestart": "Restart puzzle",
     "@puzzleShortcutRestart": {
@@ -112,7 +112,7 @@
         "description": "Move whitespace right"
     },
     "backToSolarSystem": "Go back to solar system",
-    "@whitespaceRight": {
+    "@backToSolarSystem": {
         "description": "Quit puzzle screen and go back to dashboard"
     },
     "solarSystem": "Solar System",
@@ -188,7 +188,7 @@
         "description": "Fact for the planet - venus"
     },
     "earth": "Earth",
-    "@mercury": {
+    "@earth": {
         "description": "Planet name - earth"
     },
     "earthFact": "This is a earth fact space",
@@ -279,11 +279,11 @@
             }
         }
     },
-    "usedAutosolve": "Used Autosolve",
+    "usedAutosolve": "Used Auto solve",
     "@usedAutosolve": {
         "description": "If user had used auto solve during gameplay"
     },
-    "noAutosolve": "No Autosolve",
+    "noAutosolve": "No Auto solve",
     "@noAutosolve": {
         "description": "If user had NOT used auto solve during gameplay"
     },
