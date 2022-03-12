@@ -281,5 +281,13 @@
     "share": "Share!",
     "@share": {
         "description": "Share text"
+    },
+    "optimizedLabel": "Optimized Puzzle",
+    "@optimizedLabel": {
+        "description": "The label to show, if a puzzle is running an optimized version"
+    },
+    "optimizedDescription": "You are running an optimized version of the puzzle, to avoid performance drop",
+    "@optimizedDescription": {
+        "description": "The description of why the optimized label is shown"
     }
 }
