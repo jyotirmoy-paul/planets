@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planets/puzzles/planet/cubit/planet_fact_cubit.dart';
 import 'package:planets/utils/utils.dart';
 
 import '../../app/cubit/audio_player_cubit.dart';
@@ -20,7 +21,7 @@ class PuzzlePage extends StatelessWidget {
   const PuzzlePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext _) {
+  Widget build(BuildContext mainContext) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -56,6 +57,12 @@ class PuzzlePage extends StatelessWidget {
         BlocProvider(
           create: (_) => TimerBloc(
             ticker: const Ticker(),
+          ),
+        ),
+        BlocProvider(
+          create: (_) => PlanetFactCubit(
+            planetType: mainContext.read<PlanetSelectionCubit>().planet.type,
+            context: mainContext,
           ),
         ),
       ],

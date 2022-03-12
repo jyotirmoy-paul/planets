@@ -42,7 +42,7 @@ class _AppState extends State<App> {
             GlobalCupertinoLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
           ],
-          title: 'Planets', 
+          title: 'Planets',
           theme: ThemeData(fontFamily: kFontFamily),
           home: const LoadingPage(),
         ),

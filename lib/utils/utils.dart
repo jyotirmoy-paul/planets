@@ -72,34 +72,70 @@ abstract class Utils {
     }
   }
 
-  static String planetDescription(PlanetType type, BuildContext context) {
+  static List<String> planetFacts(PlanetType type, BuildContext context) {
     switch (type) {
       case PlanetType.mercury:
-        return context.l10n.mercuryFact;
+        return [
+          context.l10n.mercuryFact,
+          context.l10n.mercuryFact,
+          context.l10n.mercuryFact
+        ];
 
       case PlanetType.venus:
-        return context.l10n.venusFact;
+        return [
+          context.l10n.mercuryFact,
+          context.l10n.mercuryFact,
+          context.l10n.mercuryFact
+        ];
 
       case PlanetType.earth:
-        return context.l10n.earthFact;
+        return [
+          context.l10n.mercuryFact,
+          context.l10n.mercuryFact,
+          context.l10n.mercuryFact
+        ];
 
       case PlanetType.mars:
-        return context.l10n.marsFact;
+        return [
+          context.l10n.mercuryFact,
+          context.l10n.mercuryFact,
+          context.l10n.mercuryFact
+        ];
 
       case PlanetType.jupiter:
-        return context.l10n.jupiterFact;
+        return [
+          context.l10n.mercuryFact,
+          context.l10n.mercuryFact,
+          context.l10n.mercuryFact
+        ];
 
       case PlanetType.saturn:
-        return context.l10n.saturnFact;
+        return [
+          context.l10n.mercuryFact,
+          context.l10n.mercuryFact,
+          context.l10n.mercuryFact
+        ];
 
       case PlanetType.uranus:
-        return context.l10n.uranusFact;
+        return [
+          context.l10n.mercuryFact,
+          context.l10n.mercuryFact,
+          context.l10n.mercuryFact
+        ];
 
       case PlanetType.neptune:
-        return context.l10n.neptuneFact;
+        return [
+          context.l10n.mercuryFact,
+          context.l10n.mercuryFact,
+          context.l10n.mercuryFact
+        ];
 
       case PlanetType.pluto:
-        return context.l10n.plutoFact;
+        return [
+          context.l10n.mercuryFact,
+          context.l10n.mercuryFact,
+          context.l10n.mercuryFact
+        ];
     }
   }
 
