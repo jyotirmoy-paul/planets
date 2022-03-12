@@ -4,10 +4,12 @@ import '../utils/constants.dart';
 
 class AppAnimatedWidget extends StatefulWidget {
   final Widget child;
+  final bool showOnComplete;
 
   const AppAnimatedWidget({
     Key? key,
     required this.child,
+    this.showOnComplete = false,
   }) : super(key: key);
 
   @override
@@ -20,6 +22,8 @@ class _AppAnimatedWidgetState extends State<AppAnimatedWidget>
   late Animation<double> inOpacity;
   late Animation<double> inScale;
   late Animation<double> outOpacity;
+
+  bool isDone = false;
 
   @override
   void initState() {
@@ -52,6 +56,12 @@ class _AppAnimatedWidgetState extends State<AppAnimatedWidget>
     );
 
     controller.forward();
+
+    controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        if (mounted) setState(() => isDone = true);
+      }
+    });
   }
 
   @override
@@ -62,6 +72,19 @@ class _AppAnimatedWidgetState extends State<AppAnimatedWidget>
 
   @override
   Widget build(BuildContext context) {
+    if (widget.showOnComplete) {
+      if (isDone) {
+        return widget.child;
+      }
+      return FadeTransition(
+        opacity: inOpacity,
+        child: ScaleTransition(
+          scale: inScale,
+          child: widget.child,
+        ),
+      );
+    }
+
     return FadeTransition(
       opacity: outOpacity,
       child: FadeTransition(

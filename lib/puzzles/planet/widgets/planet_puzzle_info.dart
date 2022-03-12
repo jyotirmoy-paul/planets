@@ -73,6 +73,7 @@ class _FactWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.select((PlanetFactCubit cubit) => cubit.state);
     return AppAnimatedWidget(
+      showOnComplete: true,
       key: ValueKey(state.fact),
       child: Text(
         state.fact,
@@ -85,6 +86,7 @@ class _FactWidget extends StatelessWidget {
                   ? 24.0
                   : 20.0,
           letterSpacing: 1.5,
+          wordSpacing: 2.0,
         ),
       ),
     );

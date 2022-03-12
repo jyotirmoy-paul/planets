@@ -8,7 +8,6 @@ import '../../../global/stylized_text.dart';
 import '../../../layout/utils/responsive_layout_builder.dart';
 import '../../../puzzle/puzzle.dart';
 import '../../../timer/timer.dart';
-import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 import '../planet.dart';
 
@@ -100,7 +99,9 @@ class _PuzzleStats extends StatelessWidget {
 
     if (isTicking) {
       return AppAnimatedWidget(
-          key: ValueKey(state.secondsToBegin), child: child);
+        key: ValueKey(state.secondsToBegin),
+        child: child,
+      );
     } else {
       return child;
     }

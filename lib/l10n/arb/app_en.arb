@@ -175,65 +175,65 @@
     "@mercury": {
         "description": "Planet name - mercury"
     },
-    "mercuryFact1": "This is a mercury fact space",
-    "mercuryFact2": "This is a mercury fact space",
-    "mercuryFact3": "This is a mercury fact space",
+    "mercuryFact1": "Mercury is the smallest planet in the Solar System, of course because someone (Pluto) is not considered a planet anymore.",
+    "mercuryFact2": "Imagine able to sleep once every 2 months, that's one mercurial day, almost equals to 59 earth days.",
+    "mercuryFact3": "Though the closest planet to Sun, Mercury's temperatures can drop to as low as -180 degrees Celsius / -290 degrees Fahrenheit.",
     "venus": "Venus",
     "@venus": {
         "description": "Planet name - venus"
     },
-    "venusFact1": "This is a venus fact space",
-    "venusFact2": "This is a mercury fact space",
-    "venusFact3": "This is a mercury fact space",
+    "venusFact1": "In Venus a day is longer than a year. For reference, 1 Venus day equal 243 Earth days, and 1 Venus year equals 225 Earth days. Interesting huh?",
+    "venusFact2": "Venus, for some unknown reason, spins the opposite direction of Earth and most other planets.",
+    "venusFact3": "Due to its thick atmosphere, Venus traps heat (global warming?) making it the hottest planet in our solar system. To top that off, there are more than 1600 major volcano.",
     "earth": "Earth",
     "@earth": {
         "description": "Planet name - earth"
     },
-    "earthFact1": "This is a venus fact space",
-    "earthFact2": "This is a mercury fact space",
-    "earthFact3": "This is a mercury fact space",
+    "earthFact1": "The planet you are born in? Isn't it?",
+    "earthFact2": "Our Earth's rotation is slowing. Precisely, slowing down 17 milliseconds, every 100 years. Not much huh?",
+    "earthFact3": "Earth takes exactly 23 hours, 56 minutes and 4 seconds to complete one rotation around its axis. A 4 min gap every day will add up over months, and probably it's technically night right now, with daylight.",
     "mars": "Mars",
     "@mars": {
         "description": "Planet name - mars"
     },
-    "marsFact1": "This is a venus fact space",
-    "marsFact2": "This is a mercury fact space",
-    "marsFact3": "This is a mercury fact space",
+    "marsFact1": "A year on Mars is almost twice as long as a year on Earth.",
+    "marsFact2": "If you are 100 lbs (or, 45 kg) on Earth, you would weight only 38 lbs (or, 17 kg) on Mars.",
+    "marsFact3": "Mars is called the “Red Planet” because, well it’s red. This color comes from the large amount of iron oxide present in its rocks and soil. Iron oxide, in simple terms, is just rust.",
     "jupiter": "Jupiter",
     "@jupiter": {
         "description": "Planet name - jupiter"
     },
-    "jupiterFact1": "This is a venus fact space",
-    "jupiterFact2": "This is a mercury fact space",
-    "jupiterFact3": "This is a mercury fact space",
+    "jupiterFact1": "Jupiter is the fastest spinning planet in our solar system. To give a context, Jupiter’s one day lasts around 10 earth hours.",
+    "jupiterFact2": "Being the third brightest object in our Solar System (after Venus and Moon), we can see Jupiter with our own eyes.",
+    "jupiterFact3": "Jupiter too has rings. They were the last to be discovered (after Saturn & Uranus’s rings) due to the fact that they are particularly faint.",
     "saturn": "Saturn",
     "@saturn": {
         "description": "Planet name - saturn"
     },
-    "saturnFact1": "This is a saturn fact space",
-    "saturnFact2": "This is a venus fact space",
-    "saturnFact3": "This is a mercury fact space",
+    "saturnFact1": "Saturn’s revolution around the Sun is very slow. A year on Saturn is more than 29 Earth years.",
+    "saturnFact2": "This planet was named after the Roman god of farming, Saturn. And interestingly, the day Saturday was named after the planet, Saturn.",
+    "saturnFact3": "Saturn has beautiful rings, and they aren’t solid, they are made up of ice, dust and rocks.",
     "uranus": "Uranus",
     "@uranus": {
         "description": "Planet name - uranus"
     },
-    "uranusFact1": "This is a uranus fact space",
-    "uranusFact2": "This is a saturn fact space",
-    "uranusFact3": "This is a venus fact space",
+    "uranusFact1": "Uranus, for some unknown reason, spins the opposite direction of Earth and most other planets, and an Uranian day lasts about 17 Earth hours.",
+    "uranusFact2": "Uranus has rings too. It is thought that the rings are to be parts of a moon or moons that were sometime shattered by high speed impacts with an object such as comet or asteroid.",
+    "uranusFact3": "Uranus takes almost 84 Earth years to complete one orbit. Imagine having a single Uranian birthday for your entire Earthian life.",
     "neptune": "Neptune",
     "@neptune": {
         "description": "Planet name - neptune"
     },
-    "neptuneFact1": "This is a neptune fact space",
-    "neptuneFact2": "This is a uranus fact space",
-    "neptuneFact3": "This is a saturn fact space",
+    "neptuneFact1": "Neptune’s one year lasts 165 Earth years. Neptune has just completed one orbit around the Sun, since its discovery in 1846.",
+    "neptuneFact2": "Neptune has the strongest winds of any planets in the Solar System. Some winds can reach up to 2000 km / 1200 mi per hour. Supersonic winds, huh!",
+    "neptuneFact3": "It rains diamonds in Neptune! It is thought that the Methane decomposes into diamond crystals due to the planet’s conditions.",
     "pluto": "Pluto",
     "@pluto": {
         "description": "Planet name - pluto"
     },
-    "plutoFact1": "This is a neptune fact space",
-    "plutoFact2": "This is a uranus fact space",
-    "plutoFact3": "This is a saturn fact space",
+    "plutoFact1": "I understand Pluto is not a planet anymore, but I felt sad excluding it.",
+    "plutoFact2": "Pluto was demoted to dwarf planet status in 2006 - as its merely the brightest member of the Kuiper Belt, it’s simply not unique (unlike other planets)",
+    "plutoFact3": "Being one of the farthest member from Sun, Pluto can actually get closer to the Sun than Neptune. It was last inside Neptune’s orbit between 1979 and 1999.",
     "congracts": "Congracts!",
     "@congracts": {
         "description": "Puzzle completion congracts text"

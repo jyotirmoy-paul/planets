@@ -38,7 +38,7 @@ class PlanetFactCubit extends Cubit<PlanetFactState> {
     // update fact for the first time
     _updateFact();
 
-    _timer = Timer.periodic(kS5, (_) => _updateFact());
+    _timer = Timer.periodic(kS15, (_) => _updateFact());
   }
 
   @override
