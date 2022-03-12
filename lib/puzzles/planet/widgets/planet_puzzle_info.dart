@@ -28,10 +28,10 @@ class PlanetPuzzleInfo extends StatelessWidget {
         return SizedBox(
           width: isSmall ? null : 500.0,
           height: isLarge
-              ? 200
+              ? 250
               : isSmall
-                  ? 150
-                  : 170,
+                  ? 160
+                  : 180,
           child: Column(
             crossAxisAlignment:
                 isLarge ? CrossAxisAlignment.start : CrossAxisAlignment.center,
