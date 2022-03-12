@@ -175,74 +175,65 @@
     "@mercury": {
         "description": "Planet name - mercury"
     },
-    "mercuryFact": "This is a mercury fact space",
-    "@mercuryFact": {
-        "description": "Fact for the planet - mercury"
-    },
+    "mercuryFact1": "This is a mercury fact space",
+    "mercuryFact2": "This is a mercury fact space",
+    "mercuryFact3": "This is a mercury fact space",
     "venus": "Venus",
     "@venus": {
         "description": "Planet name - venus"
     },
-    "venusFact": "This is a venus fact space",
-    "@venusFact": {
-        "description": "Fact for the planet - venus"
-    },
+    "venusFact1": "This is a venus fact space",
+    "venusFact2": "This is a mercury fact space",
+    "venusFact3": "This is a mercury fact space",
     "earth": "Earth",
     "@earth": {
         "description": "Planet name - earth"
     },
-    "earthFact": "This is a earth fact space",
-    "@earthFact": {
-        "description": "Fact for the planet - earth"
-    },
+    "earthFact1": "This is a venus fact space",
+    "earthFact2": "This is a mercury fact space",
+    "earthFact3": "This is a mercury fact space",
     "mars": "Mars",
     "@mars": {
         "description": "Planet name - mars"
     },
-    "marsFact": "This is a mars fact space",
-    "@marsFact": {
-        "description": "Fact for the planet - mars"
-    },
+    "marsFact1": "This is a venus fact space",
+    "marsFact2": "This is a mercury fact space",
+    "marsFact3": "This is a mercury fact space",
     "jupiter": "Jupiter",
     "@jupiter": {
         "description": "Planet name - jupiter"
     },
-    "jupiterFact": "This is a jupiter fact space",
-    "@jupiterFact": {
-        "description": "Fact for the planet - jupiter"
-    },
+    "jupiterFact1": "This is a venus fact space",
+    "jupiterFact2": "This is a mercury fact space",
+    "jupiterFact3": "This is a mercury fact space",
     "saturn": "Saturn",
     "@saturn": {
         "description": "Planet name - saturn"
     },
-    "saturnFact": "This is a saturn fact space",
-    "@saturnFact": {
-        "description": "Fact for the planet - saturn"
-    },
+    "saturnFact1": "This is a saturn fact space",
+    "saturnFact2": "This is a venus fact space",
+    "saturnFact3": "This is a mercury fact space",
     "uranus": "Uranus",
     "@uranus": {
         "description": "Planet name - uranus"
     },
-    "uranusFact": "This is a uranus fact space",
-    "@uranusFact": {
-        "description": "Fact for the planet - uranus"
-    },
+    "uranusFact1": "This is a uranus fact space",
+    "uranusFact2": "This is a saturn fact space",
+    "uranusFact3": "This is a venus fact space",
     "neptune": "Neptune",
     "@neptune": {
         "description": "Planet name - neptune"
     },
-    "neptuneFact": "This is a neptune fact space",
-    "@neptuneFact": {
-        "description": "Fact for the planet - neptune"
-    },
+    "neptuneFact1": "This is a neptune fact space",
+    "neptuneFact2": "This is a uranus fact space",
+    "neptuneFact3": "This is a saturn fact space",
     "pluto": "Pluto",
     "@pluto": {
         "description": "Planet name - pluto"
     },
-    "plutoFact": "This is a pluto fact space",
-    "@plutoFact": {
-        "description": "Fact for the planet - pluto"
-    },
+    "plutoFact1": "This is a neptune fact space",
+    "plutoFact2": "This is a uranus fact space",
+    "plutoFact3": "This is a saturn fact space",
     "congracts": "Congracts!",
     "@congracts": {
         "description": "Puzzle completion congracts text"

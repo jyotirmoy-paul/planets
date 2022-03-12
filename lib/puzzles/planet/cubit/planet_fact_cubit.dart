@@ -31,10 +31,7 @@ class PlanetFactCubit extends Cubit<PlanetFactState> {
     required PlanetType planetType,
     required BuildContext context,
   }) : super(const PlanetFactState()) {
-    facts = Utils.planetFacts(
-      planetType,
-      context,
-    );
+    facts = Utils.planetFacts(planetType, context);
 
     facts.shuffle();
 
