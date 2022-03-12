@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../global/animated_text.dart';
 import '../../../l10n/l10n.dart';
 
 import '../../../app/cubit/audio_player_cubit.dart';
@@ -7,7 +8,6 @@ import '../../../global/stylized_text.dart';
 import '../../../layout/utils/responsive_layout_builder.dart';
 import '../../../puzzle/puzzle.dart';
 import '../../../timer/timer.dart';
-import '../../../utils/constants.dart';
 import '../../../utils/utils.dart';
 import '../planet.dart';
 
@@ -75,7 +75,8 @@ class _PuzzleStats extends StatelessWidget {
     if (!state.isCountdownRunning || state.secondsToBegin > 3) {
       // show: '00:00:00 | 0 Moves',
       final timeText = Utils.getFormattedElapsedSeconds(secondsElapsed);
-      textToShow = context.l10n.puzzleStats(timeText, puzzleState.numberOfMoves);
+      textToShow =
+          context.l10n.puzzleStats(timeText, puzzleState.numberOfMoves);
     } else {
       // show: ticking 3..2..1..Go!
       isTicking = true;
@@ -97,82 +98,12 @@ class _PuzzleStats extends StatelessWidget {
     );
 
     if (isTicking) {
-      return _Animated(key: ValueKey(state.secondsToBegin), child: child);
+      return AppAnimatedWidget(
+        key: ValueKey(state.secondsToBegin),
+        child: child,
+      );
     } else {
       return child;
     }
-  }
-}
-
-class _Animated extends StatefulWidget {
-  final Widget child;
-
-  const _Animated({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
-
-  @override
-  State<_Animated> createState() => _AnimatedState();
-}
-
-class _AnimatedState extends State<_Animated>
-    with SingleTickerProviderStateMixin {
-  late AnimationController controller;
-  late Animation<double> inOpacity;
-  late Animation<double> inScale;
-  late Animation<double> outOpacity;
-
-  @override
-  void initState() {
-    super.initState();
-
-    controller = AnimationController(
-      vsync: this,
-      duration: kS1,
-    );
-
-    inOpacity = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: controller,
-        curve: const Interval(0, 0.58, curve: Curves.decelerate),
-      ),
-    );
-
-    inScale = Tween<double>(begin: 0.5, end: 1).animate(
-      CurvedAnimation(
-        parent: controller,
-        curve: const Interval(0, 0.58, curve: Curves.decelerate),
-      ),
-    );
-
-    outOpacity = Tween<double>(begin: 1, end: 0).animate(
-      CurvedAnimation(
-        parent: controller,
-        curve: const Interval(0.81, 1, curve: Curves.easeIn),
-      ),
-    );
-
-    controller.forward();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: outOpacity,
-      child: FadeTransition(
-        opacity: inOpacity,
-        child: ScaleTransition(
-          scale: inScale,
-          child: widget.child,
-        ),
-      ),
-    );
   }
 }
