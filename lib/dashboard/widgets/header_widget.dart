@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:planets/utils/utils.dart';
+import '../../utils/utils.dart';
 import '../../l10n/l10n.dart';
 
 import '../../global/controls/audio_control.dart';

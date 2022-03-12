@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:planets/global/animated_text.dart';
-import 'package:planets/global/stylized_icon.dart';
-import 'package:planets/global/stylized_text.dart';
-import 'package:planets/l10n/l10n.dart';
-import 'package:planets/puzzle/cubit/puzzle_helper_cubit.dart';
-import 'package:planets/puzzles/planet/cubit/planet_fact_cubit.dart';
+import '../../../global/animated_text.dart';
+import '../../../global/stylized_icon.dart';
+import '../../../global/stylized_text.dart';
+import '../../../l10n/l10n.dart';
+import '../../../puzzle/cubit/puzzle_helper_cubit.dart';
+import '../cubit/planet_fact_cubit.dart';
 
 import '../../../dashboard/cubit/planet_selection_cubit.dart';
 import '../../../layout/utils/responsive_layout_builder.dart';
