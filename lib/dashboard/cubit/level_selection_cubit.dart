@@ -30,4 +30,5 @@ class LevelSelectionCubit extends Cubit<LevelSelectionState> {
   }
 
   int get puzzleSize => kPuzzleLevel[_level]!;
+  PuzzleLevel get puzzleLevel => _level;
 }
