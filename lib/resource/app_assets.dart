@@ -72,6 +72,7 @@ abstract class AppAssets {
   // saturn
   static const _saturnBase = '$_planetsBase/saturn';
   static const saturnImage = '$_saturnBase/saturn.png';
+  static const saturnExtraThumb = '$_saturnBase/saturn_extra_thumb.png';
   static const saturnThumb = '$_saturnBase/saturn_thumb.png';
   static const saturnAnimation = '$_saturnBase/saturn.riv';
   static const saturnLandscape = '$_saturnBase/saturn_landscape.png';

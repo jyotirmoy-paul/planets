@@ -362,14 +362,17 @@ class _PlanetPuzzleCompletionDialogLarge extends StatelessWidget {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    Image.asset(
-                      Utils.getPlanetImageFor(planet.type),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Image.asset(
+                        Utils.getPlanetImageFor(planet.type),
+                      ),
                     ),
                     Positioned.fill(
                       child: Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.black.withOpacity(0.60),
+                          color: Colors.black.withOpacity(0.45),
                         ),
                       ),
                     ),

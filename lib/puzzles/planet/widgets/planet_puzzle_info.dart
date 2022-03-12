@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/global/animated_text.dart';
-import 'package:planets/puzzles/planet/cubit/planet_fact_cubit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gap/gap.dart';
+import '../../../global/animated_text.dart';
+import '../../../global/stylized_icon.dart';
+import '../../../global/stylized_text.dart';
+import '../../../l10n/l10n.dart';
+import '../../../puzzle/cubit/puzzle_helper_cubit.dart';
+import '../cubit/planet_fact_cubit.dart';
 
 import '../../../dashboard/cubit/planet_selection_cubit.dart';
 import '../../../layout/utils/responsive_layout_builder.dart';
@@ -58,6 +64,38 @@ class PlanetPuzzleInfo extends StatelessWidget {
 
               // gap
               const Spacer(),
+
+              // puzzle optimize label
+              context.read<PuzzleHelperCubit>().state.optimized
+                  ? Tooltip(
+                      message: context.l10n.optimizedDescription,
+                      padding: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(6.0),
+                      ),
+                      textStyle: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 14.0,
+                        letterSpacing: 1.5,
+                        wordSpacing: 2.0,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const StylizedIcon(
+                            icon: FontAwesomeIcons.bolt,
+                            color: Colors.redAccent,
+                          ),
+                          const Gap(12.0),
+                          StylizedText(
+                            text: context.l10n.optimizedLabel,
+                            textColor: Colors.redAccent,
+                          ),
+                        ],
+                      ),
+                    )
+                  : const SizedBox.shrink(),
             ],
           ),
         );

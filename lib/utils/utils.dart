@@ -10,9 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:planets/l10n/l10n.dart';
-import 'package:planets/utils/app_logger.dart';
-import 'package:planets/utils/constants.dart';
+import '../l10n/l10n.dart';
+import 'app_logger.dart';
+import 'constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 
@@ -291,7 +291,7 @@ abstract class Utils {
     return hslDark.toColor();
   }
 
-  static String get planetRotationAnimationName => 'revolution';
+  static String get planetRotationAnimationName => 'rotation';
 
   static String getPlanetImageFor(PlanetType type) {
     switch (type) {

@@ -13,7 +13,7 @@ enum Direction { left, right, up, down }
 
 enum SpecialCaseGroup { topRight, bottomLeft, none }
 
-const _stepDuration = kMS100;
+const _stepDuration = kMS150;
 
 extension ListHelper on List<SolverTile> {
   SolverTile whitespace() => firstWhere((e) => e.isWhitespace);

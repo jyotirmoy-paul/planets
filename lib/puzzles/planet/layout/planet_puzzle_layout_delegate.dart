@@ -33,7 +33,13 @@ class PlanetPuzzleLayoutDelegate extends PuzzleLayoutDelegate {
       large: (_, Widget? child) => child!,
       child: (_) => Align(
         alignment: Alignment.bottomCenter,
-        child: Image.asset(theme.backgroundAsset),
+        child: Builder(builder: (context) {
+          return Image.asset(
+            theme.backgroundAsset,
+            width: MediaQuery.of(context).size.width,
+            fit: BoxFit.fitWidth,
+          );
+        }),
       ),
     );
   }

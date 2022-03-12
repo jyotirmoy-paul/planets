@@ -4,9 +4,9 @@ import 'dart:math';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/models/planet.dart';
-import 'package:planets/utils/constants.dart';
-import 'package:planets/utils/utils.dart';
+import '../../../models/planet.dart';
+import '../../../utils/constants.dart';
+import '../../../utils/utils.dart';
 
 part 'planet_fact_state.dart';
 

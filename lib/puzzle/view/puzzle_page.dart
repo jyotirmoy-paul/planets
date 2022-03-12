@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planets/puzzles/planet/cubit/planet_fact_cubit.dart';
-import 'package:planets/utils/utils.dart';
+import '../../models/puzzle.dart';
+import '../../puzzles/planet/cubit/planet_fact_cubit.dart';
+import '../../utils/utils.dart';
 
 import '../../app/cubit/audio_player_cubit.dart';
 import '../../dashboard/cubit/level_selection_cubit.dart';
@@ -21,7 +22,7 @@ class PuzzlePage extends StatelessWidget {
   const PuzzlePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext mainContext) {
+  Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -46,7 +47,9 @@ class PuzzlePage extends StatelessWidget {
           create: (context) => PuzzleHelperCubit(
             context.read<PuzzleBloc>(),
             context.read<AudioPlayerCubit>(),
-            optimized: Utils.isOptimizedPuzzle(),
+            optimized: Utils.isOptimizedPuzzle() ||
+                context.read<LevelSelectionCubit>().puzzleLevel ==
+                    PuzzleLevel.hard,
           ),
         ),
         BlocProvider(
@@ -61,8 +64,8 @@ class PuzzlePage extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => PlanetFactCubit(
-            planetType: mainContext.read<PlanetSelectionCubit>().planet.type,
-            context: mainContext,
+            planetType: context.read<PlanetSelectionCubit>().planet.type,
+            context: context,
           ),
         ),
       ],

@@ -28,5 +28,5 @@ class SaturnPuzzleTheme extends PlanetPuzzleTheme {
   String get placeholderAssetForTile => AppAssets.saturnImage;
 
   @override
-  String get placeholderThumbnail => AppAssets.saturnThumb;
+  String get placeholderThumbnail => AppAssets.saturnExtraThumb;
 }
