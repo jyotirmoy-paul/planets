@@ -5,8 +5,7 @@ class AudioControlState extends Equatable {
   final bool isSoundEffectEnabled;
 
   const AudioControlState({
-    /// default set music to false, due to chrome policy: https://goo.gl/xX8pDD
-    this.isMusicEnabled = false,
+    this.isMusicEnabled = true,
     this.isSoundEffectEnabled = true,
   });
 

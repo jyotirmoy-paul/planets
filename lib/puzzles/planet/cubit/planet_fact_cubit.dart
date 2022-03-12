@@ -12,10 +12,32 @@ part 'planet_fact_state.dart';
 
 class PlanetFactCubit extends Cubit<PlanetFactState> {
   late Timer _timer;
+  Timer? _userInteractionTimer;
   late List<String> facts;
   int currentFactIdx = 0;
+  bool hasUserInteracted = false;
 
-  void _updateFact() {
+  void newFact() {
+    // start user interaction timer
+    _userInteractionTimer?.cancel();
+    _userInteractionTimer = Timer(kS20, () {
+      // reset back - so that auto updating works again
+      hasUserInteracted = false;
+    });
+
+    // get and update new fact
+    _updateFact(force: true);
+
+    // this disables the timer temporary, thus not refreshing fact until next cycle
+    hasUserInteracted = true;
+  }
+
+  void _updateFact({bool force = false}) {
+    if (!force) {
+      // if there is no `force`, to update fact, then only apply the limiting checks
+      if (hasUserInteracted) return;
+    }
+
     int idx = Random().nextInt(facts.length);
     while (idx == currentFactIdx) {
       idx = Random().nextInt(facts.length);
@@ -38,7 +60,7 @@ class PlanetFactCubit extends Cubit<PlanetFactState> {
     // update fact for the first time
     _updateFact();
 
-    _timer = Timer.periodic(kS15, (_) => _updateFact());
+    _timer = Timer.periodic(kS20, (_) => _updateFact());
   }
 
   @override
