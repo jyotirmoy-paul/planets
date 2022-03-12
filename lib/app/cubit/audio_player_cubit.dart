@@ -12,12 +12,12 @@ import '../bloc/audio_control_bloc.dart';
 
 part 'audio_player_state.dart';
 
-const _maxThemeVolume = 0.15;
+const _maxThemeVolume = 0.30;
 const _clickVolume = 0.80;
 const _visibilityVolume = 0.30;
 const _countDownVolume = 0.30;
 const _tapVolume = 0.40;
-const _completionVolume = 0.30;
+const _completionVolume = 0.70;
 
 // max size allowed is 5x5
 const _maxTiles = 25;
@@ -105,8 +105,8 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     // stop count down sound effect
     _countDownBeginPlayer.stop();
 
-    // stop auto solver sound effect
-    // TODO
+    // visibility sound effect
+    _visibility.stop();
   }
 
   void playThemeMusic() {

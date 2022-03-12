@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:planets/app/cubit/audio_player_cubit.dart';
 
 import '../../global/controls/audio_control.dart';
 import '../../global/stylized_button.dart';
@@ -34,7 +35,10 @@ class PuzzleHeader extends StatelessWidget {
               // back button
               StylizedButton(
                 key: ValueKey(isSmall),
-                onPressed: () => Navigator.pop(context),
+                onPressed: () {
+                  context.read<AudioPlayerCubit>().onBackToSolarSystem();
+                  Navigator.pop(context);
+                },
                 child: StylizedContainer(
                   color: Colors.redAccent,
                   child: Row(
