@@ -20,6 +20,10 @@ class LoadingPage extends StatelessWidget {
   const LoadingPage({Key? key}) : super(key: key);
 
   void _move(BuildContext context) async {
+    /// we can play the theme music only upon the first interaction
+    /// due to chrome policy: https://goo.gl/xX8pDD
+    context.read<AudioPlayerCubit>().playThemeMusic();
+
     final page = await Utils.buildPageAsync(const DashboardPage());
 
     Navigator.pushReplacement(

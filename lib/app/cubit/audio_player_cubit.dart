@@ -25,7 +25,7 @@ const _maxTiles = 25;
 class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   final AudioControlBloc _audioBloc;
 
-  // audioplayers
+  // audio players
   // theme music player
   final AudioPlayer _themeMusicPlayer = getAudioPlayer();
 
@@ -101,10 +101,21 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     _audioBloc.stream.listen(_onAudioControlStateChanged);
   }
 
-  bool _themeMusicInitialized = false;
+  void onBackToSolarSystem() {
+    // stop count down sound effect
+    _countDownBeginPlayer.stop();
+
+    // stop auto solver sound effect
+    // TODO
+  }
+
+  void playThemeMusic() {
+    unawaited(_themeMusicPlayer.play());
+  }
 
   void _onAudioControlStateChanged(AudioControlState audioControlState) {
     // sound effect related settings
+    // count down sound effect
     if (audioControlState.isSoundEffectEnabled) {
       _countDownBeginPlayer.setVolume(_countDownVolume);
     } else {
@@ -112,13 +123,9 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     }
 
     // music related settings
+    // app theme music
     if (audioControlState.isMusicEnabled) {
-      if (_themeMusicInitialized == false) {
-        unawaited(_themeMusicPlayer.play());
-        _themeMusicInitialized = true;
-      } else {
-        _themeMusicPlayer.setVolume(_maxThemeVolume);
-      }
+      _themeMusicPlayer.setVolume(_maxThemeVolume);
     } else {
       _themeMusicPlayer.setVolume(0.0);
     }
