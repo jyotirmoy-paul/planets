@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gap/gap.dart';
 import 'package:planets/global/animated_text.dart';
 import 'package:planets/puzzles/planet/cubit/planet_fact_cubit.dart';
 
@@ -28,6 +27,11 @@ class PlanetPuzzleInfo extends StatelessWidget {
 
         return SizedBox(
           width: isSmall ? null : 500.0,
+          height: isLarge
+              ? 200
+              : isSmall
+                  ? 150
+                  : 170,
           child: Column(
             crossAxisAlignment:
                 isLarge ? CrossAxisAlignment.start : CrossAxisAlignment.center,
@@ -43,7 +47,7 @@ class PlanetPuzzleInfo extends StatelessWidget {
               ),
 
               // gap
-              isSmall ? const Gap(32.0) : const Gap(24.0),
+              const Spacer(),
 
               // description
               _FactWidget(
@@ -51,6 +55,9 @@ class PlanetPuzzleInfo extends StatelessWidget {
                 isLarge: isLarge,
                 isSmall: isSmall,
               ),
+
+              // gap
+              const Spacer(),
             ],
           ),
         );
@@ -72,21 +79,29 @@ class _FactWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.select((PlanetFactCubit cubit) => cubit.state);
-    return AppAnimatedWidget(
-      showOnComplete: true,
-      key: ValueKey(state.fact),
-      child: Text(
-        state.fact,
-        textAlign: isLarge ? TextAlign.start : TextAlign.center,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: isSmall
-              ? 16.0
-              : isLarge
-                  ? 24.0
-                  : 20.0,
-          letterSpacing: 1.5,
-          wordSpacing: 2.0,
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: () {
+          context.read<PlanetFactCubit>().newFact();
+        },
+        child: AppAnimatedWidget(
+          showOnComplete: true,
+          key: ValueKey(state.fact),
+          child: Text(
+            state.fact,
+            textAlign: isLarge ? TextAlign.start : TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: isSmall
+                  ? 16.0
+                  : isLarge
+                      ? 24.0
+                      : 20.0,
+              letterSpacing: 1.5,
+              wordSpacing: 2.0,
+            ),
+          ),
         ),
       ),
     );
