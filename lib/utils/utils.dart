@@ -291,7 +291,7 @@ abstract class Utils {
     return hslDark.toColor();
   }
 
-  static String get planetRotationAnimationName => 'revolution';
+  static String get planetRotationAnimationName => 'rotation';
 
   static String getPlanetImageFor(PlanetType type) {
     switch (type) {

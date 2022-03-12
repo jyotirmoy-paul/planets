@@ -16,6 +16,7 @@ const k5PuzzleDuration = Duration(minutes: 10);
 // durations
 const kMS50 = Duration(milliseconds: 50);
 const kMS100 = Duration(milliseconds: 100);
+const kMS150 = Duration(milliseconds: 150);
 const kMS200 = Duration(milliseconds: 200);
 const kMS250 = Duration(milliseconds: 250);
 const kMS300 = Duration(milliseconds: 300);

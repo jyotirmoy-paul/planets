@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../global/stylized_text.dart';
@@ -26,8 +28,10 @@ class PlanetPuzzleTile extends StatefulWidget {
 }
 
 class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
-  late Widget child;
+  final childVn = ValueNotifier<Widget?>(null);
   late ThemeBloc themeBloc;
+  late PuzzleInitCubit puzzleInitCubit;
+  Timer? _timer;
 
   double scale = 1.0;
 
@@ -52,21 +56,25 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
   }
 
   _buildChild() {
-    final puzzleInit = context.read<PuzzleInitCubit>();
     final theme = themeBloc.state.theme;
 
     if (context.read<PuzzleHelperCubit>().state.optimized) {
       // if we need to play optimized puzzle, just show images, instead of animations
-      child = Image.asset(theme.placeholderAssetForTile);
-      puzzleInit.onInit(widget.tile.value);
+      childVn.value = Image.asset(theme.placeholderAssetForTile);
+      puzzleInitCubit.onInit(widget.tile.value);
     } else {
       // show animations if we don't wanna play optimized puzzle
-      child = RiveAnimation.asset(
+      childVn.value = RiveAnimation.asset(
         theme.assetForTile,
-        controllers: [puzzleInit.getRiveControllerFor(widget.tile.value)],
-        onInit: (_) => puzzleInit.onInit(widget.tile.value),
+        controllers: [puzzleInitCubit.getRiveControllerFor(widget.tile.value)],
+        onInit: (_) => puzzleInitCubit.onInit(widget.tile.value),
         fit: BoxFit.cover,
-        placeHolder: Image.asset(theme.placeholderAssetForTile),
+        placeHolder: Image.asset(
+          theme.placeholderThumbnail,
+          fit: BoxFit.fill,
+          height: size,
+          width: size,
+        ),
       );
     }
   }
@@ -75,7 +83,17 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
   void initState() {
     super.initState();
     themeBloc = context.read<ThemeBloc>();
-    _buildChild();
+    puzzleInitCubit = context.read<PuzzleInitCubit>();
+    _timer = Timer(kMS400, () {
+      _buildChild();
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    puzzleInitCubit.getRiveControllerFor(widget.tile.value).dispose();
+    super.dispose();
   }
 
   @override
@@ -150,15 +168,20 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
                     padding: const EdgeInsets.all(5.0),
                     child: Stack(
                       children: [
-                        child,
+                        ValueListenableBuilder<Widget?>(
+                          valueListenable: childVn,
+                          builder: (_, child, __) =>
+                              child ?? const SizedBox.shrink(),
+                        ),
                         !isReady
                             ? SizedBox.square(
                                 key: const Key('puzzle_tile_image'),
                                 dimension: size,
-                                child: FittedBox(
-                                  child: Image.asset(
-                                    themeBloc.state.theme.placeholderThumbnail,
-                                  ),
+                                child: Image.asset(
+                                  themeBloc.state.theme.placeholderThumbnail,
+                                  height: size,
+                                  width: size,
+                                  fit: BoxFit.fill,
                                 ),
                               )
                             : const SizedBox.shrink(),
@@ -208,8 +231,8 @@ class _HelpWidget extends StatelessWidget {
         ((correctY + 1 / 2) * offset) - containerSize / 2,
       ),
       child: AnimatedSwitcher(
-        duration: kMS400,
-        reverseDuration: kMS400,
+        duration: kMS250,
+        reverseDuration: kMS250,
         switchInCurve: Curves.easeInOut,
         switchOutCurve: Curves.easeInOut,
         child: showHelp
