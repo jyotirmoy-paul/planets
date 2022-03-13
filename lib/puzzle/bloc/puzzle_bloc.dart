@@ -49,7 +49,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     ShakeDirection direction = ShakeDirection.diagonal;
 
     if (sign < 0) {
-      direction = ShakeDirection.oppositeDianogal;
+      direction = ShakeDirection.oppositeDiagonal;
     }
 
     AppLogger.log('_notifyShakeAnimation: shakeDirection: $direction');

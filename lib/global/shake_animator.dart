@@ -79,7 +79,7 @@ class _ShakeAnimatorState extends State<ShakeAnimator>
         final value = _offsetAmount * _animation.value;
         return Offset(value, value);
 
-      case ShakeDirection.oppositeDianogal:
+      case ShakeDirection.oppositeDiagonal:
         final value = _offsetAmount * _animation.value;
         return Offset(-value, value);
     }
@@ -102,7 +102,7 @@ enum ShakeDirection {
   horizontal,
   vertical,
   diagonal,
-  oppositeDianogal,
+  oppositeDiagonal,
 }
 
 class ShakeAnimatorController {
