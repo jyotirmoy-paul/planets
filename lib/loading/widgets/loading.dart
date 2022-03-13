@@ -66,7 +66,7 @@ class _LoadingState extends State<Loading> {
     animationOrder.clear();
     animationOrder.addAll(orderedList.reversed);
 
-    log('animationOrder: $animationOrder');
+    log('loading.dart: generateList :: Generated loading sequence');
 
     tiles.clear();
     tiles.addAll(
@@ -112,7 +112,7 @@ class _LoadingState extends State<Loading> {
     // restart animation
     await Future.delayed(_animationTick);
 
-    startAnimation();
+    if (mounted) startAnimation();
   }
 
   int whiteSpaceIndex = -1;
@@ -122,6 +122,7 @@ class _LoadingState extends State<Loading> {
 
   void startAnimation() async {
     for (final value in animationOrder) {
+      if (!mounted) return;
       if (value == -1) {
         // one half ends
         tiles.firstWhere((t) => t.value == value).doItAgain();
