@@ -139,7 +139,6 @@ class _FactWidget extends StatelessWidget {
                       ? 24.0
                       : 20.0,
               letterSpacing: 1.5,
-              wordSpacing: 2.0,
             ),
           ),
         ),
