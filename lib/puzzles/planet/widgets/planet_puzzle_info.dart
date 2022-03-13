@@ -91,6 +91,8 @@ class PlanetPuzzleInfo extends StatelessWidget {
                           StylizedText(
                             text: context.l10n.optimizedLabel,
                             textColor: Colors.redAccent,
+                            strokeWidth: 4.0,
+                            offset: 1.5,
                           ),
                         ],
                       ),

@@ -177,12 +177,13 @@ class _MainBody extends StatelessWidget {
             ),
             const Gap(4.0),
             Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 Text(
                   context.l10n.loadingScreenSubTitle1,
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.90),
-                    letterSpacing: 1.4,
+                    letterSpacing: 1.2,
                     fontSize: isLarge ? 20.0 : 15.0,
                   ),
                 ),
@@ -200,7 +201,7 @@ class _MainBody extends StatelessWidget {
                   context.l10n.loadingScreenSubTitle2,
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.90),
-                    letterSpacing: 1.4,
+                    letterSpacing: 1.2,
                     fontSize: isLarge ? 20.0 : 15.0,
                   ),
                 ),

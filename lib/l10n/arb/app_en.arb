@@ -176,7 +176,7 @@
         "description": "Planet name - mercury"
     },
     "mercuryFact1": "Mercury is the smallest planet in the Solar System, of course because someone (Pluto) is not considered a planet anymore.",
-    "mercuryFact2": "Imagine able to sleep once every 2 months, that's one mercurial day, almost equals to 59 earth days.",
+    "mercuryFact2": "Imagine able to sleep once every 2 months, that's one mercurial day, equals to almost 59 earth days.",
     "mercuryFact3": "Though the closest planet to Sun, Mercury's temperatures can drop to as low as -180 degrees Celsius / -290 degrees Fahrenheit.",
     "venus": "Venus",
     "@venus": {
@@ -189,7 +189,7 @@
     "@earth": {
         "description": "Planet name - earth"
     },
-    "earthFact1": "The planet you are born in? Isn't it?",
+    "earthFact1": "Our home",
     "earthFact2": "Our Earth's rotation is slowing. Precisely, slowing down 17 milliseconds, every 100 years. Not much huh?",
     "earthFact3": "Earth takes exactly 23 hours, 56 minutes and 4 seconds to complete one rotation around its axis. A 4 min gap every day will add up over months, and probably it's technically night right now, with daylight.",
     "mars": "Mars",
