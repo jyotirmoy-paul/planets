@@ -4,7 +4,7 @@ import '../models/planet.dart';
 import '../models/puzzle.dart';
 
 // theme
-const kFontFamily = 'Gameria';
+const kFontFamily = 'Freshman';
 
 const kUrl = 'https://fph-planets.web.app/#/';
 

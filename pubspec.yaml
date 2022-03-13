@@ -50,6 +50,6 @@ flutter:
     - assets/planets/venus/
 
   fonts:
-    - family: Gameria
+    - family: Freshman
       fonts:
-        - asset: assets/fonts/gameria.ttf
+        - asset: assets/fonts/freshman.ttf
