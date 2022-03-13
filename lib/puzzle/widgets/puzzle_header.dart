@@ -75,26 +75,30 @@ class PuzzleHeader extends StatelessWidget {
                   // show number button
                   BlocBuilder<PuzzleHelperCubit, PuzzleHelperState>(
                     builder: (_, state) {
-                      return StylizedButton(
-                        onPressed: () {
-                          context.read<PuzzleHelperCubit>().onHelpToggle();
-                        },
-                        child: StylizedContainer(
-                          padding: isSmall
-                              ? const EdgeInsets.all(8.0)
-                              : const EdgeInsets.symmetric(
-                                  horizontal: 18.0,
-                                  vertical: 12.0,
-                                ),
-                          color:
-                              state.showHelp ? Colors.blueAccent : Colors.grey,
-                          child: StylizedIcon(
-                            icon: state.showHelp
-                                ? Icons.visibility_rounded
-                                : Icons.visibility_off_rounded,
-                            size: 18.0,
-                            strokeWidth: 4.0,
-                            offset: 1.0,
+                      return Semantics(
+                        label: context.l10n.visibilityButtonSemanticLabel,
+                        child: StylizedButton(
+                          onPressed: () {
+                            context.read<PuzzleHelperCubit>().onHelpToggle();
+                          },
+                          child: StylizedContainer(
+                            padding: isSmall
+                                ? const EdgeInsets.all(8.0)
+                                : const EdgeInsets.symmetric(
+                                    horizontal: 18.0,
+                                    vertical: 12.0,
+                                  ),
+                            color: state.showHelp
+                                ? Colors.blueAccent
+                                : Colors.grey,
+                            child: StylizedIcon(
+                              icon: state.showHelp
+                                  ? Icons.visibility_rounded
+                                  : Icons.visibility_off_rounded,
+                              size: 18.0,
+                              strokeWidth: 4.0,
+                              offset: 1.0,
+                            ),
                           ),
                         ),
                       );

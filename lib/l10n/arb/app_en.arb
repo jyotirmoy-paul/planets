@@ -289,5 +289,31 @@
     "optimizedDescription": "You are running an optimized version of the puzzle, to avoid performance drop",
     "@optimizedDescription": {
         "description": "The description of why the optimized label is shown"
+    },
+    "levelSelectionLabel": "Choose puzzle level from easy, medium or hard",
+    "@levelSelectionLabel": {
+        "description": "Semantic label for level selection widget"
+    },
+    "puzzleDurationLabelText": "{hours} hours {minutes} minutes {seconds} seconds",
+    "@puzzleDurationLabelText": {
+        "description": "Semantic label for the puzzle timer",
+        "placeholders": {
+            "hours": {
+                "type": "String",
+                "example": "2"
+            },
+            "minutes": {
+                "type": "String",
+                "example": "6"
+            },
+            "seconds": {
+                "type": "String",
+                "example": "24"
+            }
+        }
+    },
+    "visibilityButtonSemanticLabel": "Show/hide puzzle help - tile numbers",
+    "@visibilityButtonSemanticLabel": {
+        "description": "Semantic label for the visibility helper button"
     }
 }
