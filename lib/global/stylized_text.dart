@@ -11,6 +11,7 @@ class StylizedText extends StatelessWidget {
   final double offset;
   final TextStyle? style;
   final TextAlign? textAlign;
+  final String? semanticsLabel;
 
   const StylizedText({
     Key? key,
@@ -22,6 +23,7 @@ class StylizedText extends StatelessWidget {
     this.offset = 2.0,
     this.style,
     this.textAlign,
+    this.semanticsLabel,
   }) : super(key: key);
 
   @override
@@ -39,6 +41,7 @@ class StylizedText extends StatelessWidget {
               fontSize: fontSize,
               letterSpacing: 1.2,
             ),
+        semanticsLabel: semanticsLabel,
       ),
     );
   }

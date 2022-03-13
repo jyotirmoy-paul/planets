@@ -66,11 +66,14 @@ class HeaderWidget extends StatelessWidget {
           // level selection
           BlocBuilder<LevelSelectionCubit, LevelSelectionState>(
             builder: (context, state) {
-              return _SegmentedControl(
-                groupValue: state.level,
-                children: _getLevelWidgets(context),
-                onValueChanged:
-                    context.read<LevelSelectionCubit>().onNewLevelSelected,
+              return Semantics(
+                label: context.l10n.levelSelectionLabel,
+                child: _SegmentedControl(
+                  groupValue: state.level,
+                  children: _getLevelWidgets(context),
+                  onValueChanged:
+                      context.read<LevelSelectionCubit>().onNewLevelSelected,
+                ),
               );
             },
           ),

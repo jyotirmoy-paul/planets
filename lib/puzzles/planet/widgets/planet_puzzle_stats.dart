@@ -60,6 +60,13 @@ class _PuzzleStats extends StatelessWidget {
     required this.puzzleState,
   }) : super(key: key);
 
+  String _getDurationLabel(Duration duration, BuildContext context) {
+    final hours = duration.inHours.toString();
+    final minutes = duration.inMinutes.remainder(60).toString();
+    final seconds = duration.inSeconds.remainder(60).toString();
+    return context.l10n.puzzleDurationLabelText(hours, minutes, seconds);
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = context.select((PlanetPuzzleBloc bloc) => bloc.state);
@@ -75,8 +82,10 @@ class _PuzzleStats extends StatelessWidget {
     if (!state.isCountdownRunning || state.secondsToBegin > 3) {
       // show: '00:00:00 | 0 Moves',
       final timeText = Utils.getFormattedElapsedSeconds(secondsElapsed);
-      textToShow =
-          context.l10n.puzzleStats(timeText, puzzleState.numberOfMoves);
+      textToShow = context.l10n.puzzleStats(
+        timeText,
+        puzzleState.numberOfMoves,
+      );
     } else {
       // show: ticking 3..2..1..Go!
       isTicking = true;
@@ -95,6 +104,10 @@ class _PuzzleStats extends StatelessWidget {
       text: textToShow,
       textColor: Colors.white,
       fontSize: isLarge ? 32.0 : 28.0,
+      semanticsLabel: _getDurationLabel(
+        Duration(seconds: secondsElapsed),
+        context,
+      ),
     );
 
     if (isTicking) {
@@ -103,7 +116,10 @@ class _PuzzleStats extends StatelessWidget {
         child: child,
       );
     } else {
-      return child;
+      return Semantics(
+        label: 'Moves: ${puzzleState.numberOfMoves}',
+        child: ExcludeSemantics(child: child),
+      );
     }
   }
 }
