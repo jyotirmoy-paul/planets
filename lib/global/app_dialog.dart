@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:planets/utils/constants.dart';
 
 import '../layout/layout.dart';
 import 'stylized_button.dart';
@@ -71,7 +74,7 @@ class AppDialog extends StatelessWidget {
   }
 }
 
-class _LargeDialogBody extends StatelessWidget {
+class _LargeDialogBody extends StatefulWidget {
   final double dialogWidth;
   final Widget child;
 
@@ -81,24 +84,45 @@ class _LargeDialogBody extends StatelessWidget {
     required this.dialogWidth,
   }) : super(key: key);
 
+  @override
+  State<_LargeDialogBody> createState() => _LargeDialogBodyState();
+}
+
+class _LargeDialogBodyState extends State<_LargeDialogBody> {
   final dialogSizeVn = ValueNotifier<Size?>(null);
+
   final dialogKey = GlobalKey();
+
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _timer = Timer(kMS50, () {
+        dialogSizeVn.value =
+            (dialogKey.currentContext?.findRenderObject() as RenderBox?)?.size;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      dialogSizeVn.value =
-          (dialogKey.currentContext?.findRenderObject() as RenderBox?)?.size;
-    });
-
     return Stack(
       alignment: Alignment.center,
       children: [
         // main body
         SizedBox(
           key: dialogKey,
-          width: dialogWidth,
-          child: child,
+          width: widget.dialogWidth,
+          child: widget.child,
         ),
 
         // close button
