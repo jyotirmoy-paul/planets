@@ -48,7 +48,7 @@ class PuzzleInitCubit extends Cubit<PuzzleInitState> {
       }
     });
 
-    emit(const PuzzleInitReady());
+    if (!isClosed) emit(const PuzzleInitReady());
   }
 
   void onInit(int tileKey) {

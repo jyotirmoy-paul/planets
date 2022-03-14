@@ -632,6 +632,7 @@ class PuzzleSolver {
 
   Future<int> _solve(List<SolverTile> steps) async {
     for (final step in steps) {
+      AppLogger.log('puzzle_solver :: _solve : taking steps');
       // if interupted, return
       if (_isInterupted) {
         // stopped due to interuption

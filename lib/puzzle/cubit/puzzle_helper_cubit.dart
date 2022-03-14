@@ -25,6 +25,12 @@ class PuzzleHelperCubit extends Cubit<PuzzleHelperState> {
     );
   }
 
+  @override
+  Future<void> close() {
+    _puzzleSolver.stop();
+    return super.close();
+  }
+
   void onNewGame() {
     _autoSolverSteps = 0;
   }
@@ -55,7 +61,7 @@ class PuzzleHelperCubit extends Cubit<PuzzleHelperState> {
     _puzzleSolver.puzzleBloc.onAutoSolvingStopped();
 
     // emit state
-    emit(state.copyWith(isAutoSolving: false));
+    if (!isClosed) emit(state.copyWith(isAutoSolving: false));
   }
 
   void onHelpToggle() {
