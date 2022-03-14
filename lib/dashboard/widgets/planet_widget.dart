@@ -81,7 +81,7 @@ class _CorePlanet extends StatelessWidget {
         context.read<PlanetSelectionCubit>().onPlanetSelected(planet);
       },
       child: Transform.rotate(
-        angle: math.pi / 10,
+        angle: planet.type == PlanetType.saturn ? 0 : math.pi / 10,
         child: Image.asset(Utils.getPlanetThumbFor(planet.type)),
       ),
     );
