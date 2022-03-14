@@ -78,7 +78,7 @@ class _LargeDialogBody extends StatefulWidget {
   final double dialogWidth;
   final Widget child;
 
-  _LargeDialogBody({
+  const _LargeDialogBody({
     Key? key,
     required this.child,
     required this.dialogWidth,
@@ -96,25 +96,15 @@ class _LargeDialogBodyState extends State<_LargeDialogBody> {
   Timer? _timer;
 
   @override
-  void initState() {
-    super.initState();
-
+  Widget build(BuildContext context) {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
+      if (_timer?.isActive == true) _timer?.cancel();
       _timer = Timer(kMS50, () {
         dialogSizeVn.value =
             (dialogKey.currentContext?.findRenderObject() as RenderBox?)?.size;
       });
     });
-  }
 
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.center,
       children: [

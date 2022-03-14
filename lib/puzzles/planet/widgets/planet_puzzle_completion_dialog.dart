@@ -27,7 +27,7 @@ class PlanetPuzzleCompletionDialog extends StatelessWidget {
       key: globalKey,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.80),
+          color: Colors.black,
           borderRadius: BorderRadius.circular(12.0),
           border: Border.all(
             width: 2.0,

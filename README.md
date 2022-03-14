@@ -1,7 +1,7 @@
 <img src="https://github.com/jyotirmoy-paul/planets/blob/main/assets/images/planets.png" width=180/>
 
 # Planets
-A slide puzzle that lets you play with the planets of our solar system.
+Can you put together the planets of our solar system? An interplanetary slide puzzle, powered by Flutter.
 
 ### A Flutter Puzzle Hack submission
 
