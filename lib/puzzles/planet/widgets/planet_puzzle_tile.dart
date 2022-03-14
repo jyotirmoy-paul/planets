@@ -84,7 +84,7 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
     super.initState();
     themeBloc = context.read<ThemeBloc>();
     puzzleInitCubit = context.read<PuzzleInitCubit>();
-    _timer = Timer(kMS500, () {
+    _timer = Timer(kMS800, () {
       _buildChild();
     });
   }

@@ -10,8 +10,8 @@ const kUrl = 'https://fph-planets.web.app/#/';
 
 // puzzle solving durations expected for perfect score
 const k3PuzzleDuration = Duration(minutes: 2);
-const k4PuzzleDuration = Duration(minutes: 6);
-const k5PuzzleDuration = Duration(minutes: 10);
+const k4PuzzleDuration = Duration(minutes: 5);
+const k5PuzzleDuration = Duration(minutes: 8);
 
 // durations
 const kMS50 = Duration(milliseconds: 50);
