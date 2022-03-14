@@ -1,16 +1,68 @@
-# planets
+<img src="https://github.com/jyotirmoy-paul/planets/blob/main/assets/images/planets.png" width=180/>
 
-A new Flutter project.
+# Planets
+A slide puzzle that lets you play with the planets of our solar system.
 
-## Getting Started
+### A Flutter puzzle hack submission
 
-This project is a starting point for a Flutter application.
+## Links
+* Devpost [submission](https://devpost.com/software/planets-m6f8nx)
+* Planets [web app](https://fph-planets.web.app/#/)
+* Planets [android app](https://github.com/jyotirmoy-paul/planets/blob/main/apps/Planets.apk)
+* Youtube [project video](https://www.youtube.com/watch?v=fZcdObp-4co)
 
-A few resources to get you started if this is your first Flutter project:
+## Screenshots
+<img src="https://github.com/jyotirmoy-paul/planets/blob/main/media/Web_2.jpg"/>
+<img src="https://github.com/jyotirmoy-paul/planets/blob/main/media/iPhone_and_android.jpg"/>
+<img src="https://github.com/jyotirmoy-paul/planets/blob/main/media/ipad.jpg"/>
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Inspiration
+"Planets" was inspired by the idea of being able to play a slide puzzle of animations instead of texts, numbers, or images.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Highlights:
+* Slide puzzle with an animation
+* Auto solver
+* 3 different puzzle levels
+* Made for all screens
+* Available for web, ios, android & windows
+
+## What's next for Planets
+Going forward, I have the following points that I would love to add in "Planets"
+* Adding an efficient auto solver, using a heuristic search algorithm - as the current solver algorithm, though easy to understand, is too slow.
+* Improve the image and animation assets, namely the planets, the landscape images, and the overall theme of the app.
+* Support for extreme(6x6) & pro(7x7) puzzle levels
+* Add support for a different language.
+* Most importantly, discovering a different way to slice up the puzzle pieces to improve performance.
+
+##  Build With
+* [Flutter](https://flutter.dev)
+* [Rive](https://rive.app)
+
+
+## License
+```
+MIT License
+
+Copyright (c) 2022 Jyotirmoy Paul
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+## Contributing to Puzzle
+All pull requests are welcome
