@@ -38,6 +38,8 @@ class PuzzleHelperCubit extends Cubit<PuzzleHelperState> {
     // start auto solver
     _start();
 
+    _puzzleSolver.puzzleBloc.onAutoSolvingStarted();
+
     // emit state
     emit(state.copyWith(isAutoSolving: true));
   }
@@ -50,6 +52,8 @@ class PuzzleHelperCubit extends Cubit<PuzzleHelperState> {
   }
 
   void onAutoSolvingEnded() {
+    _puzzleSolver.puzzleBloc.onAutoSolvingStopped();
+
     // emit state
     emit(state.copyWith(isAutoSolving: false));
   }

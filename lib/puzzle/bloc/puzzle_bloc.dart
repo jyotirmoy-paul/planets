@@ -22,6 +22,16 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
 
   final Map<int, ShakeAnimatorController> _shakeControllers = {};
 
+  bool _isAutoSolving = false;
+
+  void onAutoSolvingStarted() {
+    _isAutoSolving = true;
+  }
+
+  void onAutoSolvingStopped() {
+    _isAutoSolving = false;
+  }
+
   PuzzleBloc(this._size, this._audioPlayerCubit, {this.random})
       : super(const PuzzleState()) {
     on<PuzzleInitialized>(_onPuzzleInitialized);
@@ -80,7 +90,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
 
     // play audio if tile is movable
     // do not play the general tile tap audio if auto solving
-    if (isTileMovable) {
+    if (isTileMovable && !_isAutoSolving) {
       _audioPlayerCubit.tileTappedAudio(tappedTile.value);
     }
 
