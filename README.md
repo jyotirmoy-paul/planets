@@ -3,12 +3,12 @@
 # Planets
 A slide puzzle that lets you play with the planets of our solar system.
 
-### A Flutter puzzle hack submission
+### A Flutter Puzzle Hack submission
 
 ## Links
 * Devpost [submission](https://devpost.com/software/planets-m6f8nx)
 * Planets [web app](https://fph-planets.web.app/#/)
-* Planets [android app](https://github.com/jyotirmoy-paul/planets/blob/main/apps/Planets.apk)
+* Planets [android app](https://github.com/jyotirmoy-paul/planets/releases/tag/v1.3.0)
 * Youtube [project video](https://www.youtube.com/watch?v=fZcdObp-4co)
 
 ## Screenshots
