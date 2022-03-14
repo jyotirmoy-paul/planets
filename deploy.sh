@@ -6,7 +6,7 @@ flutterr clean
 flutterr pub get
 
 # build the web app
-flutterr build web
+flutterr build web --web-renderer canvaskit
 
 # deploy
 firebase deploy

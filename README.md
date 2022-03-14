@@ -5,6 +5,10 @@ A slide puzzle that lets you play with the planets of our solar system.
 
 ### A Flutter Puzzle Hack submission
 
+## Build the app
+To get the best experience in web, please always use `canvaskit` while building the app
+
+`flutter build web --web-renderer canvaskit`
 ## Links
 * Devpost [submission](https://devpost.com/software/planets-m6f8nx)
 * Planets [web app](https://fph-planets.web.app/#/)

@@ -2,7 +2,7 @@
 alias flutterr="/Users/jyotirmoy.paul/Documents/tools/flutter_latest/bin/flutter"
 
 # build the web app
-flutterr build web
+flutterr build web --web-renderer canvaskit
 
 # deploy
 cd build/web
