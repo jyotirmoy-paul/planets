@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:planets/global/stylized_icon.dart';
 import '../../l10n/l10n.dart';
 import '../../resource/app_assets.dart';
 import '../../utils/constants.dart';
@@ -54,18 +55,71 @@ class LoadingPage extends StatelessWidget {
         return Background(
           child: Padding(
             padding: const EdgeInsets.all(12.0),
-            child: ResponsiveLayoutBuilder(
-              small: (_, __) => _LoadingPageSmall(
-                isInitialized: isInitialized,
-                isReady: isReady,
-                onStartPressed: () => _move(context),
-              ),
-              medium: (_, Widget? child) => child!,
-              large: (_, Widget? child) => child!,
-              child: (_) => _LoadingPageLarge(
-                isInitialized: isInitialized,
-                isReady: isReady,
-                onStartPressed: () => _move(context),
+            child: Stack(
+              children: [
+                // project github link
+                const _ProjectGithubLink(),
+
+                // body
+                ResponsiveLayoutBuilder(
+                  small: (_, __) => _LoadingPageSmall(
+                    isInitialized: isInitialized,
+                    isReady: isReady,
+                    onStartPressed: () => _move(context),
+                  ),
+                  medium: (_, Widget? child) => child!,
+                  large: (_, Widget? child) => child!,
+                  child: (_) => _LoadingPageLarge(
+                    isInitialized: isInitialized,
+                    isReady: isReady,
+                    onStartPressed: () => _move(context),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _ProjectGithubLink extends StatelessWidget {
+  const _ProjectGithubLink({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ResponsiveLayoutBuilder(
+      small: (_, child) => child!,
+      medium: (_, child) => child!,
+      large: (_, child) => child!,
+      child: (ResponsiveLayoutSize layoutSize) {
+        final isSmallScreen = layoutSize == ResponsiveLayoutSize.small;
+
+        return Align(
+          alignment: Alignment.bottomCenter,
+          child: StylizedButton(
+            onPressed: Utils.onGithubTap,
+            child: StylizedContainer(
+              color: Colors.blueGrey,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  StylizedIcon(
+                    size: isSmallScreen ? 28.0 : 32.0,
+                    icon: FontAwesomeIcons.github,
+                  ),
+                  Gap(isSmallScreen ? 18.0 : 24.0),
+                  StylizedText(
+                    strokeWidth: isSmallScreen ? 5.0 : 6.0,
+                    text: 'View on Github'.toUpperCase(),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: isSmallScreen ? 16.0 : 20.0,
+                      letterSpacing: 2.0,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

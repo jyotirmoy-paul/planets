@@ -7,6 +7,7 @@ import '../models/puzzle.dart';
 const kFontFamily = 'Freshman';
 
 const kUrl = 'https://fph-planets.web.app/#/';
+const kGithubUrl = 'https://github.com/jyotirmoy-paul/planets';
 
 // puzzle solving durations expected for perfect score
 const k3PuzzleDuration = Duration(minutes: 2);

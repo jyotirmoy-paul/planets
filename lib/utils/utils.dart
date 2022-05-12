@@ -191,6 +191,10 @@ abstract class Utils {
     }
   }
 
+  static void onGithubTap() {
+    openLink(kGithubUrl);
+  }
+
   static void onFacebookTap(final String planetName, BuildContext context) {
     final shareText = sharableText(planetName, context);
     final encodedShareText = Uri.encodeComponent(shareText);
