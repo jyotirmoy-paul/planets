@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:planets/utils/quick_visit_counter.dart';
 
 import '../../global/background/background.dart';
 import '../../global/controls/audio_control.dart';
@@ -72,6 +73,7 @@ class _DashboardViewState extends State<_DashboardView>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     context.read<PlanetOrbitalAnimationCubit>().setTickerProvider(this);
+    QuickVisitCounter.countDashboardPageOpened();
   }
 
   @override

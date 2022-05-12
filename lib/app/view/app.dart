@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:planets/utils/quick_visit_counter.dart';
 import '../../utils/constants.dart';
 import '../bloc/audio_control_bloc.dart';
 import '../cubit/audio_player_cubit.dart';
@@ -24,6 +25,7 @@ class _AppState extends State<App> {
       statusBarColor: Colors.white,
       statusBarBrightness: Brightness.dark,
     ));
+    QuickVisitCounter.countWebPageOpened();
     super.initState();
   }
 

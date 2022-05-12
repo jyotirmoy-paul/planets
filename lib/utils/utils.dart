@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+import 'package:planets/utils/quick_visit_counter.dart';
 import 'package:universal_html/html.dart' as html;
 
 import 'package:flutter/foundation.dart';
@@ -192,6 +193,7 @@ abstract class Utils {
   }
 
   static void onGithubTap() {
+    QuickVisitCounter.viewOnGithubClicked();
     openLink(kGithubUrl);
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:planets/utils/quick_visit_counter.dart';
 
 import '../../l10n/l10n.dart';
 import '../../layout/utils/responsive_layout_builder.dart';
@@ -25,6 +26,7 @@ class PuzzleControl extends StatelessWidget {
 
   void _onAutoSolve(BuildContext context, PuzzleAutoSolveState autoSolveState) {
     if (autoSolveState == PuzzleAutoSolveState.start) {
+      QuickVisitCounter.countAutoSolverUsed();
       context.read<PuzzleHelperCubit>().startAutoSolver();
     } else {
       context.read<PuzzleHelperCubit>().stopAutoSolver();
