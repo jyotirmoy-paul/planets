@@ -91,7 +91,7 @@ class _LoadingState extends State<Loading> {
     generateList(n);
     rebuild();
 
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       startAnimation();
     });
   }

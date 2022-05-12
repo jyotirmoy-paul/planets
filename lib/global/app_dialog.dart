@@ -97,7 +97,7 @@ class _LargeDialogBodyState extends State<_LargeDialogBody> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_timer?.isActive == true) _timer?.cancel();
       _timer = Timer(kMS50, () {
         dialogSizeVn.value =

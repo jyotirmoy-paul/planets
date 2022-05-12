@@ -36,14 +36,14 @@ const kFOBottomRight = FractionalOffset(0.95, 0.98);
 const kFOBottomCenter = FractionalOffset(0.50, 0.98);
 
 // background
-const kStarsDrawingCanvasSize = Size(1800, 1000);
 const kBaseStarSize = 12.0;
 const kMinStarPercentage = 0.20;
-const kNoStars = 40;
+const kNoStars = 100;
 const kBackgroundGradient = [
   Color(0xff0a0826),
   Color(0xff251f45),
   Color(0xff242021),
+  Color(0xff251f58),
 ];
 
 // dashboard

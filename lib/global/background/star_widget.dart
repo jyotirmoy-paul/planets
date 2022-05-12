@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/star.dart';
+import '../../utils/constants.dart';
 
 class StarWidget extends StatelessWidget {
   final Star star;
@@ -11,7 +12,8 @@ class StarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
+    return AnimatedPositioned(
+      duration: kMS500,
       left: star.pos.x.toDouble(),
       top: star.pos.y.toDouble(),
       width: star.size,

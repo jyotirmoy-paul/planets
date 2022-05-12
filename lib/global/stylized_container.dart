@@ -48,7 +48,7 @@ class _StylizedContainerState extends State<StylizedContainer> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback(_buildReflectionWidget);
+    WidgetsBinding.instance.addPostFrameCallback(_buildReflectionWidget);
   }
 
   @override
