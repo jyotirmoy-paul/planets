@@ -315,5 +315,9 @@
     "visibilityButtonSemanticLabel": "Show/hide puzzle help - tile numbers",
     "@visibilityButtonSemanticLabel": {
         "description": "Semantic label for the visibility helper button"
+    },
+    "viewOnGithub": "View on Github",
+    "@viewOnGithub": {
+        "description": "View on github button text"
     }
 }

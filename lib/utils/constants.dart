@@ -38,9 +38,9 @@ const kFOBottomRight = FractionalOffset(0.95, 0.98);
 const kFOBottomCenter = FractionalOffset(0.50, 0.98);
 
 // background
-const kBaseStarSize = 12.0;
+const kBaseStarSize = 10.0;
 const kMinStarPercentage = 0.20;
-const kNoStars = 100;
+const kNoStars = 40;
 const kBackgroundGradient = [
   Color(0xff0a0826),
   Color(0xff251f45),

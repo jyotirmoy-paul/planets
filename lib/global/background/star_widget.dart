@@ -22,7 +22,7 @@ class StarWidget extends StatelessWidget {
         angle: star.rotation,
         child: Icon(
           Icons.star_rounded,
-          color: Colors.white,
+          color: const Color(0xB3ffffff),
           size: star.size,
         ),
       ),

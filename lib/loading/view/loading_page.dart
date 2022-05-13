@@ -90,12 +90,28 @@ class _ProjectGithubLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayoutBuilder(
-      small: (_, child) => child!,
+      small: (_, child) => Align(
+        alignment: Alignment.bottomLeft,
+        child: StylizedButton(
+          onPressed: Utils.onGithubTap,
+          child: const SizedBox(
+            width: 70.0,
+            child: FittedBox(
+              child: StylizedContainer(
+                color: Colors.blueGrey,
+                child: StylizedIcon(
+                  strokeWidth: 4.0,
+                  offset: 1.5,
+                  icon: FontAwesomeIcons.github,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
       medium: (_, child) => child!,
       large: (_, child) => child!,
       child: (ResponsiveLayoutSize layoutSize) {
-        final isSmallScreen = layoutSize == ResponsiveLayoutSize.small;
-
         return Align(
           alignment: Alignment.bottomCenter,
           child: StylizedButton(
@@ -105,17 +121,17 @@ class _ProjectGithubLink extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  StylizedIcon(
-                    size: isSmallScreen ? 28.0 : 32.0,
+                  const StylizedIcon(
+                    size: 32.0,
                     icon: FontAwesomeIcons.github,
                   ),
-                  Gap(isSmallScreen ? 18.0 : 24.0),
+                  const Gap(24.0),
                   StylizedText(
-                    strokeWidth: isSmallScreen ? 5.0 : 6.0,
-                    text: 'View on Github'.toUpperCase(),
-                    style: TextStyle(
+                    strokeWidth: 6.0,
+                    text: context.l10n.viewOnGithub,
+                    style: const TextStyle(
                       color: Colors.white,
-                      fontSize: isSmallScreen ? 16.0 : 20.0,
+                      fontSize: 20.0,
                       letterSpacing: 2.0,
                     ),
                   ),
