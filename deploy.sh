@@ -1,12 +1,9 @@
-# flutterr - is the alias to the latest version of flutter
-alias flutterr="/Users/jyotirmoy.paul/Documents/tools/flutter_latest/bin/flutter"
-
 # clean and get dependencies
-flutterr clean
-flutterr pub get
+flutter clean
+flutter pub get
 
 # build the web app
-flutterr build web --web-renderer canvaskit
+flutter build web --web-renderer canvaskit
 
 # deploy
 firebase deploy
