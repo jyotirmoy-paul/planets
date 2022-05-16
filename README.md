@@ -1,9 +1,9 @@
 <img src="https://github.com/jyotirmoy-paul/planets/blob/main/assets/images/planets.png" width=180/>
 
-# Planets
+# Planets | [Best Execution Winner](https://medium.com/flutter/announcing-the-flutter-puzzle-hack-winners-ae55f45c6363) 🏆
 Can you put together the planets of our solar system? An interplanetary slide puzzle, powered by Flutter.
 
-### A Flutter Puzzle Hack submission
+### My Flutter Puzzle Hack submission
 
 ## Build the app
 To get the best experience in web, please always use `canvaskit` while building the app
