@@ -14,8 +14,8 @@ jobs:
       - uses: subosito/flutter-action@v1
       - name: 'Get all listed dependencies'
         run: flutter pub get
-      - name: 'Build the web app'
-        run: flutter build web
+      - name: 'Build the web app with canvaskit web renderer'
+        run: flutter build web --web-renderer canvaskit
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
