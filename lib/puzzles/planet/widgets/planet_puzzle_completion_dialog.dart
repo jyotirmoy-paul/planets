@@ -104,14 +104,14 @@ class _PlanetPuzzleCompletionDialogSmall extends StatelessWidget {
               FittedBox(
                 fit: BoxFit.fitWidth,
                 child: StylizedText(
-                  text: context.l10n.congracts,
+                  text: context.l10n.congrats,
                   strokeWidth: 4.0,
                   offset: 1.0,
                 ),
               ),
 
               Text(
-                context.l10n.congractsSubTitle,
+                context.l10n.congratsSubTitle,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
@@ -381,12 +381,12 @@ class _PlanetPuzzleCompletionDialogLarge extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         StylizedText(
-                          text: context.l10n.congracts,
+                          text: context.l10n.congrats,
                           fontSize: 48.0,
                         ),
 
                         Text(
-                          context.l10n.congractsSubTitle,
+                          context.l10n.congratsSubTitle,
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 14.0,

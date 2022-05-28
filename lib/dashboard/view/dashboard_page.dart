@@ -96,10 +96,11 @@ class _DashboardViewState extends State<_DashboardView>
     final state = context.select((DashboardBloc bloc) => bloc.state);
 
     if (state is DashboardLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return const SizedBox.shrink();
     }
 
     return DashboardKeyboardHandler(
+      orbits: (state as DashboardReady).orbits,
       child: Background(
         child: SizedBox.fromSize(
           size: size,
@@ -111,8 +112,7 @@ class _DashboardViewState extends State<_DashboardView>
                 medium: (_, Widget? child) =>
                     _DashboardPageMedium(child: child!),
                 large: (_, Widget? child) => child!,
-                child: (_) =>
-                    _DashboardPageLarge(state: state as DashboardReady),
+                child: (_) => _DashboardPageLarge(state: state),
               ),
 
               // header

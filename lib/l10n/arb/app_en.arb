@@ -75,6 +75,10 @@
     "@dashboardShortcutInfo": {
         "description": "Show shortcut dialog info"
     },
+    "dashboardShortcutChooseAPlanet": "Choose a Planet",
+    "@dashboardShortcutInfo": {
+        "description": "Choose a planet to begin the puzzle"
+    },
     "dashboardShortcutClose": "Close dialog",
     "@dashboardShortcutClose": {
         "description": "Close dialog shortcut info"
@@ -234,12 +238,12 @@
     "plutoFact1": "I understand Pluto is not a planet anymore, but I felt sad excluding it.",
     "plutoFact2": "Pluto was demoted to dwarf planet status in 2006 - as its merely the brightest member of the Kuiper Belt, it’s simply not unique (unlike other planets)",
     "plutoFact3": "Being one of the farthest member from Sun, Pluto can actually get closer to the Sun than Neptune. It was last inside Neptune’s orbit between 1979 and 1999.",
-    "congracts": "Congracts!",
-    "@congracts": {
-        "description": "Puzzle completion congracts text"
+    "congrats": "Congrats!",
+    "@congrats": {
+        "description": "Puzzle completion congrats text"
     },
-    "congractsSubTitle": "You're an intergalactic champ!",
-    "@congractsSubTitle": {
+    "congratsSubTitle": "You're an intergalactic champ!",
+    "@congratsSubTitle": {
         "description": "Puzzle completion sub title"
     },
     "successMessage": "You have successfully put together our {planetName} {extraText}",

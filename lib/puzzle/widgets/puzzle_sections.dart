@@ -6,8 +6,15 @@ import 'puzzle_board.dart';
 
 import '../../theme/bloc/theme_bloc.dart';
 
-class PuzzleSections extends StatelessWidget {
+class PuzzleSections extends StatefulWidget {
   const PuzzleSections({Key? key}) : super(key: key);
+
+  @override
+  State<PuzzleSections> createState() => _PuzzleSectionsState();
+}
+
+class _PuzzleSectionsState extends State<PuzzleSections> {
+  final _puzzleBoardKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +66,7 @@ class PuzzleSections extends StatelessWidget {
           Expanded(child: child!),
         ],
       ),
-      child: (_) => const PuzzleBoard(key: Key('puzzle_board')),
+      child: (_) => PuzzleBoard(key: _puzzleBoardKey),
     );
   }
 }

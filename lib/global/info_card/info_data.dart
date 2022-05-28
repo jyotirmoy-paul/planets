@@ -37,6 +37,7 @@ abstract class AppShortcutData {
         /// [LeftArrow] key -> decrease difficulty level
         /// [RightArrow] key -> increase difficulty level
         /// [i] key -> show info card
+        /// [1 - 9] num key -> choose a planet (Mercury - Pluto)
         /// [esc] key -> close dialog
         InfoData(
           title: context.l10n.dashboardShortcuts,
@@ -59,6 +60,10 @@ abstract class AppShortcutData {
             InfoPair(
               titleText: 'i',
               description: context.l10n.dashboardShortcutInfo,
+            ),
+            InfoPair(
+              titleText: '1 - 9',
+              description: context.l10n.dashboardShortcutChooseAPlanet,
             ),
             InfoPair(
               titleText: 'ESC',

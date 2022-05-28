@@ -9,11 +9,17 @@ import 'info_data.dart';
 import 'info_pair.dart';
 
 abstract class InfoCard {
-  static Future<void> show({required BuildContext context}) {
-    return showAppDialog(
+  static bool _isVisible = false;
+  static Future<void> show({required BuildContext context}) async {
+    if (_isVisible) return;
+    _isVisible = true;
+
+    await showAppDialog(
       context: context,
       child: _InfoCard(AppShortcutData.data(context)),
     );
+
+    _isVisible = false;
   }
 }
 
