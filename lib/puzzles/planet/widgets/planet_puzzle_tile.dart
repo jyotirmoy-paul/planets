@@ -60,20 +60,28 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
 
     if (context.read<PuzzleHelperCubit>().state.optimized) {
       // if we need to play optimized puzzle, just show images, instead of animations
-      childVn.value = Image.asset(theme.placeholderAssetForTile);
+      childVn.value = _KeyWidget(
+        key: puzzleInitCubit.getGlobalKey(widget.tile.value),
+        child: Image.asset(theme.placeholderAssetForTile),
+      );
       puzzleInitCubit.onInit(widget.tile.value);
     } else {
       // show animations if we don't wanna play optimized puzzle
-      childVn.value = RiveAnimation.asset(
-        theme.assetForTile,
-        controllers: [puzzleInitCubit.getRiveControllerFor(widget.tile.value)],
-        onInit: (_) => puzzleInitCubit.onInit(widget.tile.value),
-        fit: BoxFit.cover,
-        placeHolder: Image.asset(
-          theme.placeholderThumbnail,
-          fit: BoxFit.fill,
-          height: size,
-          width: size,
+      childVn.value = _KeyWidget(
+        key: puzzleInitCubit.getGlobalKey(widget.tile.value),
+        child: RiveAnimation.asset(
+          theme.assetForTile,
+          controllers: [
+            puzzleInitCubit.getRiveControllerFor(widget.tile.value)
+          ],
+          onInit: (_) => puzzleInitCubit.onInit(widget.tile.value),
+          fit: BoxFit.cover,
+          placeHolder: Image.asset(
+            theme.placeholderThumbnail,
+            fit: BoxFit.fill,
+            height: size,
+            width: size,
+          ),
         ),
       );
     }
@@ -84,9 +92,7 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
     super.initState();
     themeBloc = context.read<ThemeBloc>();
     puzzleInitCubit = context.read<PuzzleInitCubit>();
-    _timer = Timer(kMS800, () {
-      _buildChild();
-    });
+    _timer = Timer(kMS800, _buildChild);
   }
 
   @override
@@ -126,6 +132,8 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
 
     final correctX = widget.tile.correctPosition.x;
     final correctY = widget.tile.correctPosition.y;
+
+    final isInCorrectPosition = (x == correctX) && (y == correctY);
 
     return AnimatedPositioned(
       duration: movementDuration,
@@ -170,8 +178,15 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
                       children: [
                         ValueListenableBuilder<Widget?>(
                           valueListenable: childVn,
-                          builder: (_, child, __) =>
-                              child ?? const SizedBox.shrink(),
+                          builder: (_, child, __) {
+                            if (child == null) return const SizedBox.shrink();
+                            return isInCorrectPosition
+                                ? child
+                                : ColorFiltered(
+                                    colorFilter: kMagicColorFilter,
+                                    child: child,
+                                  );
+                          },
                         ),
                         !isReady
                             ? SizedBox.square(
@@ -262,7 +277,7 @@ class _PuzzlePieceClipper extends CustomClipper<Path> {
 
   @override
   Path getClip(Size size) {
-    return _getPiecePath(size, tile);
+    return Utils.getPuzzlePath(size, tile.puzzleSize, tile.correctPosition);
   }
 
   @override
@@ -271,6 +286,16 @@ class _PuzzlePieceClipper extends CustomClipper<Path> {
   }
 }
 
-Path _getPiecePath(Size size, Tile tile) {
-  return Utils.getPuzzlePath(size, tile.puzzleSize, tile.correctPosition);
+class _KeyWidget extends StatelessWidget {
+  final Widget child;
+
+  const _KeyWidget({
+    Key? key,
+    required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return child;
+  }
 }
