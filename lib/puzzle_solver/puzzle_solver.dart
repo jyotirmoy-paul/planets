@@ -664,7 +664,7 @@ class PuzzleSolver {
 
   /// starts the auto solver, and returns the number of steps taken by the auto solver
   /// This method completes either when the puzzle is solved, or when stop is invoked
-  Future<int> start() {
+  Future<int> start() async {
     AppLogger.log('PuzzleSolver: start()');
     // take a snapshot of the current tiles arrangement
     _tiles.clear();
@@ -677,6 +677,8 @@ class PuzzleSolver {
 
     // determine all the steps to solve the puzzle
     final steps = _determineSteps();
+    if (steps.isEmpty) return 0;
+
     _lastStep = steps.removeLast();
     AppLogger.log('PuzzleSolver: start: steps.length: ${steps.length}');
 

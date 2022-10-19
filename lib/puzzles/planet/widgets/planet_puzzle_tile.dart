@@ -183,7 +183,7 @@ class _PlanetPuzzleTileState extends State<PlanetPuzzleTile> {
                             return isInCorrectPosition
                                 ? child
                                 : ColorFiltered(
-                                    colorFilter: kMagicColorFilter,
+                                    colorFilter: kGreyscaleColorFilter,
                                     child: child,
                                   );
                           },

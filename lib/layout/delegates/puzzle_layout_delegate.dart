@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:planets/puzzle/puzzle.dart';
 
 import '../../models/tile.dart';
 import '../../theme/themes/puzzle_theme.dart';
@@ -13,7 +14,7 @@ abstract class PuzzleLayoutDelegate extends Equatable {
 
   Widget controlBuilder();
 
-  Widget backgroundBuilder(PuzzleTheme theme);
+  Widget backgroundBuilder(PuzzleTheme theme, PuzzleState puzzleState);
 
   Widget boardBuilder(int size, List<Widget> tiles);
 

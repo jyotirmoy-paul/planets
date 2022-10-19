@@ -88,7 +88,15 @@ class _PuzzleView extends StatelessWidget {
           return Stack(
             children: [
               // background
-              theme.puzzleLayoutDelegate.backgroundBuilder(theme),
+              BlocBuilder<PuzzleBloc, PuzzleState>(
+                bloc: context.read<PuzzleBloc>(),
+                builder: (_, puzzleState) {
+                  return theme.puzzleLayoutDelegate.backgroundBuilder(
+                    theme,
+                    puzzleState,
+                  );
+                },
+              ),
 
               // main body
               SingleChildScrollView(

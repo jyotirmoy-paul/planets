@@ -27,6 +27,7 @@ const kMS400 = Duration(milliseconds: 400);
 const kMS500 = Duration(milliseconds: 500);
 const kMS800 = Duration(milliseconds: 800);
 const kS1 = Duration(seconds: 1);
+const kS5 = Duration(seconds: 5);
 const kS20 = Duration(seconds: 20);
 
 // fractional offset
@@ -125,7 +126,7 @@ const Map<PlanetType, double> kPausedPosition = {
 
 const kMinSunSize = 350.0;
 
-const kMagicColorFilter = ColorFilter.matrix(
+const kGreyscaleColorFilter = ColorFilter.matrix(
   <double>[
     0.2126,
     0.7152,
