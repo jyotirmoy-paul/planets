@@ -27,7 +27,7 @@ const kMS400 = Duration(milliseconds: 400);
 const kMS500 = Duration(milliseconds: 500);
 const kMS800 = Duration(milliseconds: 800);
 const kS1 = Duration(seconds: 1);
-const kS5 = Duration(seconds: 5);
+const kS4 = Duration(seconds: 4);
 const kS20 = Duration(seconds: 20);
 
 // fractional offset

@@ -1,0 +1,29 @@
+name: planets-puzzle
+version: 1.3.6
+summary: A Slide Puzzle Game
+description: Can you put together the planets of our solar system? An interplanetary slide puzzle.
+
+confinement: strict
+base: core18
+grade: stable
+
+slots:
+  dbus-planets:
+    interface: dbus
+    bus: session
+    name: mr.paul.planets
+    
+apps:
+  planets:
+    command: planets
+    extensions: [flutter-stable]
+    plugs:
+    - network
+    slots:
+      - dbus-planets
+
+parts:
+  planets:
+    source: .
+    plugin: flutter
+    flutter-target: lib/main.dart

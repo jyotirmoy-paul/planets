@@ -55,7 +55,7 @@ class PlanetPuzzleLayoutDelegate extends PuzzleLayoutDelegate {
         /// we hide the first 30% of the following widget
         ClipRect(
           child: AnimatedAlign(
-            duration: percentageSolved > 0.85 ? kMS800 : kS5,
+            duration: percentageSolved > 0.85 ? kMS800 : kS4,
             alignment: Alignment.centerLeft,
             widthFactor: percentageSolved,
             child: landscapeWidget,

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Planets
+Comment=Interplanetary Slide Puzzle
+Exec=planets 
+Icon=${SNAP}/meta/gui/planets.png
+Terminal=false
+Type=Application
+Categories=Game;
