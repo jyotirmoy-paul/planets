@@ -5,24 +5,24 @@ name: Deploy to stores on merge
       - release
 
 jobs:
-  deploy_on_web:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1
-      - name: 'Get all listed dependencies'
-        run: flutter pub get
-      - name: 'Build the web app with canvaskit web renderer'
-        run: flutter build web --web-renderer canvaskit
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FPH_PLANETS }}'
-          channelId: live
-          projectId: fph-planets
+  # deploy_on_web:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: subosito/flutter-action@v1
+  #     - name: 'Get all listed dependencies'
+  #       run: flutter pub get
+  #     - name: 'Build the web app with canvaskit web renderer'
+  #       run: flutter build web --web-renderer canvaskit
+  #     - uses: FirebaseExtended/action-hosting-deploy@v0
+  #       with:
+  #         repoToken: '${{ secrets.GITHUB_TOKEN }}'
+  #         firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FPH_PLANETS }}'
+  #         channelId: live
+  #         projectId: fph-planets
   
   deploy_on_snapcraft:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: snapcore/action-build@v1
