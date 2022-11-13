@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Planets
 Comment=Interplanetary Slide Puzzle
-Exec=planets 
+Exec=planets-puzzle
 Icon=${SNAP}/meta/gui/planets.png
 Terminal=false
 Type=Application
