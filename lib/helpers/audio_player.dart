@@ -1,16 +1,16 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
-import 'package:just_audio/just_audio.dart';
 
 typedef AudioPlayerFactory = ValueGetter<AudioPlayer>;
 
 AudioPlayer getAudioPlayer() => AudioPlayer();
 
 extension AudioPlayerExtension on AudioPlayer {
-  Future<void> replay() async {
+  Future<void> replay(Source source) async {
     await stop();
-    await seek(null);
-    unawaited(play());
+    await seek(Duration.zero);
+    unawaited(play(source));
   }
 }

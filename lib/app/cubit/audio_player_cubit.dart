@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:just_audio/just_audio.dart';
 
 import '../../helpers/audio_player.dart';
 import '../../resource/app_assets.dart';
@@ -27,19 +27,27 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
 
   // audio players
   // theme music player
+  final _themeMusicSource = AssetSource(AppAssets.planetThemeMusic);
   final AudioPlayer _themeMusicPlayer = getAudioPlayer();
 
   // button click player
+  final _buttonClickSource = AssetSource(AppAssets.buttonClick);
   final AudioPlayer _buttonClickPlayer = getAudioPlayer();
 
   // visibility player
-  final AudioPlayer _visibility = getAudioPlayer();
+  final _visibilitySource = AssetSource(AppAssets.visibility);
+  final AudioPlayer _visibilityPlayer = getAudioPlayer();
 
   // count down begin player
+  final _countDownBeginSource = AssetSource(AppAssets.countDownBegin);
   final AudioPlayer _countDownBeginPlayer = getAudioPlayer();
 
   // completion player
+  final _completionSource = AssetSource(AppAssets.completion);
   final AudioPlayer _completionPlayer = getAudioPlayer();
+
+  final _tileTapSucessSource = AssetSource(AppAssets.tileTapSuccess);
+  final _tileTapErrorSource = AssetSource(AppAssets.tileTapError);
 
   // tile tap player
   final Map<int, AudioPlayer> _tileTapSuccess = {};
@@ -58,8 +66,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     // to avoid freeze screen
     _timer = Timer(kMS200, () async {
       // theme music setup
-      await _themeMusicPlayer.setAsset(AppAssets.planetThemeMusic);
-      await _themeMusicPlayer.setLoopMode(LoopMode.one);
+      await _themeMusicPlayer.setSource(_themeMusicSource);
       await _themeMusicPlayer.setVolume(_maxThemeVolume);
 
       // after the large part of audio is loaded, we can emit audio player ready,
@@ -67,32 +74,32 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
       emit(const AudioPlayerReady());
 
       // button click
-      await _buttonClickPlayer.setAsset(AppAssets.buttonClick);
+      await _buttonClickPlayer.setSource(_buttonClickSource);
       await _buttonClickPlayer.setVolume(_clickVolume);
 
-      // button click
-      await _visibility.setAsset(AppAssets.visibility);
-      await _visibility.setVolume(_visibilityVolume);
+      // visibility click
+      await _visibilityPlayer.setSource(_visibilitySource);
+      await _visibilityPlayer.setVolume(_visibilityVolume);
 
       // count down begin
-      await _countDownBeginPlayer.setAsset(AppAssets.countDownBegin);
+      await _countDownBeginPlayer.setSource(_countDownBeginSource);
       await _countDownBeginPlayer.setVolume(_countDownVolume);
 
       // completion
-      await _completionPlayer.setAsset(AppAssets.completion);
+      await _completionPlayer.setSource(_completionSource);
       await _completionPlayer.setVolume(_completionVolume);
 
       // tile tap
       for (int i = 0; i < _maxTiles; i++) {
         // tile tap success
         final tileTapSuccess = getAudioPlayer();
-        await tileTapSuccess.setAsset(AppAssets.tileTapSuccess);
+        await tileTapSuccess.setSource(_tileTapSucessSource);
         await tileTapSuccess.setVolume(_tapVolume);
         _tileTapSuccess[i] = tileTapSuccess;
 
         // tile tap error
         final tileTapError = getAudioPlayer();
-        await tileTapError.setAsset(AppAssets.tileTapError);
+        await tileTapError.setSource(_tileTapErrorSource);
         await tileTapError.setVolume(_tapVolume);
         _tileTapError[i] = tileTapError;
       }
@@ -106,11 +113,11 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     _countDownBeginPlayer.stop();
 
     // visibility sound effect
-    _visibility.stop();
+    _visibilityPlayer.stop();
   }
 
   void playThemeMusic() {
-    unawaited(_themeMusicPlayer.play());
+    unawaited(_themeMusicPlayer.play(_themeMusicSource));
   }
 
   void _onAudioControlStateChanged(AudioControlState audioControlState) {
@@ -149,25 +156,25 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     AppLogger.log('AudioPlayerCubit :: tileTappedAudio');
     if (!_isSoundEffectEnabled) return;
     if (isError) {
-      unawaited(_tileTapError[tileValue]!.replay());
+      unawaited(_tileTapError[tileValue]!.replay(_tileTapErrorSource));
     } else {
-      unawaited(_tileTapSuccess[tileValue]!.replay());
+      unawaited(_tileTapSuccess[tileValue]!.replay(_tileTapSucessSource));
     }
   }
 
   void buttonClickAudio() {
-    if (_isSoundEffectEnabled) unawaited(_buttonClickPlayer.replay());
+    if (_isSoundEffectEnabled) unawaited(_buttonClickPlayer.replay(_buttonClickSource));
   }
 
   void beginCountDown() {
-    unawaited(_countDownBeginPlayer.replay());
+    unawaited(_countDownBeginPlayer.replay(_countDownBeginSource));
   }
 
   void onVisibilityShown() {
-    if (_isSoundEffectEnabled) unawaited(_visibility.replay());
+    if (_isSoundEffectEnabled) unawaited(_visibilityPlayer.replay(_visibilitySource));
   }
 
   void completion() {
-    if (_isSoundEffectEnabled) unawaited(_completionPlayer.replay());
+    if (_isSoundEffectEnabled) unawaited(_completionPlayer.replay(_completionSource));
   }
 }

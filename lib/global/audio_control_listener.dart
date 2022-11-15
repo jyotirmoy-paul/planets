@@ -1,6 +1,6 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:just_audio/just_audio.dart';
 
 import '../app/bloc/audio_control_bloc.dart';
 
@@ -21,16 +21,14 @@ class AudioControlListener extends StatefulWidget {
 class _AudioControlListenerState extends State<AudioControlListener> {
   @override
   void didChangeDependencies() {
-    _updateAudioPlayer(
-        muted: context.read<AudioControlBloc>().state.isSoundEffectEnabled);
+    _updateAudioPlayer(muted: context.read<AudioControlBloc>().state.isSoundEffectEnabled);
     super.didChangeDependencies();
   }
 
   @override
   void didUpdateWidget(covariant AudioControlListener oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _updateAudioPlayer(
-        muted: context.read<AudioControlBloc>().state.isSoundEffectEnabled);
+    _updateAudioPlayer(muted: context.read<AudioControlBloc>().state.isSoundEffectEnabled);
   }
 
   void _updateAudioPlayer({required bool muted}) {
