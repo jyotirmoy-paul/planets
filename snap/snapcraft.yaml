@@ -6,7 +6,7 @@ description: Can you put together the planets of our solar system? An interplane
 confinement: strict
 base: core18
 grade: stable
-architectures: [amd64, arm64]
+architectures: [amd64, arm64, i386]
 
 slots:
   dbus-planets-puzzle:
