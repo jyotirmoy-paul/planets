@@ -3,7 +3,7 @@ description: A Slide Puzzle, built with Flutter <3
 
 publish_to: "none"
 
-version: 1.4.0
+version: 1.4.1
 
 environment:
   sdk: ">=2.16.0 <3.0.0"
