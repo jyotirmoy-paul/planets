@@ -21,7 +21,7 @@ dependencies:
   gallery_saver: ^2.3.2
   gap: ^2.0.0
   intl: ^0.17.0
-  audioplayers: ^1.1.1
+  audioplayers: ^3.0.1
   path_provider: ^2.0.9
   rive: ^0.8.1
   universal_html: ^2.0.8
